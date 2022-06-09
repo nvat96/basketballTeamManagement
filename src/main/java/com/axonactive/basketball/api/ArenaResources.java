@@ -46,7 +46,7 @@ public class ArenaResources {
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<Void> delete(@PathVariable(value = "name") String name) throws ResourceNotFoundException{
+    public ResponseEntity<Void> deleteByID(@PathVariable(value = "name") String name) throws ResourceNotFoundException{
         Arena arena = arenaService.findByID(name).orElseThrow(() -> new ResourceNotFoundException("Name not found: " + name));
         arenaService.deleteByID(name);
         return ResponseEntity.noContent().build();
