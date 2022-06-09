@@ -1,11 +1,20 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.axonactive.basketball.enums.Position;
+import lombok.*;
 
-@Data
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerContractDTO {
+    private LocalDate dateCreated;
+    private LocalDate dateExpired;
+    private Double salary;
+    private String typeOfContract;
+    private String position;
+    private String teamName;
+    private String playerName;
 }

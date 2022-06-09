@@ -1,11 +1,16 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatusReportDTO {
+    private String playerName;
+    private String status;
+    private LocalDate dateCreated;
+    private String comment;
 }

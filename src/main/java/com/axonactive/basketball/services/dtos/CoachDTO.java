@@ -1,11 +1,18 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.axonactive.basketball.enums.Nationality;
+import lombok.*;
 
-@Data
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoachDTO {
+    private String name;
+    private LocalDate dateOfBirth;
+    private String gender;
+    private String nationality;
+    private LocalDate dateStarted;
 }
