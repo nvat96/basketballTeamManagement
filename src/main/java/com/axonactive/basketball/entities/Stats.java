@@ -20,10 +20,13 @@ public class Stats {
     private Double weight;
     private Integer totalTwoPointFG;
     private Integer twoPointFGMade;
+    private Double twoPointPercentage;
     private Integer totalThreePointFG;
     private Integer threePointFGMade;
+    private Double threePointPercentage;
     private Integer totalFreeThrow;
     private Integer freeThrowMade;
+    private Double freeThrowPercentage;
     private Integer steal;
     private Integer block;
     private Integer rebound;
@@ -33,4 +36,16 @@ public class Stats {
     @ManyToOne
     @NotNull
     private Player player;
+
+    public void setTwoPointPercentage() {
+        twoPointPercentage = Double.valueOf(twoPointFGMade/totalTwoPointFG);
+    }
+
+    public void setThreePointPercentage() {
+        threePointPercentage = Double.valueOf(threePointFGMade/totalThreePointFG);
+    }
+
+    public void setFreeThrowPercentage() {
+        freeThrowPercentage = Double.valueOf(freeThrowMade/totalFreeThrow);
+    }
 }

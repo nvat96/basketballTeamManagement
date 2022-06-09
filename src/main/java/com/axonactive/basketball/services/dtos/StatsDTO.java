@@ -1,11 +1,16 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatsDTO {
+    private String playerName;
+    private Double height;
+    private Double weight;
+    private Double twoPointPercentage;
+    private Double threePointPercentage;
+    private Double freeThrowPercentage;
 }

@@ -1,15 +1,14 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamDTO {
     private String name;
     private String location;
     private String arenaName;
-    private String ownerName;
+//    private String ownerName;
 }

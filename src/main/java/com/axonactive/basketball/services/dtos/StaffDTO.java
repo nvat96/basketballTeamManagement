@@ -1,11 +1,18 @@
 package com.axonactive.basketball.services.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.axonactive.basketball.enums.Gender;
+import lombok.*;
 
-@Data
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StaffDTO {
+    private String name;
+    private LocalDate dateOfBirth;
+    private Gender gender;
+    private String title;
+    private String teamName;
 }
