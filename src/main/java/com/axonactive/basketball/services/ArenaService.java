@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ArenaService {
     List<Arena> findAll();
-    Optional<Arena> findByID(String id);
+    Optional<Arena> findByID(String name);
     Arena save(Arena arena);
-    void deleteByID(String id);
+    void deleteByID(String name);
 }

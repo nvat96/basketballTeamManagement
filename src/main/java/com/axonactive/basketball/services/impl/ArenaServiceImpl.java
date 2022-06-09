@@ -19,8 +19,8 @@ public class ArenaServiceImpl implements ArenaService {
     }
 
     @Override
-    public Optional<Arena> findByID(String id) {
-        return arenaRepository.findById(id);
+    public Optional<Arena> findByID(String name) {
+        return arenaRepository.findById(name);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ArenaServiceImpl implements ArenaService {
     }
 
     @Override
-    public void deleteByID(String id) {
-        arenaRepository.deleteById(id);
+    public void deleteByID(String name) {
+        arenaRepository.deleteById(name);
     }
 }
