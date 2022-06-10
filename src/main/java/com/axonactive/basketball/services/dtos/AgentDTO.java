@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AgentDTO {
+    private Integer id;
     private String name;
     private String gender;
     private String nationality;

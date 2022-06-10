@@ -10,4 +10,6 @@ public interface OwnerService {
     Optional<Owner> findByID(Integer id);
     Owner save(Owner owner);
     void deleteByID(Integer id);
+    Optional<Owner> findByName(String name);
+    List<Owner> findByNameLike(String name);
 }

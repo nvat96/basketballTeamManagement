@@ -1,8 +1,5 @@
 package com.axonactive.basketball.services.dtos;
 
-import com.axonactive.basketball.entities.Coach;
-import com.axonactive.basketball.entities.Team;
-import com.axonactive.basketball.enums.TypeOfContract;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,6 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoachContractDTO {
+    private Integer id;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private String title;

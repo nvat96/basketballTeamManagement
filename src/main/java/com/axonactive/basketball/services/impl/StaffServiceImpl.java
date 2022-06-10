@@ -33,4 +33,14 @@ public class StaffServiceImpl implements StaffService {
     public void deleteByID(Integer id) {
         staffRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Staff> findByName(String name) {
+        return staffRepository.findByName(name);
+    }
+
+    @Override
+    public List<Staff> findByNameLike(String name) {
+        return staffRepository.findByNameLike(name);
+    }
 }

@@ -32,4 +32,10 @@ public class TeamServiceImpl implements TeamService {
     public void deleteByID(String name) {
         teamRepository.deleteById(name);
     }
+
+    @Override
+    public List<Team> findByNameLike(String name) {
+        return teamRepository.findByNameLike(name);
+    }
+
 }

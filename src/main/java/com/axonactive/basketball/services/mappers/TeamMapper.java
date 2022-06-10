@@ -12,7 +12,6 @@ import java.util.List;
 public interface TeamMapper {
     TeamMapper INSTANCE = Mappers.getMapper(TeamMapper.class);
     @Mapping(target = "arenaName",source = "arena.name")
-//    @Mapping(target = "ownerName",source = "owner.name")
     TeamDTO toDTO(Team team);
     List<TeamDTO> toDTOs(List<Team> teams);
 }

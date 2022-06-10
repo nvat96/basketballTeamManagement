@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerDTO {
+    private Integer id;
     private String name;
     private LocalDate dateOfBirth;
     private String gender;

@@ -10,4 +10,6 @@ public interface PlayerService {
     Optional<Player> findByID(Integer id);
     Player save(Player player);
     void deleteByID(Integer id);
+    Optional<Player> findByName(String name);
+    List<Player> findByNameLike(String name);
 }

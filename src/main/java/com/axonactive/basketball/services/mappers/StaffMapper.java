@@ -12,6 +12,7 @@ import java.util.List;
 public interface StaffMapper {
     StaffMapper INSTANCE = Mappers.getMapper(StaffMapper.class);
     @Mapping(target = "teamName",source = "team.name")
+    @Mapping(target = "gender",expression = "java(staff.getGender().toString())")
     StaffDTO toDTO(Staff staff);
     List<StaffDTO> toDTOs (List<Staff> staffs);
 }

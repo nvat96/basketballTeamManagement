@@ -10,4 +10,6 @@ public interface AgentService {
     Optional<Agent> findByID(Integer id);
     Agent save(Agent agent);
     void deleteByID(Integer id);
+    List<Agent> findByNameLike(String name);
+    Optional<Agent> findByName(String name);
 }

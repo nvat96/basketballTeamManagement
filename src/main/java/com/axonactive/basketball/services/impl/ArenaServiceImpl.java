@@ -32,4 +32,5 @@ public class ArenaServiceImpl implements ArenaService {
     public void deleteByID(String name) {
         arenaRepository.deleteById(name);
     }
+
 }
