@@ -33,4 +33,14 @@ public class OwnerServiceImpl implements OwnerService {
     public void deleteByID(Integer id) {
         ownerRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Owner> findByName(String name) {
+        return ownerRepository.findByName(name);
+    }
+
+    @Override
+    public List<Owner> findByNameLike(String name) {
+        return ownerRepository.findByNameLike(name);
+    }
 }

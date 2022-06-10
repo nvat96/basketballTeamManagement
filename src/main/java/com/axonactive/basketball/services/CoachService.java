@@ -10,4 +10,6 @@ public interface CoachService {
     Optional<Coach> findByID(Integer id);
     Coach save(Coach coach);
     void deleteByID(Integer id);
+    Optional<Coach> findByName(String name);
+    List<Coach> findByNameLike(String name);
 }

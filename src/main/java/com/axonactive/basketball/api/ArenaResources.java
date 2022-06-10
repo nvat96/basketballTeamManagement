@@ -1,16 +1,15 @@
 package com.axonactive.basketball.api;
 
 import com.axonactive.basketball.entities.Arena;
-import com.axonactive.basketball.exceptions.ResourceNotFoundException;
-import com.axonactive.basketball.services.dtos.ArenaDTO;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
-import com.axonactive.basketball.services.mappers.ArenaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(ArenaResources.PATH)
@@ -20,35 +19,41 @@ public class ArenaResources {
     public static final String PATH = "/api/arena";
 
     @GetMapping
-    public ResponseEntity<List<ArenaDTO>> findAll(){
-        return ResponseEntity.ok(ArenaMapper.INSTANCE.toDTOs(arenaService.findAll()));
+    public ResponseEntity<List<Arena>> findAll() {
+        return ResponseEntity.ok(arenaService.findAll());
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<ArenaDTO> findByID(@PathVariable(value = "name") String name) throws ResourceNotFoundException{
-        Arena arena = arenaService.findByID(name).orElseThrow(() -> new ResourceNotFoundException("Name not found: " + name));
-        return ResponseEntity.ok(ArenaMapper.INSTANCE.toDTO(arena));
+    public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
+        Optional<Arena> arena = arenaService.findByID(name);
+        if (arena.isPresent())
+            return ResponseEntity.ok(arena);
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
     }
 
     @PostMapping
-    public ResponseEntity<ArenaDTO> create(@RequestBody Arena arena){
-        arenaService.save(arena);
-        return ResponseEntity.created(URI.create(PATH + "/" + arena.getName())).body(ArenaMapper.INSTANCE.toDTO(arena));
+    public ResponseEntity<Arena> create(@RequestBody Arena arena) {
+        return ResponseEntity.created(URI.create(PATH + "/" + arena.getName())).body(arenaService.save(arena));
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<ArenaDTO> update(@PathVariable(value = "name") String name,@RequestBody Arena arenaDetails) throws ResourceNotFoundException{
-        Arena arena = arenaService.findByID(name).orElseThrow(() -> new ResourceNotFoundException("Name not found: " + name));
-        arena.setCapacity(arenaDetails.getCapacity());
-        arena.setLocation(arenaDetails.getLocation());
-        arena.setDateBuilt(arenaDetails.getDateBuilt());
-        return ResponseEntity.ok(ArenaMapper.INSTANCE.toDTO(arenaService.save(arena)));
+    public ResponseEntity<?> update(@PathVariable(value = "name") String name, @RequestBody Arena arenaDetails) {
+        Optional<Arena> arena = arenaService.findByID(name);
+        if (arena.isPresent()) {
+            arena.get().setCapacity(arenaDetails.getCapacity());
+            arena.get().setLocation(arenaDetails.getLocation());
+            arena.get().setDateBuilt(arenaDetails.getDateBuilt());
+            return ResponseEntity.ok(arenaService.save(arena.get()));
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<Void> deleteByID(@PathVariable(value = "name") String name) throws ResourceNotFoundException{
-        Arena arena = arenaService.findByID(name).orElseThrow(() -> new ResourceNotFoundException("Name not found: " + name));
-        arenaService.deleteByID(name);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
+        Optional<Arena> arena = arenaService.findByID(name);
+        if (arena.isPresent()) {
+            arenaService.deleteByID(name);
+            return ResponseEntity.ok("Successfully deleted");
+        }
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
     }
 }

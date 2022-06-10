@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerContractDTO {
+    private Integer id;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private Double salary;

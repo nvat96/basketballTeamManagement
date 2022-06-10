@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OwnerDTO {
+    private Integer id;
     private String name;
     private LocalDate dateOfBirth;
     private String gender;

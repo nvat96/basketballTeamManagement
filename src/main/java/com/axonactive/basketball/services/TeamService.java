@@ -10,4 +10,5 @@ public interface TeamService {
     Optional<Team> findByID(String name);
     Team save(Team team);
     void deleteByID(String name);
+    List<Team> findByNameLike(String name);
 }

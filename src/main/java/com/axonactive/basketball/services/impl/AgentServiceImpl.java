@@ -33,4 +33,14 @@ public class AgentServiceImpl implements AgentService {
     public void deleteByID(Integer id) {
         agentRepository.deleteById(id);
     }
+
+    @Override
+    public List<Agent> findByNameLike(String name) {
+        return agentRepository.findByNameLike(name);
+    }
+
+    @Override
+    public Optional<Agent> findByName(String name) {
+        return agentRepository.findByName(name);
+    }
 }

@@ -32,4 +32,14 @@ public class CoachServiceImpl implements CoachService {
     public void deleteByID(Integer id) {
         coachRepository.deleteById(id);
     }
+
+    @Override
+    public Optional<Coach> findByName(String name) {
+        return coachRepository.findByName(name);
+    }
+
+    @Override
+    public List<Coach> findByNameLike(String name) {
+        return coachRepository.findByNameLike(name);
+    }
 }
