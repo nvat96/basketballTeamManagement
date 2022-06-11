@@ -1,5 +1,6 @@
-package com.axonactive.basketball.api;
+package com.axonactive.basketball.apis;
 
+import com.axonactive.basketball.apis.requests.AgentRequest;
 import com.axonactive.basketball.entities.Agent;
 import com.axonactive.basketball.enums.Gender;
 import com.axonactive.basketball.enums.Nationality;
@@ -40,23 +41,26 @@ public class AgentResources {
         else return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agents));
     }
     @PostMapping
-    public ResponseEntity<AgentDTO> create(@RequestBody AgentDTO agentDTO){
+    public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest){
         Agent agent = new Agent(null,
-                agentDTO.getName(),
-                Gender.valueOf(agentDTO.getGender()),
-                Nationality.valueOf(agentDTO.getNationality()),
-                agentDTO.getDateOfBirth());
+                agentRequest.getName(),
+                Gender.valueOf(agentRequest.getGender()),
+                Nationality.valueOf(agentRequest.getNationality()),
+                agentRequest.getDateOfBirth(),
+                agentRequest.getCommissionRateExpected(),
+                agentRequest.getPhoneNumber());
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
-                                    @RequestBody AgentDTO agentDTO){
+                                    @RequestBody AgentRequest agentRequest){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent()){
-            agent.get().setName(agentDTO.getName());
-            agent.get().setNationality(Nationality.valueOf(agentDTO.getNationality()));
-            agent.get().setGender(Gender.valueOf(agentDTO.getGender()));
-            agent.get().setDateOfBirth(agentDTO.getDateOfBirth());
+            agent.get().setName(agentRequest.getName());
+            agent.get().setNationality(Nationality.valueOf(agentRequest.getNationality()));
+            agent.get().setGender(Gender.valueOf(agentRequest.getGender()));
+            agent.get().setDateOfBirth(agentRequest.getDateOfBirth());
+            agent.get().setPhoneNumber(agentRequest.getPhoneNumber());
             return ResponseEntity.ok(AgentMapper.INSTANCE.toDTO(agentService.save(agent.get())));
         }
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);

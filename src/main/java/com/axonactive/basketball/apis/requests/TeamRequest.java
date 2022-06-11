@@ -1,4 +1,4 @@
-package com.axonactive.basketball.api.requests;
+package com.axonactive.basketball.apis.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

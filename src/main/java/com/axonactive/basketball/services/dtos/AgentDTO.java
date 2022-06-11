@@ -15,7 +15,6 @@ import java.time.LocalDate;
 public class AgentDTO {
     private Integer id;
     private String name;
-    private String gender;
-    private String nationality;
-    private LocalDate dateOfBirth;
+    private Double commissionRateExpected;
+    private String phoneNumber;
 }

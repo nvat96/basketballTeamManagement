@@ -7,10 +7,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatsDTO {
+    private Integer id;
     private String playerName;
     private Double height;
-    private Double weight;
-    private Double twoPointPercentage;
-    private Double threePointPercentage;
+    private Double twoPointFGPercentage;
+    private Double threePointFGPercentage;
     private Double freeThrowPercentage;
 }

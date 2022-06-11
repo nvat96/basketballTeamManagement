@@ -11,9 +11,6 @@ import java.time.LocalDate;
 public class OwnerDTO {
     private Integer id;
     private String name;
-    private LocalDate dateOfBirth;
-    private String gender;
-    private String nationality;
-    private LocalDate dateOwned;
     private String teamName;
+    private Double sharePercent;
 }

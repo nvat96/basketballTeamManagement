@@ -18,9 +18,12 @@ public class Agent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Gender gender;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateOfBirth;
+    @Column(name = "commissionRateExpected(%)")
+    private Double commissionRateExpected;
+    private String phoneNumber;
 }

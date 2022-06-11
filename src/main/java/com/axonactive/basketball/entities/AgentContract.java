@@ -19,6 +19,7 @@ public class AgentContract {
     private Integer id;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
+    @Column(name = "commissionRate(%)")
     private Double commissionRate;
     private String body;
     @JoinColumn

@@ -11,11 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PlayerContractDTO {
     private Integer id;
-    private LocalDate dateCreated;
-    private LocalDate dateExpired;
-    private Double salary;
     private String typeOfContract;
-    private String position;
     private String teamName;
     private String playerName;
 }

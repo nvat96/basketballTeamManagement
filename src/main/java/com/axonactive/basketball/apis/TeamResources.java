@@ -1,14 +1,13 @@
-package com.axonactive.basketball.api;
+package com.axonactive.basketball.apis;
 
 import com.axonactive.basketball.entities.Arena;
 import com.axonactive.basketball.entities.Team;
 import com.axonactive.basketball.enums.Conference;
-import com.axonactive.basketball.exceptions.ResourceNotFoundException;
 import com.axonactive.basketball.services.dtos.TeamDTO;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
 import com.axonactive.basketball.services.impl.TeamServiceImpl;
 import com.axonactive.basketball.services.mappers.TeamMapper;
-import com.axonactive.basketball.api.requests.TeamRequest;
+import com.axonactive.basketball.apis.requests.TeamRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,7 @@ public class TeamResources {
 
     @PutMapping("/{name}")
     public ResponseEntity<?> update(@PathVariable(value = "name") String name,
-                                    @RequestBody TeamRequest teamRequest) throws ResourceNotFoundException {
+                                    @RequestBody TeamRequest teamRequest) {
         Optional<Team> team = teamService.findByID(name);
         Optional<Arena> arena = arenaService.findByID(teamRequest.getArenaName());
         if (!arena.isPresent())
@@ -75,12 +74,11 @@ public class TeamResources {
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) throws ResourceNotFoundException {
+    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name){
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent()) {
             teamService.deleteByID(name);
             return ResponseEntity.ok("Successfully deleted");
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
     }
 }

@@ -1,4 +1,4 @@
-package com.axonactive.basketball.api.requests;
+package com.axonactive.basketball.apis.requests;
 
 import com.axonactive.basketball.enums.TypeOfContract;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class CoachContractRequest {
     private LocalDate dateExpired;
     private String title;
     private Double salary;
-    private TypeOfContract typeOfContract;
+    private String typeOfContract;
     private String body;
     private String coachName;
     private String teamName;

@@ -1,16 +1,17 @@
-package com.axonactive.basketball.services.dtos;
+package com.axonactive.basketball.apis.requests;
 
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamAchievementDTO {
-    private Integer id;
-    private String award;
+@Getter
+@Setter
+@ToString
+@Builder
+public class TeamAchievementRequest {
     private LocalDate dateAchieved;
+    private String award;
     private String teamName;
 }

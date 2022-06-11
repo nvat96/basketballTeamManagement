@@ -1,4 +1,4 @@
-package com.axonactive.basketball.api;
+package com.axonactive.basketball.apis;
 
 import com.axonactive.basketball.entities.Arena;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
