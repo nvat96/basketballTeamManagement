@@ -8,7 +8,7 @@ import com.axonactive.basketball.services.dtos.TeamDTO;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
 import com.axonactive.basketball.services.impl.TeamServiceImpl;
 import com.axonactive.basketball.services.mappers.TeamMapper;
-import com.axonactive.basketball.services.requests.TeamRequest;
+import com.axonactive.basketball.api.requests.TeamRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
