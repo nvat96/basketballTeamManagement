@@ -25,6 +25,7 @@ public class Owner {
     @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateOwned;
+    @Column(name = "share(%)")
     private Double sharePercent;
     @JoinColumn
     @ManyToOne

@@ -27,4 +27,6 @@ public class Player {
     private LocalDate startedDate;
     @Enumerated(EnumType.STRING)
     private TypeOfPlayer typeOfPlayer;
+    @Column(name = "salaryExpected($m/year)")
+    private Double salaryExpected;
 }

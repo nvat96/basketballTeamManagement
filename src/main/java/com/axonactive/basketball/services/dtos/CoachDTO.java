@@ -12,8 +12,4 @@ import java.time.LocalDate;
 public class CoachDTO {
     private Integer id;
     private String name;
-    private LocalDate dateOfBirth;
-    private String gender;
-    private String nationality;
-    private LocalDate dateStarted;
 }

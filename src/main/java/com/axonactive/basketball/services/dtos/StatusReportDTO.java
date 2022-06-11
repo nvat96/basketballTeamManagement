@@ -9,8 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatusReportDTO {
+    private Integer id;
     private String playerName;
     private String status;
-    private LocalDate dateCreated;
-    private String comment;
 }

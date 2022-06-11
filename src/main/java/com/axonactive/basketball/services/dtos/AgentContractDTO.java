@@ -11,9 +11,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AgentContractDTO {
     private Integer id;
-    private LocalDate dateCreated;
-    private LocalDate dateExpired;
-    private Double commissionRate;
     private String playerName;
     private String agentName;
 }

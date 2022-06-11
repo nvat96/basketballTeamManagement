@@ -1,5 +1,5 @@
 package com.axonactive.basketball.enums;
 
 public enum Nationality {
-    USA, CANADA, GREEK, CHINA, VIETNAM, OTHERS
+    USA, CANADA, VIETNAM, CHINA, GREEK, OTHERS
 }

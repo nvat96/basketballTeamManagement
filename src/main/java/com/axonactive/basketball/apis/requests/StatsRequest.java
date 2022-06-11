@@ -1,21 +1,14 @@
-package com.axonactive.basketball.entities;
+package com.axonactive.basketball.apis.requests;
 
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Builder
-public class Stats {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class StatsRequest {
     private Double height;
     private Double weight;
     private Integer totalTwoPointFG;
@@ -32,10 +25,7 @@ public class Stats {
     private Integer rebound;
     private Integer foul;
     private Integer turnover;
-    @JoinColumn
-    @ManyToOne
-    @NotNull
-    private Player player;
+    private String playerName;
 
     public void setTwoPointPercentage() {
         twoPointFGPercentage = (double) (totalTwoPointFG / twoPointFGMade);
@@ -46,6 +36,6 @@ public class Stats {
     }
 
     public void setFreeThrowPercentage() {
-        freeThrowPercentage = (double) (totalFreeThrow/ freeThrowMade);
+        freeThrowPercentage = (double) (totalFreeThrow / freeThrowMade);
     }
 }

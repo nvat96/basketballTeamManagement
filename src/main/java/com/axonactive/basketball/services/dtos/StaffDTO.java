@@ -12,8 +12,6 @@ import java.time.LocalDate;
 public class StaffDTO {
     private Integer id;
     private String name;
-    private LocalDate dateOfBirth;
-    private String gender;
     private String title;
     private String teamName;
 }

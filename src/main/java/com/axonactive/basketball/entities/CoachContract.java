@@ -21,6 +21,7 @@ public class CoachContract {
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private String title;
+    @Column(name = "salary($m/year)")
     private Double salary;
     @Enumerated(value = EnumType.STRING)
     private TypeOfContract typeOfContract;

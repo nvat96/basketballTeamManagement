@@ -1,4 +1,4 @@
-package com.axonactive.basketball.api;
+package com.axonactive.basketball.apis;
 
 import com.axonactive.basketball.entities.Agent;
 import com.axonactive.basketball.entities.AgentContract;
@@ -8,7 +8,7 @@ import com.axonactive.basketball.services.impl.AgentContractServiceImpl;
 import com.axonactive.basketball.services.impl.AgentServiceImpl;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
 import com.axonactive.basketball.services.mappers.AgentContractMapper;
-import com.axonactive.basketball.api.requests.AgentContractRequest;
+import com.axonactive.basketball.apis.requests.AgentContractRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,15 +40,13 @@ public class AgentContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest,
-                                    @RequestParam String agentName,
-                                    @RequestParam String playerName){
-        Optional<Agent> agent = agentService.findByName(agentName);
-        Optional<Player> player = playerService.findByName(playerName);
+    public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest){
+        Optional<Agent> agent = agentService.findByName(agentContractRequest.getAgentName());
+        Optional<Player> player = playerService.findByName(agentContractRequest.getPlayerName());
         if (!agent.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentName);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerName);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerName());
         else {
             AgentContract agentContract = new AgentContract(null,
                     agentContractRequest.getDateCreated(),
@@ -62,16 +60,14 @@ public class AgentContractResources {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
-                                    @RequestBody AgentContractRequest agentContractRequest,
-                                    @RequestParam String agentName,
-                                    @RequestParam String playerName){
-        Optional<Agent> agent = agentService.findByName(agentName);
-        Optional<Player> player = playerService.findByName(playerName);
+                                                        @RequestBody AgentContractRequest agentContractRequest){
+        Optional<Agent> agent = agentService.findByName(agentContractRequest.getAgentName());
+        Optional<Player> player = playerService.findByName(agentContractRequest.getPlayerName());
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (!agent.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentName);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerName);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerName());
         else if(agentContract.isPresent()){
             agentContract.get().setDateCreated(agentContractRequest.getDateCreated());
             agentContract.get().setDateExpired(agentContractRequest.getDateExpired());
@@ -79,7 +75,7 @@ public class AgentContractResources {
             agentContract.get().setCommissionRate(agentContractRequest.getCommissionRate());
             agentContract.get().setAgent(agent.get());
             agentContract.get().setPlayer(player.get());
-            return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTO(agentContract.get()));
+            return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTO(agentContractService.save(agentContract.get())));
         }
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }

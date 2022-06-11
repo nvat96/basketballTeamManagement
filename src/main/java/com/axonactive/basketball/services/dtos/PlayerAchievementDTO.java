@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlayerAchievementDTO {
+    private Integer id;
     private String award;
     private LocalDate dateAchieved;
     private String playerName;

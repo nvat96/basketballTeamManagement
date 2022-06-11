@@ -22,6 +22,7 @@ public class Staff {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
     private String title;
+    @Column(name = "salary($m/year)")
     private Double salary;
     @JoinColumn
     @ManyToOne
