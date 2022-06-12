@@ -25,4 +25,5 @@ public class Agent {
     @Column(name = "commissionRateExpected")
     private Double commissionRateExpected;
     private String phoneNumber;
+    private String email;
 }

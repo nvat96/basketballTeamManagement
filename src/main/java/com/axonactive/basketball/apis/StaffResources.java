@@ -41,18 +41,29 @@ public class StaffResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StaffRequest staffRequest) {
-        Optional<Team> team = teamService.findByID(staffRequest.getTeamName());
-        if (!team.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + staffRequest.getTeamName());
-        else {
+        if (staffRequest.getTeamName() == null) {
             Staff staff = new Staff(null,
                     staffRequest.getName(),
                     staffRequest.getDateOfBirth(),
                     Gender.valueOf(staffRequest.getGender()),
                     staffRequest.getTitle(),
                     staffRequest.getSalary(),
-                    team.get());
+                    null);
             return ResponseEntity.created(URI.create(PATH + "/" + staff.getId())).body(StaffMapper.INSTANCE.toDTO(staffService.save(staff)));
+        } else {
+            Optional<Team> team = teamService.findByID(staffRequest.getTeamName());
+            if (!team.isPresent())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + staffRequest.getTeamName());
+            else {
+                Staff staff = new Staff(null,
+                        staffRequest.getName(),
+                        staffRequest.getDateOfBirth(),
+                        Gender.valueOf(staffRequest.getGender()),
+                        staffRequest.getTitle(),
+                        staffRequest.getSalary(),
+                        team.get());
+                return ResponseEntity.created(URI.create(PATH + "/" + staff.getId())).body(StaffMapper.INSTANCE.toDTO(staffService.save(staff)));
+            }
         }
     }
 

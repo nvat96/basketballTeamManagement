@@ -16,4 +16,5 @@ public class AgentRequest {
     private LocalDate dateOfBirth;
     private Double commissionRateExpected;
     private String phoneNumber;
+    private String email;
 }

@@ -48,7 +48,8 @@ public class AgentResources {
                 Nationality.valueOf(agentRequest.getNationality()),
                 agentRequest.getDateOfBirth(),
                 agentRequest.getCommissionRateExpected(),
-                agentRequest.getPhoneNumber());
+                agentRequest.getPhoneNumber(),
+                agentRequest.getEmail());
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
     }
     @PutMapping("/{id}")
@@ -61,6 +62,8 @@ public class AgentResources {
             agent.get().setGender(Gender.valueOf(agentRequest.getGender()));
             agent.get().setDateOfBirth(agentRequest.getDateOfBirth());
             agent.get().setPhoneNumber(agentRequest.getPhoneNumber());
+            agent.get().setEmail(agentRequest.getEmail());
+            agent.get().setCommissionRateExpected(agentRequest.getCommissionRateExpected());
             return ResponseEntity.ok(AgentMapper.INSTANCE.toDTO(agentService.save(agent.get())));
         }
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);

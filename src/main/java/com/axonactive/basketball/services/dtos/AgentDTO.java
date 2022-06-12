@@ -16,5 +16,5 @@ public class AgentDTO {
     private Integer id;
     private String name;
     private Double commissionRateExpected;
-    private String phoneNumber;
+    private String email;
 }
