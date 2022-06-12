@@ -11,8 +11,6 @@ import java.util.List;
 @Mapper
 public interface CoachMapper {
     CoachMapper INSTANCE = Mappers.getMapper(CoachMapper.class);
-    @Mapping(target = "gender",expression = "java(coach.getGender().toString())")
-    @Mapping(target = "nationality",expression = "java(coach.getNationality().toString())")
     CoachDTO toDTO (Coach coach);
     List<CoachDTO> toDTOs (List<Coach> coaches);
 }

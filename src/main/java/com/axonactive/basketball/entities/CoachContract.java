@@ -12,8 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class CoachContract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +19,7 @@ public class CoachContract {
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private String title;
-    @Column(name = "salary($m/year)")
+    @Column(name = "salary")
     private Double salary;
     @Enumerated(value = EnumType.STRING)
     private TypeOfContract typeOfContract;

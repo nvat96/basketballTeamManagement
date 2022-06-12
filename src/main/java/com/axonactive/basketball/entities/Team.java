@@ -12,14 +12,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class Team {
     @Id
     private String name;
     private String location;
     private LocalDate dateFound;
-    @Column(name = "salaryCap($m)")
+    @Column(name = "salaryCap")
     private Double salaryCap;
     @Enumerated(value = EnumType.STRING)
     private Conference conference;

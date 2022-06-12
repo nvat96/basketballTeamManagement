@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +20,7 @@ public class Staff {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
     private String title;
-    @Column(name = "salary($m/year)")
+    @Column(name = "salary")
     private Double salary;
     @JoinColumn
     @ManyToOne

@@ -12,8 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,7 @@ public class Owner {
     @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateOwned;
-    @Column(name = "share(%)")
+    @Column(name = "share")
     private Double sharePercent;
     @JoinColumn
     @ManyToOne

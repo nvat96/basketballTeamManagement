@@ -11,8 +11,6 @@ import java.util.List;
 @Mapper
 public interface AgentMapper {
     AgentMapper INSTANCE = Mappers.getMapper(AgentMapper.class);
-    @Mapping(target = "gender",expression = "java(agent.getGender().toString())")
-    @Mapping(target = "nationality",expression = "java(agent.getNationality().toString())")
     AgentDTO toDTO(Agent agent);
     List<AgentDTO> toDTOs (List<Agent> agents);
 }

@@ -12,7 +12,6 @@ import java.util.List;
 public interface PlayerContractMapper {
     PlayerContractMapper INSTANCE = Mappers.getMapper(PlayerContractMapper.class);
     @Mapping(target = "typeOfContract",expression = "java(playerContract.getTypeOfContract().toString())")
-    @Mapping(target = "position",expression = "java(playerContract.getPosition().toString())")
     @Mapping(target = "teamName",source = "team.name")
     @Mapping(target = "playerName",source = "player.name")
     PlayerContractDTO toDTO(PlayerContract playerContract);
