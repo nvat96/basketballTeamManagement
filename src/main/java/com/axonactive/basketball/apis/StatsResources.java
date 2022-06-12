@@ -34,7 +34,7 @@ public class StatsResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Stats> stats = statsService.findByID(id);
         if (stats.isPresent())
-            return ResponseEntity.ok(StatsMapper.INSTANCE.toDTO(stats.get()));
+            return ResponseEntity.ok(stats);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stats ID not found: " + id);
     }
 

@@ -35,7 +35,7 @@ public class PlayerAchievementResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
         if (playerAchievement.isPresent())
-            return ResponseEntity.ok(PlayerAchievementMapper.INSTANCE.toDTO(playerAchievement.get()));
+            return ResponseEntity.ok(playerAchievement);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player achievement ID not found: " + id);
     }
 

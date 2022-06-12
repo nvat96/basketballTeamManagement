@@ -23,6 +23,5 @@ public class Team {
     private Conference conference;
     @JoinColumn
     @ManyToOne
-    @NotNull
     private Arena arena;
 }

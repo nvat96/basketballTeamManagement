@@ -35,7 +35,7 @@ public class StatusReportResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (statusReport.isPresent())
-            return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTO(statusReport.get()));
+            return ResponseEntity.ok(statusReport);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Status report ID not found: " + id);
     }
 

@@ -1,0 +1,16 @@
+INSERT INTO public.arena(
+	name, capacity, date_built, location)
+	VALUES ('FTX Arena', 19600, '1999-12-31','Miami, Florida'),
+            ('Rocket Mortgage FieldHouse', 19400, '1994-07-23','Cleveland, Ohio'),
+            ('TD Garden', 19200, '1995-09-30','Boston, Massachusetts'),
+            ('Chase Center', 18100, '1998-09-06','San Francisco, California'),
+            ('Staples Center', 19100, '1999-10-17','Los Angeles, California')
+            
+INSERT INTO public.team(
+	name, conference, date_found, location, salary_cap, arena_name)
+	VALUES ('Golden State Warriors', 'WESTERN', '2009-04-21', 'San Francisco', 500, 'Chase Center'),
+            ('Los Angeles Lakers', 'WESTERN', '2009-08-18', 'Los Angeles', 600, 'Staples Center'),
+            ('Miami Heat', 'EASTERN', '2009-05-20', 'Miami', 600, 'FTX Arena'),
+            ('Cleveland Cavaliers', 'EASTERN', '2009-12-12', 'Cleveland', 550, 'Rocket Mortgage FieldHouse'),
+            ('Boston Celtics', 'EASTERN', '2009-02-05', 'Boston', 700, 'TD Garden')            
+            

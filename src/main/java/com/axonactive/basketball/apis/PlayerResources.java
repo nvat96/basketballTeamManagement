@@ -33,7 +33,7 @@ public class PlayerResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent())
-            return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTO(player.get()));
+            return ResponseEntity.ok(player);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + id);
     }
 

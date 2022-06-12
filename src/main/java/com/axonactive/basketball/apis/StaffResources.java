@@ -35,7 +35,7 @@ public class StaffResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Staff> staff = staffService.findByID(id);
         if (staff.isPresent())
-            return ResponseEntity.ok(StaffMapper.INSTANCE.toDTO(staff.get()));
+            return ResponseEntity.ok(staff);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Staff ID not found: " + id);
     }
 
