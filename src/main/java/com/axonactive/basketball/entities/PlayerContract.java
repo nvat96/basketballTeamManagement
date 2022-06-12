@@ -21,7 +21,6 @@ public class PlayerContract {
     private LocalDate dateExpired;
     private String body;
     private Integer number;
-    @Column(name = "salary")
     private Double salary;
     @Enumerated(value = EnumType.STRING)
     private TypeOfContract typeOfContract;

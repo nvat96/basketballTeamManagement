@@ -22,7 +22,6 @@ public class Agent {
     @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateOfBirth;
-    @Column(name = "commissionRateExpected")
     private Double commissionRateExpected;
     private String phoneNumber;
     private String email;
