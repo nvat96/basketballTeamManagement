@@ -11,15 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class AgentContract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
-    @Column(name = "commissionRate(%)")
+    @Column(name = "commissionRate")
     private Double commissionRate;
     private String body;
     @JoinColumn

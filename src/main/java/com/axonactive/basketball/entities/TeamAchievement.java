@@ -12,8 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class TeamAchievement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

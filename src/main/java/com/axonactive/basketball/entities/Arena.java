@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class Arena {
     @Id
     private String name;

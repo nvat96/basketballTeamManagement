@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,7 @@ public class Agent {
     @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateOfBirth;
-    @Column(name = "commissionRateExpected(%)")
+    @Column(name = "commissionRateExpected")
     private Double commissionRateExpected;
     private String phoneNumber;
 }

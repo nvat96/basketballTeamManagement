@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Builder
 public class Stats {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

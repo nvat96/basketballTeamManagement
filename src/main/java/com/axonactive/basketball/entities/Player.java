@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +26,6 @@ public class Player {
     private LocalDate startedDate;
     @Enumerated(EnumType.STRING)
     private TypeOfPlayer typeOfPlayer;
-    @Column(name = "salaryExpected($m/year)")
+    @Column(name = "salaryExpected")
     private Double salaryExpected;
 }
