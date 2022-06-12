@@ -36,7 +36,7 @@ public class AgentContractResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (agentContract.isPresent())
-            return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTO(agentContract.get()));
+            return ResponseEntity.ok(agentContract);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @PostMapping

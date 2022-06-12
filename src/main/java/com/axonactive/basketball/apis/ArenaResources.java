@@ -33,7 +33,8 @@ public class ArenaResources {
 
     @PostMapping
     public ResponseEntity<Arena> create(@RequestBody Arena arena) {
-        return ResponseEntity.created(URI.create(PATH + "/" + arena.getName())).body(arenaService.save(arena));
+//        return ResponseEntity.created(URI.create(PATH + "/" + arena.getName())).body(arenaService.save(arena));
+        return ResponseEntity.ok(arenaService.save(arena));
     }
 
     @PutMapping("/{name}")

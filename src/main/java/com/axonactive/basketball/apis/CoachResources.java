@@ -32,7 +32,7 @@ public class CoachResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent())
-            return ResponseEntity.ok(CoachMapper.INSTANCE.toDTO(coach.get()));
+            return ResponseEntity.ok(coach);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach ID not found: " + id);
     }
 

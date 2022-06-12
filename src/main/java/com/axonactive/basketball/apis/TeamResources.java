@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,24 +34,34 @@ public class TeamResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent())
-            return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(team.get()));
+            return ResponseEntity.ok(team);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody TeamRequest teamRequest) {
-        Optional<Arena> arena = arenaService.findByID(teamRequest.getArenaName());
-        if (!arena.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Arena name not found: " + teamRequest.getArenaName());
-        else {
+        if (teamRequest.getArenaName() == null) {
             Team team = new Team(teamRequest.getName(),
                     teamRequest.getLocation(),
                     teamRequest.getDateFound(),
                     teamRequest.getSalaryCap(),
                     Conference.valueOf(teamRequest.getConference()),
-                    arena.get()
-            );
-            return ResponseEntity.created(URI.create(PATH + "/" + team.getName())).body(TeamMapper.INSTANCE.toDTO(teamService.save(team)));
+                    null);
+            return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(teamService.save(team)));
+        } else {
+            Optional<Arena> arena = arenaService.findByID(teamRequest.getArenaName());
+            if (!arena.isPresent())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Arena name not found: " + teamRequest.getArenaName());
+            else {
+                Team team = new Team(teamRequest.getName(),
+                        teamRequest.getLocation(),
+                        teamRequest.getDateFound(),
+                        teamRequest.getSalaryCap(),
+                        Conference.valueOf(teamRequest.getConference()),
+                        arena.get()
+                );
+                return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(teamService.save(team)));
+            }
         }
     }
 
@@ -74,7 +83,7 @@ public class TeamResources {
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name){
+    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent()) {
             teamService.deleteByID(name);

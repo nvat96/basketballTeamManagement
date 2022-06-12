@@ -30,7 +30,7 @@ public class AgentResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent())
-            return ResponseEntity.ok(AgentMapper.INSTANCE.toDTO(agent.get()));
+            return ResponseEntity.ok(agent);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
     @GetMapping("/findByName/{name}")

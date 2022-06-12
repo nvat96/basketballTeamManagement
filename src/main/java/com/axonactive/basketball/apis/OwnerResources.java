@@ -36,16 +36,13 @@ public class OwnerResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Owner> owner = ownerService.findByID(id);
         if (owner.isPresent())
-            return ResponseEntity.ok(OwnerMapper.INSTANCE.toDTO(owner.get()));
+            return ResponseEntity.ok(owner);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OwnerRequest ownerRequest) {
-        Optional<Team> team = teamService.findByID(ownerRequest.getTeamName());
-        if (!team.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + ownerRequest.getTeamName());
-        else {
+        if (ownerRequest.getTeamName() == null) {
             Owner owner = new Owner(null,
                     ownerRequest.getName(),
                     ownerRequest.getDateOfBirth(),
@@ -53,8 +50,23 @@ public class OwnerResources {
                     Nationality.valueOf(ownerRequest.getNationality()),
                     ownerRequest.getDateOwned(),
                     ownerRequest.getSharePercent(),
-                    team.get());
+                    null);
             return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
+        } else {
+            Optional<Team> team = teamService.findByID(ownerRequest.getTeamName());
+            if (!team.isPresent())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + ownerRequest.getTeamName());
+            else {
+                Owner owner = new Owner(null,
+                        ownerRequest.getName(),
+                        ownerRequest.getDateOfBirth(),
+                        Gender.valueOf(ownerRequest.getGender()),
+                        Nationality.valueOf(ownerRequest.getNationality()),
+                        ownerRequest.getDateOwned(),
+                        ownerRequest.getSharePercent(),
+                        team.get());
+                return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
+            }
         }
     }
 
@@ -85,8 +97,7 @@ public class OwnerResources {
         if (owner.isPresent()) {
             ownerService.deleteByID(id);
             return ResponseEntity.ok("Successfully deleted");
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
     }
 }
 

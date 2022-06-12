@@ -40,7 +40,7 @@ public class PlayerContractResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         if (playerContract.isPresent())
-            return ResponseEntity.ok(PlayerContractMapper.INSTANCE.toDTO(playerContract.get()));
+            return ResponseEntity.ok(playerContract);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player contract ID not found: " + id);
     }
 

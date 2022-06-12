@@ -37,7 +37,7 @@ public class CoachContractResources {
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent())
-            return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTO(coachContract.get()));
+            return ResponseEntity.ok(coachContract);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
     @PostMapping
