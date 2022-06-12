@@ -23,7 +23,6 @@ public class Coach {
     @Enumerated(value = EnumType.STRING)
     private Nationality nationality;
     private LocalDate dateStarted;
-    @Column (name = "salaryExpected")
     private Double salaryExpected;
 
 }

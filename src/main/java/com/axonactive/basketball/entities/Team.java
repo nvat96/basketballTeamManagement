@@ -17,7 +17,6 @@ public class Team {
     private String name;
     private String location;
     private LocalDate dateFound;
-    @Column(name = "salaryCap")
     private Double salaryCap;
     @Enumerated(value = EnumType.STRING)
     private Conference conference;

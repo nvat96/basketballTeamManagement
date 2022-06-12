@@ -20,7 +20,6 @@ public class Staff {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
     private String title;
-    @Column(name = "salary")
     private Double salary;
     @JoinColumn
     @ManyToOne
