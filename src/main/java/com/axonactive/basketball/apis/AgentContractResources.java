@@ -60,7 +60,7 @@ public class AgentContractResources {
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
-                                                        @RequestBody AgentContractRequest agentContractRequest){
+                                    @RequestBody AgentContractRequest agentContractRequest){
         Optional<Agent> agent = agentService.findByName(agentContractRequest.getAgentName());
         Optional<Player> player = playerService.findByName(agentContractRequest.getPlayerName());
         Optional<AgentContract> agentContract = agentContractService.findByID(id);

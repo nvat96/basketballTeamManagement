@@ -1,9 +1,7 @@
 package com.axonactive.basketball.services.dtos;
 
-import com.axonactive.basketball.enums.Nationality;
 import lombok.*;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter

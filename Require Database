@@ -1,4 +1,4 @@
-Require Database
+Requirement
 - 5 teams
 - 50 players
 - 10 coaches
@@ -6,3 +6,5 @@ Require Database
 - 12 agents
 - 8 owners
 - 5 arenas
+- season start at 01-01
+- season end at 30-11
