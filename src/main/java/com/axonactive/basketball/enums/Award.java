@@ -6,5 +6,5 @@ public enum Award {
     ROY, //Rookie of the year
     MIP, //Most improved player
     COY, //Coach of the year
-    Champion
+    CHAMPION
 }

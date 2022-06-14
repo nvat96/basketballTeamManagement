@@ -8,7 +8,8 @@ INSERT INTO public.arena(
             
 INSERT INTO public.team(
 	name, conference, date_found, location, salary_cap, arena_name)
-	VALUES ('Golden State Warriors', 'WESTERN', '2009-04-21', 'San Francisco', 500, 'Chase Center'),
+	VALUES 
+            ('Golden State Warriors', 'WESTERN', '2009-04-21', 'San Francisco', 500, 'Chase Center'),
             ('Los Angeles Lakers', 'WESTERN', '2009-08-18', 'Los Angeles', 600, 'Staples Center'),
             ('Miami Heat', 'EASTERN', '2009-05-20', 'Miami', 600, 'FTX Arena'),
             ('Cleveland Cavaliers', 'EASTERN', '2009-12-12', 'Cleveland', 550, 'Rocket Mortgage FieldHouse'),
@@ -16,7 +17,8 @@ INSERT INTO public.team(
             
 INSERT INTO public.agent(
 	commission_rate_expected, date_of_birth, email, gender, name, nationality, phone_number)
-	VALUES (5, '1990-06-15', 'jacynthe74@corwin.net', 'MALE', 'John Parson', 'USA', '4485 0076 46'),
+	VALUES 
+            (5, '1990-06-15', 'jacynthe74@corwin.net', 'MALE', 'John Parson', 'USA', '4485 0076 46'),
             (9, '1992-10-25', 'norene.kohler@yahoo.com', 'MALE', 'Kyler Douglas', 'USA', '4556 3161 75'),
             (8, '1991-04-02', 'terry51@yahoo.com', 'FEMALE', 'Sarah Bailey', 'USA', '5425 1245 17'),
             (10, '1987-01-26', 'lrohan@koch.info', 'MALE', 'Kenneth Floyd', 'CANADA', '5404 9081 63'),
@@ -34,7 +36,8 @@ INSERT INTO public.agent(
             
 INSERT INTO public.coach(
 	date_of_birth, date_started, gender, name, nationality, salary_expected)
-	VALUES ('1980-03-12', '2000-07-23', 'MALE', 'Jason Kidd', 'CANADA', 24),
+	VALUES 
+            ('1980-03-12', '2000-07-23', 'MALE', 'Jason Kidd', 'CANADA', 24),
             ('1990-11-26', '2007-08-12', 'MALE', 'Billy Donovan', 'USA', 17),
             ('1988-05-09', '2002-02-10', 'MALE', 'Dwane Casey', 'CANADA', 23),
             ('1993-07-14', '2008-11-30', 'MALE', 'Erik Spoelstra', 'OTHERS', 10),
@@ -49,7 +52,8 @@ INSERT INTO public.coach(
             
 INSERT INTO public.owner(
 	date_of_birth, date_owned, gender, name, nationality, share_percent, team_name)
-	VALUES ('1975-02-24', '2009-02-05', 'MALE', 'Stan Kirk', 'USA', 100, 'Boston Celtics'),
+	VALUES 
+            ('1975-02-24', '2009-02-05', 'MALE', 'Stan Kirk', 'USA', 100, 'Boston Celtics'),
             ('1980-07-31', '2009-12-12', 'MALE', 'Bentley Collins', 'CANADA', 67, 'Cleveland Cavaliers'),
             ('1970-05-10', '2009-12-12', 'MALE', 'Timothy Larson', 'USA', 33, 'Cleveland Cavaliers'),
             ('1982-09-20', '2009-04-21', 'FEMALE', 'Juniper Patel', 'OTHERS', 47, 'Golden State Warriors'),
@@ -61,7 +65,8 @@ INSERT INTO public.owner(
             
 INSERT INTO public.staff(
 	date_of_birth, gender, name, salary, title, team_name)
-	VALUES ('1978-12-17', 'MALE', 'Coy Speight', 0.6, 'Doctor', 'Boston Celtics'),
+	VALUES 
+            ('1978-12-17', 'MALE', 'Coy Speight', 0.6, 'Doctor', 'Boston Celtics'),
             ('1992-09-17', 'MALE', 'Charis Toller', 0.3, 'Trainer', 'Golden State Warriors'),
             ('2002-04-08', 'FEMALE', 'Tessie Granger', 0.4, 'Chef', 'Cleveland Cavaliers'),
             ('1975-11-06', 'MALE', 'Wu Law', 0.08, 'Cameraman', 'Boston Celtics'),
@@ -99,7 +104,8 @@ INSERT INTO public.staff(
             
 INSERT INTO public.player(
 	date_of_birth, gender, name, nationality, salary_expected, started_date, type_of_player)
-	VALUES ('1996-04-10', 'MALE', 'Giannis Antetokounmpo', 'GREEK', 90, '2014-01-01', 'STANDARD'),
+	VALUES 
+            ('1996-04-10', 'MALE', 'Giannis Antetokounmpo', 'GREEK', 90, '2014-01-01', 'STANDARD'),
             ('1995-10-17', 'MALE', 'Joel Embiid', 'USA', 80, '2013-01-01', 'STANDARD'),
             ('1996-10-15', 'MALE', 'Nikola Jokic', 'OTHERS',83, '2014-01-01', 'STANDARD'),
             ('1992-01-25', 'MALE', 'Stephen Curry', 'USA', 92, '2010-01-01', 'VETERAN'),
@@ -259,3 +265,103 @@ INSERT INTO public.agent_contract(
             ('a', 6, '2010-01-01', '2014-11-30', 1, 52),
             ('a', 9, '2015-01-01', '2019-11-30', 8, 52),
             ('a', 10, '2020-01-01', '2024-11-30', 8, 52);
+
+INSERT INTO public.coach_contract(
+    body, date_created, date_expired, salary, title, type_of_contract, coach_id, team_name)
+    VALUES 
+    ('a', '2010-01-01', '2010-11-30', 4, 'Assistant Coach', 'TRIAL', 1, 'Boston Celtics'),
+    ('a', '2011-01-01', '2015-11-30', 20, 'Head Coach', 'STANDARD', 1, 'Los Angeles Lakers'),
+    ('a', '2016-01-01', '2017-11-30', 17, 'Assistant Coach', 'STANDARD', 1, 'Miami Heat'),
+    ('a', '2018-01-01', '2022-11-30', 17, 'Assistant Coach', 'STANDARD', 1, 'Golden State Warriors'),
+    ('a', '2010-01-01', '2011-11-30', 20, 'Head Coach', 'STANDARD', 2, 'Miami Heat'),
+    ('a', '2012-01-01', '2015-11-30', 14, 'Assistant Coach', 'STANDARD', 2, 'Miami Heat'),
+    ('a', '2016-01-01', '2020-11-30', 13, 'Assistant Coach', 'STANDARD', 2, 'Cleveland Cavaliers'),
+    ('a', '2010-01-01', '2010-11-30', 3, 'Assistant Coach', 'PART_TIME', 3, 'Boston Celtics'),
+    ('a', '2011-01-01', '2014-11-30', 9, 'Assistant Coach', 'STANDARD', 3, 'Boston Celtics'),
+    ('a', '2015-01-01', '2019-11-30', 20, 'Head Coach', 'STANDARD', 3, 'Boston Celtics'),
+    ('a', '2020-01-01', '2022-11-30', 16, 'Assistant Coach', 'STANDARD', 3, 'Boston Celtics'),
+    ('a', '2010-01-01', '2014-11-30', 3, 'Strategy Coach', 'TWO_WAY', 4, 'Miami Heat'),
+    ('a', '2010-01-01', '2014-11-30', 7, 'Assistant Coach', 'STANDARD', 4, 'Miami Heat'),
+    ('a', '2015-01-01', '2019-11-30', 8, 'Assistant Coach', 'STANDARD', 4, 'Miami Heat'),
+    ('a', '2019-01-01', '2024-11-30', 10, 'Assistant Coach', 'STANDARD', 4, 'Miami Heat'),
+    ('a', '2010-01-01', '2012-11-30', 8, 'Assistant Coach', 'STANDARD', 5, 'Los Angeles Lakers'),
+    ('a', '2013-01-01', '2015-11-30', 10, 'Assistant Coach', 'STANDARD', 5, 'Golden State Warriors'),
+    ('a', '2016-01-01', '2020-11-30', 28, 'Head Coach', 'STANDARD', 5, 'Los Angeles Lakers'),
+    ('a', '2021-01-01', '2025-11-30', 30, 'Head Coach', 'STANDARD', 5, 'Los Angeles Lakers'),
+    ('a', '2010-01-01', '2010-11-30', 15, 'Head Coach', 'TRIAL', 6, 'Cleveland Cavaliers'),
+    ('a', '2011-01-01', '2013-11-30', 30, 'Head Coach', 'STANDARD', 6, 'Cleveland Cavaliers'),
+    ('a', '2014-01-01', '2017-11-30', 18, 'Strategy Coach', 'STANDARD', 6, 'Cleveland Cavaliers'),
+    ('a', '2018-01-01', '2021-11-30', 20, 'Strategy Coach', 'STANDARD', 6, 'Miami Heat'),
+    ('a', '2012-01-01', '2012-11-30', 19, 'Head Coach', 'TRIAL', 7, 'Miami Heat'),
+    ('a', '2013-01-01', '2017-11-30', 37, 'Head Coach', 'STANDARD', 7, 'Miami Heat'),
+    ('a', '2018-01-01', '2022-11-30', 47, 'Head Coach', 'STANDARD', 7, 'Miami Heat'),
+    ('a', '2010-01-01', '2012-11-30', 20, 'Head Coach', 'STANDARD', 8, 'Boston Celtics'),
+    ('a', '2013-01-01', '2014-11-30', 25, 'Head Coach', 'STANDARD', 8, 'Boston Celtics'),
+    ('a', '2015-01-01', '2019-11-30', 30, 'Head Coach', 'STANDARD', 8, 'Cleveland Cavaliers'),
+    ('a', '2020-01-01', '2022-11-30', 27, 'Strategy Coach', 'STANDARD', 8, 'Golden State Warriors'),
+    ('a', '2010-01-01', '2013-11-30', 20, 'Head Coach', 'STANDARD', 9, 'Golden State Warriors'),
+    ('a', '2014-01-01', '2017-11-30', 15, 'Stategy Coach', 'STANDARD', 9, 'Golden State Warriors'),
+    ('a', '2018-01-01', '2022-11-30', 19, 'Assistant Coach', 'STANDARD', 9, 'Golden State Warriors'),
+    ('a', '2010-01-01', '2010-11-30', 20, 'Head Coach', 'TRIAL', 10, 'Los Angeles Lakers'),
+    ('a', '2011-01-01', '2014-11-30', 15, 'Assistant Coach', 'STANDARD', 10, 'Los Angeles Lakers'),
+    ('a', '2015-01-01', '2019-11-30', 17, 'Strategy Coach', 'STANDARD', 10, 'Cleveland Cavaliers'),
+    ('a', '2020-01-01', '2023-11-30', 30, 'Head Coach', 'STANDARD', 10, 'Cleveland Cavaliers'),
+    ('a', '2010-01-01', '2014-11-30', 14, 'Assistant Coach', 'STANDARD', 11, 'Boston Celtics'),
+    ('a', '2015-01-01', '2019-11-30', 18, 'Assistant Coach', 'STANDARD', 11, 'Boston Celtics'),
+    ('a', '2020-01-01', '2024-11-30', 24, 'Head Coach', 'STANDARD', 11, 'Boston Celtics'),
+    ('a', '2010-01-01', '2013-11-30', 6, 'Assistant Coach', 'PART_TIME', 12, 'Golden State Warriors'),
+    ('a', '2014-01-01', '2014-11-30', 15, 'Head Coach', 'TRIAL', 12, 'Golden State Warriors'),
+    ('a', '2015-01-01', '2019-11-30', 25, 'Head Coach', 'STANDARD', 12, 'Golden State Warriors'),
+    ('a', '2020-01-01', '2024-11-30', 38, 'Head Coach', 'STANDARD', 12, 'Golden State Warriors');
+
+INSERT INTO public.team_achievement(
+    award, date_achieved, team_name)
+    VALUES 
+    ('CHAMPION', '2010-12-31', 'Los Angeles Lakers'),  
+    ('CHAMPION', '2011-12-31', 'Boston Celtics'),  
+    ('CHAMPION', '2012-12-31', 'Miami Heat'),
+    ('CHAMPION', '2013-12-31', 'Miami Heat'),
+    ('CHAMPION', '2014-12-31', 'Boston Celtics'),
+    ('CHAMPION', '2015-12-31', 'Golden State Warriors'),
+    ('CHAMPION', '2016-12-31', 'Cleveland Cavaliers'),
+    ('CHAMPION', '2017-12-31', 'Golden State Warriors'),
+    ('CHAMPION', '2018-12-31', 'Golden State Warriors'),
+    ('CHAMPION', '2019-12-31', 'Boston Celtics'),
+    ('CHAMPION', '2020-12-31', 'Los Angeles Lakers'),
+    ('CHAMPION', '2021-12-31', 'Los Angeles Lakers');
+
+INSERT INTO public.coach_achievement(
+    award, date_achieved, coach_id)
+    VALUES 
+    ('CHAMPION', '2010-12-31', 10),
+    ('CHAMPION', '2011-12-31', 8),
+    ('CHAMPION', '2012-12-31', 7),   
+    ('CHAMPION', '2013-12-31', 7), 
+    ('CHAMPION', '2014-12-31', 8), 
+    ('CHAMPION', '2015-12-31', 12),
+    ('CHAMPION', '2016-12-31', 8),
+    ('CHAMPION', '2017-12-31', 12),
+    ('CHAMPION', '2018-12-31', 12),
+    ('CHAMPION', '2019-12-31', 3),
+    ('CHAMPION', '2020-12-31', 5),
+    ('CHAMPION', '2021-12-31', 5),
+    ('COY', '2010-12-30', 6),
+    ('COY', '2011-12-30', 8),
+    ('COY', '2012-12-30', 7),
+    ('COY', '2013-12-30', 7),
+    ('COY', '2014-12-30', 7),
+    ('COY', '2015-12-30', 12),
+    ('COY', '2016-12-30', 8),
+    ('COY', '2017-12-30', 7),
+    ('COY', '2018-12-30', 12),
+    ('COY', '2019-12-30', 3),
+    ('COY', '2020-12-30', 11),
+    ('COY', '2021-12-30', 5);
+
+
+
+
+
+
+
+
