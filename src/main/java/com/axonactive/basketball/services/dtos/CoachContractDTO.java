@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class CoachContractDTO {
     private Integer id;
     private String typeOfContract;
+    private String title;
     private String coachName;
     private String teamName;
 }
