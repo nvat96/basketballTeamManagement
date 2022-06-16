@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface CoachRepository extends JpaRepository<Coach,Integer> {
-    Optional<Coach> findByName(String name);
-    List<Coach> findByNameLike(String name);
+    Optional<Coach> findByFirstNameAndLastNameLike(String firstName, String lastName);
+    List<Coach> findByFirstNameLike(String firstName);
 }

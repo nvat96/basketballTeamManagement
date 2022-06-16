@@ -25,7 +25,8 @@ public class StatsRequest {
     private Integer rebound;
     private Integer foul;
     private Integer turnover;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastName;
 
     public void setTwoPointPercentage() {
         twoPointFGPercentage = (double) (totalTwoPointFG / twoPointFGMade);

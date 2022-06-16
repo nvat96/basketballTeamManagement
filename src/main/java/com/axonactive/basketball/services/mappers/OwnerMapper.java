@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface OwnerMapper {
     OwnerMapper INSTANCE = Mappers.getMapper(OwnerMapper.class);
-    @Mapping(target = "teamName",source = "team.name")
     OwnerDTO toDTO(Owner owner);
     List<OwnerDTO> toDTOs (List<Owner> owners);
 }

@@ -35,12 +35,12 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Optional<Owner> findByName(String name) {
-        return ownerRepository.findByName(name);
+    public Optional<Owner> findByFirstNameAndLastNameLike(String firstName,String lastName) {
+        return ownerRepository.findByFirstNameAndLastNameLike(firstName, lastName);
     }
 
     @Override
-    public List<Owner> findByNameLike(String name) {
-        return ownerRepository.findByNameLike(name);
+    public List<Owner> findByFirstNameLike(String firstName) {
+        return ownerRepository.findByFirstNameLike(firstName);
     }
 }

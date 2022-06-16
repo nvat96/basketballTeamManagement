@@ -3,7 +3,6 @@ package com.axonactive.basketball.apis;
 import com.axonactive.basketball.apis.requests.AgentRequest;
 import com.axonactive.basketball.entities.Agent;
 import com.axonactive.basketball.enums.Gender;
-import com.axonactive.basketball.enums.Nationality;
 import com.axonactive.basketball.services.dtos.AgentDTO;
 import com.axonactive.basketball.services.impl.AgentServiceImpl;
 import com.axonactive.basketball.services.mappers.AgentMapper;
@@ -33,21 +32,21 @@ public class AgentResources {
             return ResponseEntity.ok(agent);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
-    @GetMapping("/findByName/{name}")
-    public ResponseEntity<?> findByName(@PathVariable(value = "name") String name){
-        List<Agent> agents = agentService.findByNameLike(name);
-        if (agents.size() == 0)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
-        else return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agents));
-    }
+//    @GetMapping("/findByName/{name}")
+//    public ResponseEntity<?> findByName(@PathVariable(value = "name") String name){
+//        List<Agent> agents = agentService.findByNameLike(name);
+//        if (agents.size() == 0)
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
+//        else return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agents));
+//    }
     @PostMapping
     public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest){
         Agent agent = new Agent(null,
-                agentRequest.getName(),
+                agentRequest.getFirstName(),
+                agentRequest.getLastName(),
                 Gender.valueOf(agentRequest.getGender()),
-                Nationality.valueOf(agentRequest.getNationality()),
+                agentRequest.getNationality(),
                 agentRequest.getDateOfBirth(),
-                agentRequest.getCommissionRateExpected(),
                 agentRequest.getPhoneNumber(),
                 agentRequest.getEmail());
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
@@ -57,13 +56,13 @@ public class AgentResources {
                                     @RequestBody AgentRequest agentRequest){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent()){
-            agent.get().setName(agentRequest.getName());
-            agent.get().setNationality(Nationality.valueOf(agentRequest.getNationality()));
+            agent.get().setFirstName(agentRequest.getFirstName());
+            agent.get().setLastName(agentRequest.getLastName());
+            agent.get().setNationality(agentRequest.getNationality());
             agent.get().setGender(Gender.valueOf(agentRequest.getGender()));
             agent.get().setDateOfBirth(agentRequest.getDateOfBirth());
             agent.get().setPhoneNumber(agentRequest.getPhoneNumber());
             agent.get().setEmail(agentRequest.getEmail());
-            agent.get().setCommissionRateExpected(agentRequest.getCommissionRateExpected());
             return ResponseEntity.ok(AgentMapper.INSTANCE.toDTO(agentService.save(agent.get())));
         }
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface AgentRepository extends JpaRepository<Agent, Integer> {
-    List<Agent> findByNameLike(String name);
-    Optional<Agent> findByName(String name);
+    List<Agent> findByFirstNameLike(String firstName);
+    Optional<Agent> findByFirstNameAndLastNameLike(String firstName, String lastName);
 }

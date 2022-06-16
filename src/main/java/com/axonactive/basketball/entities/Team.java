@@ -1,10 +1,9 @@
 package com.axonactive.basketball.entities;
 
-import com.axonactive.basketball.enums.Conference;
+import com.axonactive.basketball.enums.League;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -17,9 +16,9 @@ public class Team {
     private String name;
     private String location;
     private LocalDate dateFound;
-    private Double salaryCap;
     @Enumerated(value = EnumType.STRING)
-    private Conference conference;
+    private League league;
+    private Double salaryCap;
     @JoinColumn
     @ManyToOne
     private Arena arena;

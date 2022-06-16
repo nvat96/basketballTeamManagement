@@ -10,6 +10,6 @@ public interface StaffService {
     Optional<Staff> findByID(Integer id);
     Staff save(Staff staff);
     void deleteByID(Integer id);
-    Optional<Staff> findByName(String name);
-    List<Staff> findByNameLike(String name);
+    Optional<Staff> findByFirstNameAndLastNameLike(String firstName, String lastName);
+    List<Staff> findByFirstNameLike(String name);
 }

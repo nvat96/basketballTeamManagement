@@ -40,9 +40,9 @@ public class StatsResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StatsRequest statsRequest) {
-        Optional<Player> player = playerService.findByName(statsRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());
         else {
             Stats stats = new Stats(null,
                     statsRequest.getHeight(),
@@ -69,10 +69,10 @@ public class StatsResources {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatsRequest statsRequest) {
-        Optional<Player> player = playerService.findByName(statsRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         Optional<Stats> stats = statsService.findByID(id);
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());
         else if (stats.isPresent()) {
             stats.get().setHeight(statsRequest.getHeight());
             stats.get().setWeight(statsRequest.getWeight());

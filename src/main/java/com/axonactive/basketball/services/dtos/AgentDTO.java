@@ -1,12 +1,7 @@
 package com.axonactive.basketball.services.dtos;
 
-import com.axonactive.basketball.enums.Gender;
-import com.axonactive.basketball.enums.Nationality;
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AgentDTO {
     private Integer id;
-    private String name;
-    private Double commissionRateExpected;
+    private String firstName;
+    private String lastName;
     private String email;
 }

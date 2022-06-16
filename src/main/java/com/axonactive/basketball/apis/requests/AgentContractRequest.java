@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class AgentContractRequest {
     private LocalDate dateCreated;
     private LocalDate dateExpired;
-    private Double commissionRate;
-    private String body;
-    private String playerName;
-    private String agentName;
+    private String playerFirstName;
+    private String playerLastName;
+    private String agentFirstName;
+    private String agentLastName;
 }

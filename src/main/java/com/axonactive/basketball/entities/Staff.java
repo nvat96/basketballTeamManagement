@@ -15,7 +15,8 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private LocalDate dateOfBirth;
     @Enumerated(value = EnumType.STRING)
     private Gender gender;

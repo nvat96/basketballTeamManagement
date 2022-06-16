@@ -10,11 +10,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AgentRequest {
-    private String name;
+    private String firstName;
+    private String lastName;
     private String gender;
     private String nationality;
     private LocalDate dateOfBirth;
-    private Double commissionRateExpected;
     private String phoneNumber;
     private String email;
 }

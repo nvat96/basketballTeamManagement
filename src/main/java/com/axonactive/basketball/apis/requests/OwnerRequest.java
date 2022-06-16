@@ -11,11 +11,9 @@ import java.time.LocalDate;
 @ToString
 @Builder
 public class OwnerRequest {
-    private String name;
+    private String firstName;
+    private String lastName;
     private LocalDate dateOfBirth;
     private String gender;
     private String nationality;
-    private LocalDate dateOwned;
-    private Double sharePercent;
-    private String teamName;
 }

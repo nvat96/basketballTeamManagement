@@ -14,5 +14,6 @@ public class StatusReportRequest {
     private String status;
     private LocalDate dateCreated;
     private String comment;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastName;
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OwnerDTO {
     private Integer id;
-    private String name;
-    private String teamName;
-    private Double sharePercent;
+    private String firstName;
+    private String lastName;
+
 }

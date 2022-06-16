@@ -41,9 +41,9 @@ public class PlayerAchievementResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody PlayerAchievementRequest playerAchievementRequest) {
-        Optional<Player> player = playerService.findByName(playerAchievementRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerFirstName() + " " + playerAchievementRequest.getPlayerLastName());
         else {
             PlayerAchievement playerAchievement = new PlayerAchievement(null,
                     Award.valueOf(playerAchievementRequest.getAward()),
@@ -57,9 +57,9 @@ public class PlayerAchievementResources {
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
-        Optional<Player> player = playerService.findByName(playerAchievementRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerFirstName() + " " + playerAchievementRequest.getPlayerLastName());
         else if (!playerAchievement.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player achievement ID not found: " + id);
         else {

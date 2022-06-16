@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner,Integer> {
-    Optional<Owner> findByName(String name);
-    List<Owner> findByNameLike(String name);
+    Optional<Owner> findByFirstNameAndLastNameLike(String firstName, String lastName);
+    List<Owner> findByFirstNameLike(String firstName);
 }

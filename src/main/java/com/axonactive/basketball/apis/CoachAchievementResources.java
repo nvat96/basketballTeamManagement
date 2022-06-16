@@ -41,23 +41,23 @@ public class CoachAchievementResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CoachAchievementRequest coachAchievementRequest) {
-        Optional<Coach> coach = coachService.findByName(coachAchievementRequest.getCoachName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         if (coach.isPresent()) {
             CoachAchievement coachAchievement = new CoachAchievement(null,
                     Award.valueOf(coachAchievementRequest.getAward()),
                     coachAchievementRequest.getDateAchieved(),
                     coach.get());
             return ResponseEntity.created(URI.create(PATH + "/" + coachAchievement.getId())).body(CoachAchievementMapper.INSTANCE.toDTO(coachAchievementService.save(coachAchievement)));
-        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachAchievementRequest.getCoachName());
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachAchievementRequest.getCoachFirstName() + " " + coachAchievementRequest.getCoachLastName());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                     @RequestBody CoachAchievementRequest coachAchievementRequest) {
-        Optional<Coach> coach = coachService.findByName(coachAchievementRequest.getCoachName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (!coach.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachAchievementRequest.getCoachName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachAchievementRequest.getCoachFirstName() + " " + coachAchievementRequest.getCoachLastName());
         else if (coachAchievement.isPresent()) {
             coachAchievement.get().setAward(Award.valueOf(coachAchievementRequest.getAward()));
             coachAchievement.get().setDateAchieved(coachAchievementRequest.getDateAchieved());

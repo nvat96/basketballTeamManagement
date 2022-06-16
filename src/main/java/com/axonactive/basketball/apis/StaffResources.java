@@ -43,7 +43,8 @@ public class StaffResources {
     public ResponseEntity<?> create(@RequestBody StaffRequest staffRequest) {
         if (staffRequest.getTeamName() == null) {
             Staff staff = new Staff(null,
-                    staffRequest.getName(),
+                    staffRequest.getFirstName(),
+                    staffRequest.getLastName(),
                     staffRequest.getDateOfBirth(),
                     Gender.valueOf(staffRequest.getGender()),
                     staffRequest.getTitle(),
@@ -56,7 +57,8 @@ public class StaffResources {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + staffRequest.getTeamName());
             else {
                 Staff staff = new Staff(null,
-                        staffRequest.getName(),
+                        staffRequest.getFirstName(),
+                        staffRequest.getLastName(),
                         staffRequest.getDateOfBirth(),
                         Gender.valueOf(staffRequest.getGender()),
                         staffRequest.getTitle(),
@@ -75,7 +77,8 @@ public class StaffResources {
         if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + staffRequest.getTeamName());
         else if (staff.isPresent()) {
-            staff.get().setName(staffRequest.getName());
+            staff.get().setFirstName(staffRequest.getFirstName());
+            staff.get().setLastName(staffRequest.getLastName());
             staff.get().setGender(Gender.valueOf(staffRequest.getGender()));
             staff.get().setDateOfBirth(staffRequest.getDateOfBirth());
             staff.get().setTitle(staffRequest.getTitle());

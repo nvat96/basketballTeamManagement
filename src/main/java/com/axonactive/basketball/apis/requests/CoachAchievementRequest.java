@@ -13,5 +13,6 @@ import java.time.LocalDate;
 public class CoachAchievementRequest {
     private String award;
     private LocalDate dateAchieved;
-    private String coachName;
+    private String coachFirstName;
+    private String coachLastName;
 }

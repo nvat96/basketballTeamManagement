@@ -47,11 +47,11 @@ public class PlayerContractResources {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody PlayerContractRequest playerContractRequest) {
         Optional<Team> team = teamService.findByID(playerContractRequest.getTeamName());
-        Optional<Player> player = playerService.findByName(playerContractRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerContractRequest.getPlayerFirstName(), playerContractRequest.getPlayerLastName());
         if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + playerContractRequest.getTeamName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerContractRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerContractRequest.getPlayerFirstName() + " " + playerContractRequest.getPlayerLastName());
         else {
             PlayerContract playerContract = new PlayerContract(null,
                     playerContractRequest.getDateCreated(),
@@ -72,11 +72,11 @@ public class PlayerContractResources {
                                     @RequestBody PlayerContractRequest playerContractRequest) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         Optional<Team> team = teamService.findByID(playerContractRequest.getTeamName());
-        Optional<Player> player = playerService.findByName(playerContractRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerContractRequest.getPlayerFirstName(), playerContractRequest.getPlayerLastName());
         if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + playerContractRequest.getTeamName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerContractRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerContractRequest.getPlayerFirstName() + " " + playerContractRequest.getPlayerLastName());
         else if (playerContract.isPresent()) {
             playerContract.get().setDateCreated(playerContractRequest.getDateCreated());
             playerContract.get().setDateExpired(playerContractRequest.getDateExpired());

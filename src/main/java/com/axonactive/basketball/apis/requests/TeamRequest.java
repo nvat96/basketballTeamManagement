@@ -13,7 +13,7 @@ public class TeamRequest {
     private String name;
     private String location;
     private LocalDate dateFound;
+    private String league;
     private Double salaryCap;
-    private String conference;
     private String arenaName;
 }

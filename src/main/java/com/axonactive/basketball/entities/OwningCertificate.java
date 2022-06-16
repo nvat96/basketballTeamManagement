@@ -3,26 +3,22 @@ package com.axonactive.basketball.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class AgentContract {
+@NoArgsConstructor
+@AllArgsConstructor
+public class OwningCertificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private LocalDate dateCreated;
-    private LocalDate dateExpired;
-    @JoinColumn
+    private Double sharePercent;
     @ManyToOne
-    @NotNull
-    private Player player;
     @JoinColumn
+    private Team team;
     @ManyToOne
-    @NotNull
-    private Agent agent;
+    @JoinColumn
+    private Owner owner;
 }
