@@ -2,8 +2,10 @@ package com.axonactive.basketball.services.mappers;
 
 import com.axonactive.basketball.entities.CoachContract;
 import com.axonactive.basketball.services.dtos.CoachContractDTO;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -12,8 +14,12 @@ import java.util.List;
 public interface CoachContractMapper {
     CoachContractMapper INSTANCE = Mappers.getMapper(CoachContractMapper.class);
     @Mapping(target = "typeOfContract",expression = "java(coachContract.getTypeOfContract().toString())")
-    @Mapping(target = "coachName",source = "coach.name")
+    @Mapping(target = "coachName",expression = "java(coachContract.getCoach().getFirstName() +\"\" + coachContract.getCoach().getLastName())")
     @Mapping(target = "teamName",source = "team.name")
     CoachContractDTO toDTO(CoachContract coachContract);
     List<CoachContractDTO> toDTOs (List<CoachContract> coachContracts);
+    @AfterMapping
+    default void setCoachName(CoachContract coachContract, @MappingTarget CoachContractDTO target){
+        target.setCoachName(coachContract.getCoach().getFirstName()+ " "+coachContract.getCoach().getFirstName());
+    }
 }

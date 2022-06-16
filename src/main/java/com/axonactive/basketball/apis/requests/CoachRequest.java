@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @ToString
 @Builder
 public class CoachRequest {
-    private String name;
+    private String firstName;
+    private String lastName;
     private LocalDate dateOfBirth;
     private String gender;
     private String nationality;

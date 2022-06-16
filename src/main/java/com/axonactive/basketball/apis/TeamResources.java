@@ -2,7 +2,7 @@ package com.axonactive.basketball.apis;
 
 import com.axonactive.basketball.entities.Arena;
 import com.axonactive.basketball.entities.Team;
-import com.axonactive.basketball.enums.Conference;
+import com.axonactive.basketball.enums.League;
 import com.axonactive.basketball.services.dtos.TeamDTO;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
 import com.axonactive.basketball.services.impl.TeamServiceImpl;
@@ -44,8 +44,8 @@ public class TeamResources {
             Team team = new Team(teamRequest.getName(),
                     teamRequest.getLocation(),
                     teamRequest.getDateFound(),
+                    League.valueOf(teamRequest.getLeague()),
                     teamRequest.getSalaryCap(),
-                    Conference.valueOf(teamRequest.getConference()),
                     null);
             return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(teamService.save(team)));
         } else {
@@ -56,8 +56,8 @@ public class TeamResources {
                 Team team = new Team(teamRequest.getName(),
                         teamRequest.getLocation(),
                         teamRequest.getDateFound(),
+                        League.valueOf(teamRequest.getLeague()),
                         teamRequest.getSalaryCap(),
-                        Conference.valueOf(teamRequest.getConference()),
                         arena.get()
                 );
                 return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(teamService.save(team)));
@@ -77,7 +77,7 @@ public class TeamResources {
             team.get().setLocation(teamRequest.getLocation());
             team.get().setDateFound(teamRequest.getDateFound());
             team.get().setSalaryCap(teamRequest.getSalaryCap());
-            team.get().setConference(Conference.valueOf(teamRequest.getConference()));
+            team.get().setLeague(League.valueOf(teamRequest.getLeague()));
             return ResponseEntity.ok(TeamMapper.INSTANCE.toDTO(teamService.save(team.get())));
         } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
     }

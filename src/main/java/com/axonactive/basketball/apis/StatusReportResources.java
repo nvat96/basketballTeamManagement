@@ -41,9 +41,9 @@ public class StatusReportResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StatusReportRequest statusReportRequest) {
-        Optional<Player> player = playerService.findByName(statusReportRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerFirstName() + " " +  statusReportRequest.getPlayerLastName());
         else {
             StatusReport statusReport = new StatusReport(null,
                     Status.valueOf(statusReportRequest.getStatus()),
@@ -57,10 +57,10 @@ public class StatusReportResources {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatusReportRequest statusReportRequest) {
-        Optional<Player> player = playerService.findByName(statusReportRequest.getPlayerName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerFirstName() + " " + statusReportRequest.getPlayerLastName());
         else if (statusReport.isPresent()) {
             statusReport.get().setStatus(Status.valueOf(statusReportRequest.getStatus()));
             statusReport.get().setDateCreated(statusReportRequest.getDateCreated());

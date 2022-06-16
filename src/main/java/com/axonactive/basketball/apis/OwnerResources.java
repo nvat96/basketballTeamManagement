@@ -4,7 +4,6 @@ import com.axonactive.basketball.apis.requests.OwnerRequest;
 import com.axonactive.basketball.entities.Owner;
 import com.axonactive.basketball.entities.Team;
 import com.axonactive.basketball.enums.Gender;
-import com.axonactive.basketball.enums.Nationality;
 import com.axonactive.basketball.services.dtos.OwnerDTO;
 import com.axonactive.basketball.services.impl.OwnerServiceImpl;
 import com.axonactive.basketball.services.impl.TeamServiceImpl;
@@ -42,51 +41,26 @@ public class OwnerResources {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OwnerRequest ownerRequest) {
-        if (ownerRequest.getTeamName() == null) {
-            Owner owner = new Owner(null,
-                    ownerRequest.getName(),
-                    ownerRequest.getDateOfBirth(),
-                    Gender.valueOf(ownerRequest.getGender()),
-                    Nationality.valueOf(ownerRequest.getNationality()),
-                    ownerRequest.getDateOwned(),
-                    ownerRequest.getSharePercent(),
-                    null);
-            return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
-        } else {
-            Optional<Team> team = teamService.findByID(ownerRequest.getTeamName());
-            if (!team.isPresent())
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + ownerRequest.getTeamName());
-            else {
-                Owner owner = new Owner(null,
-                        ownerRequest.getName(),
-                        ownerRequest.getDateOfBirth(),
-                        Gender.valueOf(ownerRequest.getGender()),
-                        Nationality.valueOf(ownerRequest.getNationality()),
-                        ownerRequest.getDateOwned(),
-                        ownerRequest.getSharePercent(),
-                        team.get());
-                return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
-            }
-        }
+        Owner owner = new Owner(null,
+                ownerRequest.getFirstName(),
+                ownerRequest.getLastName(),
+                ownerRequest.getDateOfBirth(),
+                Gender.valueOf(ownerRequest.getGender()),
+                ownerRequest.getNationality());
+        return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody OwnerRequest ownerRequest) {
-        Optional<Team> team = teamService.findByID(ownerRequest.getTeamName());
         Optional<Owner> owner = ownerService.findByID(id);
-        if (!team.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + ownerRequest.getTeamName());
-        else if (!owner.isPresent())
+        if (!owner.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
         else {
-            owner.get().setName(ownerRequest.getName());
+            owner.get().setFirstName(ownerRequest.getFirstName());
+            owner.get().setLastName(ownerRequest.getLastName());
             owner.get().setDateOfBirth(ownerRequest.getDateOfBirth());
             owner.get().setGender(Gender.valueOf(ownerRequest.getGender()));
-            owner.get().setNationality(Nationality.valueOf(ownerRequest.getNationality()));
-            owner.get().setDateOwned(ownerRequest.getDateOwned());
-            owner.get().setSharePercent(ownerRequest.getSharePercent());
-            owner.get().setTeam(team.get());
+            owner.get().setNationality(ownerRequest.getNationality());
             return ResponseEntity.ok(OwnerMapper.INSTANCE.toDTO(owner.get()));
         }
     }

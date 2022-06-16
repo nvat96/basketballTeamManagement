@@ -41,18 +41,16 @@ public class AgentContractResources {
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest){
-        Optional<Agent> agent = agentService.findByName(agentContractRequest.getAgentName());
-        Optional<Player> player = playerService.findByName(agentContractRequest.getPlayerName());
+        Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
         if (!agent.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentFirstName() + " " + agentContractRequest.getAgentLastName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerFirstName() + " " + agentContractRequest.getPlayerLastName());
         else {
             AgentContract agentContract = new AgentContract(null,
                     agentContractRequest.getDateCreated(),
                     agentContractRequest.getDateExpired(),
-                    agentContractRequest.getCommissionRate(),
-                    agentContractRequest.getBody(),
                     player.get(),
                     agent.get());
             return ResponseEntity.created(URI.create(PATH + "/" + agentContract.getId())).body(AgentContractMapper.INSTANCE.toDTO(agentContractService.save(agentContract)));
@@ -61,18 +59,16 @@ public class AgentContractResources {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentContractRequest agentContractRequest){
-        Optional<Agent> agent = agentService.findByName(agentContractRequest.getAgentName());
-        Optional<Player> player = playerService.findByName(agentContractRequest.getPlayerName());
+        Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (!agent.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentFirstName() + " " + agentContractRequest.getAgentLastName());
         else if (!player.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + agentContractRequest.getPlayerFirstName() + " " + agentContractRequest.getPlayerLastName());
         else if(agentContract.isPresent()){
             agentContract.get().setDateCreated(agentContractRequest.getDateCreated());
             agentContract.get().setDateExpired(agentContractRequest.getDateExpired());
-            agentContract.get().setBody(agentContractRequest.getBody());
-            agentContract.get().setCommissionRate(agentContractRequest.getCommissionRate());
             agentContract.get().setAgent(agent.get());
             agentContract.get().setPlayer(player.get());
             return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTO(agentContractService.save(agentContract.get())));

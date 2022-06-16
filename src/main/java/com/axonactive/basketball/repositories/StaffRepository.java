@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff,Integer> {
-    Optional<Staff> findByName(String name);
-    List<Staff> findByNameLike(String name);
+    Optional<Staff> findByFirstNameAndLastNameLike(String firstName, String lastName);
+    List<Staff> findByFirstNameLike(String firstName);
 }

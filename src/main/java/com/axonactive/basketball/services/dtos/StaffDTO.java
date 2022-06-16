@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class StaffDTO {
     private Integer id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String title;
     private String teamName;
 }

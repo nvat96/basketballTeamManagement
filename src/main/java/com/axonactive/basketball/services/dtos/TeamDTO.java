@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class TeamDTO {
     private String name;
     private String location;
+    private String league;
     private String arenaName;
     private LocalDate dateFound;
-    private String conference;
 }

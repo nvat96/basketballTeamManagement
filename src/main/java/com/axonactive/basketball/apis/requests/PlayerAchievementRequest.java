@@ -13,5 +13,6 @@ import java.time.LocalDate;
 public class PlayerAchievementRequest {
     private String award;
     private LocalDate dateAchieved;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastName;
 }

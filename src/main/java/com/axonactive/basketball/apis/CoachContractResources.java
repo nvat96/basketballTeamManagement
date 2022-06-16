@@ -42,10 +42,10 @@ public class CoachContractResources {
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CoachContractRequest coachContractRequest){
-        Optional<Coach> coach = coachService.findByName(coachContractRequest.getCoachName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
         if (!coach.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachFirstName() + " " + coachContractRequest.getCoachLastName());
         else  if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + coachContractRequest.getTeamName());
         else {
@@ -64,11 +64,11 @@ public class CoachContractResources {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody CoachContractRequest coachContractRequest){
-        Optional<Coach> coach = coachService.findByName(coachContractRequest.getCoachName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (!coach.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachName());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachFirstName() + " " + coachContractRequest.getCoachLastName());
         else  if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + coachContractRequest.getTeamName());
         else if (coachContract.isPresent()){

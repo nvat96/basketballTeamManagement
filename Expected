@@ -1,20 +1,18 @@
-season start at 01-01
-season end at 30-11
+This program is for Owner and his/her management team to control the information of all the assets his/her invested in
 
 Feature
-- Basic CRUD for every entities
-- Create team
-- View player injured status
-- View which player has the most achievement
-- Check which player usually injured
-- Check player's agent
+- Add a new player to the list
+- View player basic information
+- View player stats
+- View player injuries status
+- Check which player has the most achievement
+- View player's agent contact information
 - Sign contract with a player
 - Check which player has the highest salary
 - Check coach information
 - Sign contract with a coach
 - Check team salary cap
 - Add a player to wanted list
-- 
 - Check which coach has the highest salary
 - Check which coach has the most achievement
 - Create player

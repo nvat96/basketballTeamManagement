@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player,Integer> {
-    Optional<Player> findByName(String name);
-    List<Player> findByNameLike(String name);
+    Optional<Player> findByFirstNameAndLastNameLike(String firstName, String lastName);
+    List<Player> findByFirstNameLike(String firstName);
 }

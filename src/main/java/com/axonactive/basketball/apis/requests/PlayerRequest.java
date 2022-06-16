@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class PlayerRequest {
-    private String name;
+    private String firstName;
+    private String lastName;
     private LocalDate dateOfBirth;
     private String gender;
     private String nationality;

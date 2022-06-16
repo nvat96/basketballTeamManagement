@@ -35,12 +35,12 @@ public class AgentServiceImpl implements AgentService {
     }
 
     @Override
-    public List<Agent> findByNameLike(String name) {
-        return agentRepository.findByNameLike(name);
+    public List<Agent> findByFirstNameLike(String firstName) {
+        return agentRepository.findByFirstNameLike(firstName);
     }
 
     @Override
-    public Optional<Agent> findByName(String name) {
-        return agentRepository.findByName(name);
+    public Optional<Agent> findByFirstNameAndLastNameLike(String firstName, String lastName) {
+        return agentRepository.findByFirstNameAndLastNameLike(firstName, lastName);
     }
 }

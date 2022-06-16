@@ -3,7 +3,6 @@ package com.axonactive.basketball.apis;
 import com.axonactive.basketball.apis.requests.CoachRequest;
 import com.axonactive.basketball.entities.Coach;
 import com.axonactive.basketball.enums.Gender;
-import com.axonactive.basketball.enums.Nationality;
 import com.axonactive.basketball.services.dtos.CoachDTO;
 import com.axonactive.basketball.services.impl.CoachServiceImpl;
 import com.axonactive.basketball.services.mappers.CoachMapper;
@@ -39,10 +38,11 @@ public class CoachResources {
     @PostMapping
     public ResponseEntity<CoachDTO> create(@RequestBody CoachRequest coachRequest) {
         Coach coach = new Coach(null,
-                coachRequest.getName(),
+                coachRequest.getFirstName(),
+                coachRequest.getLastName(),
                 coachRequest.getDateOfBirth(),
                 Gender.valueOf(coachRequest.getGender()),
-                Nationality.valueOf(coachRequest.getNationality()),
+                coachRequest.getNationality(),
                 coachRequest.getDateStarted(),
                 coachRequest.getSalaryExpected());
         return ResponseEntity.created(URI.create(PATH + "/" + coach.getId())).body(CoachMapper.INSTANCE.toDTO(coachService.save(coach)));
@@ -53,10 +53,11 @@ public class CoachResources {
                                                         @RequestBody CoachRequest coachRequest) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent()) {
-            coach.get().setName(coachRequest.getName());
+            coach.get().setFirstName(coachRequest.getFirstName());
+            coach.get().setLastName(coachRequest.getLastName());
             coach.get().setDateOfBirth(coachRequest.getDateOfBirth());
             coach.get().setGender(Gender.valueOf(coachRequest.getGender()));
-            coach.get().setNationality(Nationality.valueOf(coachRequest.getNationality()));
+            coach.get().setNationality(coachRequest.getNationality());
             coach.get().setDateStarted(coachRequest.getDateStarted());
             coach.get().setSalaryExpected(coachRequest.getSalaryExpected());
             return ResponseEntity.ok(CoachMapper.INSTANCE.toDTO(coachService.save(coach.get())));

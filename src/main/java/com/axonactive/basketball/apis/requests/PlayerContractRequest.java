@@ -17,5 +17,6 @@ public class PlayerContractRequest {
     private String typeOfContract;
     private String position;
     private String teamName;
-    private String playerName;
+    private String playerFirstName;
+    private String playerLastName;
 }

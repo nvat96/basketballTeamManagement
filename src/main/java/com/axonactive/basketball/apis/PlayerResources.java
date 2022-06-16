@@ -3,7 +3,6 @@ package com.axonactive.basketball.apis;
 import com.axonactive.basketball.apis.requests.PlayerRequest;
 import com.axonactive.basketball.entities.Player;
 import com.axonactive.basketball.enums.Gender;
-import com.axonactive.basketball.enums.Nationality;
 import com.axonactive.basketball.enums.TypeOfPlayer;
 import com.axonactive.basketball.services.dtos.PlayerDTO;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
@@ -40,10 +39,11 @@ public class PlayerResources {
     @PostMapping
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {
         Player player = new Player(null,
-                playerRequest.getName(),
+                playerRequest.getFirstName(),
+                playerRequest.getLastName(),
                 playerRequest.getDateOfBirth(),
                 Gender.valueOf(playerRequest.getGender()),
-                Nationality.valueOf(playerRequest.getNationality()),
+                playerRequest.getNationality(),
                 playerRequest.getStartedDate(),
                 TypeOfPlayer.valueOf(playerRequest.getTypeOfPlayer()),
                 playerRequest.getSalaryExpected());
@@ -55,10 +55,11 @@ public class PlayerResources {
                                     @RequestBody PlayerRequest playerRequest) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent()) {
-            player.get().setName(playerRequest.getName());
+            player.get().setFirstName(playerRequest.getFirstName());
+            player.get().setLastName(playerRequest.getLastName());
             player.get().setDateOfBirth(playerRequest.getDateOfBirth());
             player.get().setGender(Gender.valueOf(playerRequest.getGender()));
-            player.get().setNationality(Nationality.valueOf(playerRequest.getNationality()));
+            player.get().setNationality(playerRequest.getNationality());
             player.get().setStartedDate(playerRequest.getStartedDate());
             player.get().setTypeOfPlayer(TypeOfPlayer.valueOf(playerRequest.getTypeOfPlayer()));
             player.get().setSalaryExpected(playerRequest.getSalaryExpected());

@@ -17,6 +17,7 @@ public class CoachContractRequest {
     private Double salary;
     private String typeOfContract;
     private String body;
-    private String coachName;
+    private String coachFirstName;
+    private String coachLastName;
     private String teamName;
 }
