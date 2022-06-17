@@ -12,7 +12,8 @@ import java.time.LocalDate;
 @Builder
 public class StatusReportRequest {
     private String status;
-    private LocalDate dateCreated;
+    private LocalDate dateInjured;
+    private LocalDate dateRecovered;
     private String comment;
     private String playerFirstName;
     private String playerLastName;

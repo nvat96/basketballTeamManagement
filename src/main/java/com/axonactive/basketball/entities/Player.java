@@ -26,4 +26,6 @@ public class Player {
     @Enumerated(EnumType.STRING)
     private TypeOfPlayer typeOfPlayer;
     private Double salaryExpected;
+    private Double height;
+    private Double weight;
 }

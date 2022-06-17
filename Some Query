@@ -1,0 +1,5 @@
+// Find player contract about to expired
+select p.id, p.first_name || ' ' || p.last_name as full_name, pc.date_expired
+from player_contract pc join player p 
+on (pc.player_id = p.id)
+where extract(year from pc.date_expired) = '2022'

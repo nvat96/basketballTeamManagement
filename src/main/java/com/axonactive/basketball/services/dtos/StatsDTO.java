@@ -9,8 +9,6 @@ import lombok.*;
 public class StatsDTO {
     private Integer id;
     private String playerName;
-    private Double height;
-    private Double twoPointFGPercentage;
-    private Double threePointFGPercentage;
-    private Double freeThrowPercentage;
+    private Double gamePlayed;
+    private Double seasons;
 }

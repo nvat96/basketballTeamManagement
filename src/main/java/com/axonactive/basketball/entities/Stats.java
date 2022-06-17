@@ -14,36 +14,18 @@ public class Stats {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
-    private Double height;
-    private Double weight;
-    private Integer totalTwoPointFG;
-    private Integer twoPointFGMade;
-    private Double twoPointFGPercentage;
-    private Integer totalThreePointFG;
-    private Integer threePointFGMade;
-    private Double threePointFGPercentage;
-    private Integer totalFreeThrow;
-    private Integer freeThrowMade;
+    private Double gamePlayed;
+    private Double points;
+    private Double assists;
+    private Double steals;
+    private Double blocks;
+    private Double rebounds;
+    private Double threePointerMade;
+    private Double fieldGoalPercentage;
     private Double freeThrowPercentage;
-    private Integer steal;
-    private Integer block;
-    private Integer rebound;
-    private Integer foul;
-    private Integer turnover;
+    private Integer season;
     @JoinColumn
     @ManyToOne
     @NotNull
     private Player player;
-
-    public void setTwoPointPercentage() {
-        twoPointFGPercentage = (double) (totalTwoPointFG / twoPointFGMade);
-    }
-
-    public void setThreePointPercentage() {
-        threePointFGPercentage = (double) (totalThreePointFG / threePointFGMade);
-    }
-
-    public void setFreeThrowPercentage() {
-        freeThrowPercentage = (double) (totalFreeThrow/ freeThrowMade);
-    }
 }
