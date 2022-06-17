@@ -18,7 +18,8 @@ public class StatusReport {
     private Integer id;
     @Enumerated(value = EnumType.STRING)
     private Status status;
-    private LocalDate dateCreated;
+    private LocalDate dateInjured;
+    private LocalDate dateRecovered;
     private String comment;
     @JoinColumn
     @ManyToOne

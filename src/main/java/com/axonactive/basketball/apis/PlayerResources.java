@@ -46,7 +46,9 @@ public class PlayerResources {
                 playerRequest.getNationality(),
                 playerRequest.getStartedDate(),
                 TypeOfPlayer.valueOf(playerRequest.getTypeOfPlayer()),
-                playerRequest.getSalaryExpected());
+                playerRequest.getSalaryExpected(),
+                playerRequest.getHeight(),
+                playerRequest.getWeight());
         return ResponseEntity.created(URI.create(PATH + "/" + player.getId())).body(PlayerMapper.INSTANCE.toDTO(playerService.save(player)));
     }
 
@@ -63,6 +65,8 @@ public class PlayerResources {
             player.get().setStartedDate(playerRequest.getStartedDate());
             player.get().setTypeOfPlayer(TypeOfPlayer.valueOf(playerRequest.getTypeOfPlayer()));
             player.get().setSalaryExpected(playerRequest.getSalaryExpected());
+            player.get().setHeight(playerRequest.getHeight());
+            player.get().setWeight(playerRequest.getWeight());
             return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTO(playerService.save(player.get())));
         } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + id);
     }

@@ -18,4 +18,6 @@ public class PlayerRequest {
     private LocalDate startedDate;
     private String typeOfPlayer;
     private Double salaryExpected;
+    private Double height;
+    private Double weight;
 }

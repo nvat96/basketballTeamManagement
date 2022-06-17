@@ -45,22 +45,16 @@ public class StatsResources {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());
         else {
             Stats stats = new Stats(null,
-                    statsRequest.getHeight(),
-                    statsRequest.getWeight(),
-                    statsRequest.getTotalTwoPointFG(),
-                    statsRequest.getTwoPointFGMade(),
-                    statsRequest.getTwoPointFGPercentage(),
-                    statsRequest.getTotalThreePointFG(),
-                    statsRequest.getThreePointFGMade(),
-                    statsRequest.getThreePointFGPercentage(),
-                    statsRequest.getTotalFreeThrow(),
-                    statsRequest.getFreeThrowMade(),
+                    statsRequest.getGamePlayed(),
+                    statsRequest.getPoints(),
+                    statsRequest.getAssists(),
+                    statsRequest.getSteals(),
+                    statsRequest.getBlocks(),
+                    statsRequest.getRebounds(),
+                    statsRequest.getThreePointerMade(),
+                    statsRequest.getFieldGoalPercentage(),
                     statsRequest.getFreeThrowPercentage(),
-                    statsRequest.getSteal(),
-                    statsRequest.getBlock(),
-                    statsRequest.getRebound(),
-                    statsRequest.getFoul(),
-                    statsRequest.getTurnover(),
+                    statsRequest.getSeason(),
                     player.get());
             return ResponseEntity.created(URI.create(PATH + "/" + stats.getId())).body(StatsMapper.INSTANCE.toDTO(statsService.save(stats)));
         }
@@ -74,22 +68,17 @@ public class StatsResources {
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());
         else if (stats.isPresent()) {
-            stats.get().setHeight(statsRequest.getHeight());
-            stats.get().setWeight(statsRequest.getWeight());
-            stats.get().setTotalTwoPointFG(statsRequest.getTotalTwoPointFG());
-            stats.get().setTwoPointFGMade(statsRequest.getTwoPointFGMade());
-            stats.get().setTotalThreePointFG(statsRequest.getTotalThreePointFG());
-            stats.get().setThreePointFGMade(statsRequest.getThreePointFGMade());
-            stats.get().setTotalFreeThrow(statsRequest.getTotalFreeThrow());
-            stats.get().setFreeThrowMade(statsRequest.getFreeThrowMade());
-            stats.get().setSteal(statsRequest.getSteal());
-            stats.get().setBlock(statsRequest.getBlock());
-            stats.get().setRebound(statsRequest.getRebound());
-            stats.get().setFoul(statsRequest.getFoul());
-            stats.get().setTurnover(statsRequest.getTurnover());
-            stats.get().setFreeThrowPercentage();
-            stats.get().setThreePointPercentage();
-            stats.get().setTwoPointPercentage();
+            stats.get().setGamePlayed(statsRequest.getGamePlayed());
+            stats.get().setPoints(statsRequest.getPoints());
+            stats.get().setAssists(statsRequest.getAssists());
+            stats.get().setSteals(statsRequest.getSteals());
+            stats.get().setBlocks(statsRequest.getBlocks());
+            stats.get().setRebounds(statsRequest.getRebounds());
+            stats.get().setThreePointerMade(statsRequest.getThreePointerMade());
+            stats.get().setFieldGoalPercentage(statsRequest.getFieldGoalPercentage());
+            stats.get().setFreeThrowPercentage(statsRequest.getFreeThrowPercentage());
+            stats.get().setSeason(statsRequest.getSeason());
+            stats.get().setPlayer(player.get());
             return ResponseEntity.ok(StatsMapper.INSTANCE.toDTO(statsService.save(stats.get())));
         } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stats ID not found: " + id);
     }

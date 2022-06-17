@@ -47,7 +47,8 @@ public class StatusReportResources {
         else {
             StatusReport statusReport = new StatusReport(null,
                     Status.valueOf(statusReportRequest.getStatus()),
-                    statusReportRequest.getDateCreated(),
+                    statusReportRequest.getDateInjured(),
+                    statusReportRequest.getDateRecovered(),
                     statusReportRequest.getComment(),
                     player.get());
             return ResponseEntity.created(URI.create(PATH + "/" + statusReport.getId())).body(StatusReportMapper.INSTANCE.toDTO(statusReportService.save(statusReport)));
@@ -63,7 +64,8 @@ public class StatusReportResources {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerFirstName() + " " + statusReportRequest.getPlayerLastName());
         else if (statusReport.isPresent()) {
             statusReport.get().setStatus(Status.valueOf(statusReportRequest.getStatus()));
-            statusReport.get().setDateCreated(statusReportRequest.getDateCreated());
+            statusReport.get().setDateInjured(statusReportRequest.getDateInjured());
+            statusReport.get().setDateRecovered(statusReportRequest.getDateRecovered());
             statusReport.get().setComment(statusReportRequest.getComment());
             statusReport.get().setPlayer(player.get());
             return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTO(statusReportService.save(statusReport.get())));
