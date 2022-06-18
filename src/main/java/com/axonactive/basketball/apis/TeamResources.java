@@ -11,6 +11,7 @@ import com.axonactive.basketball.apis.requests.TeamRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public class TeamResources {
     ArenaServiceImpl arenaService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<TeamDTO>> findAll() {
         return ResponseEntity.ok(TeamMapper.INSTANCE.toDTOs(teamService.findAll()));
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent())
@@ -39,6 +42,7 @@ public class TeamResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody TeamRequest teamRequest) {
         if (teamRequest.getArenaName() == null) {
             Team team = new Team(teamRequest.getName(),
@@ -66,6 +70,7 @@ public class TeamResources {
     }
 
     @PutMapping("/{name}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "name") String name,
                                     @RequestBody TeamRequest teamRequest) {
         Optional<Team> team = teamService.findByID(name);
@@ -83,6 +88,7 @@ public class TeamResources {
     }
 
     @DeleteMapping("/{name}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent()) {

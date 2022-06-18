@@ -13,6 +13,7 @@ import com.axonactive.basketball.services.mappers.CoachContractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -30,10 +31,12 @@ public class CoachContractResources {
     @Autowired
     TeamServiceImpl teamService;
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<CoachContractDTO>> findAll(){
         return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findAll()));
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent())
@@ -41,6 +44,7 @@ public class CoachContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody CoachContractRequest coachContractRequest){
         Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
@@ -62,6 +66,7 @@ public class CoachContractResources {
         }
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody CoachContractRequest coachContractRequest){
         Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
@@ -85,6 +90,7 @@ public class CoachContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent()) {

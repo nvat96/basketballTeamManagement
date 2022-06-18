@@ -11,6 +11,7 @@ import com.axonactive.basketball.services.mappers.StatusReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,11 +28,13 @@ public class StatusReportResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<StatusReportDTO>> findAll() {
         return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(statusReportService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (statusReport.isPresent())
@@ -40,6 +43,7 @@ public class StatusReportResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatusReportRequest statusReportRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -56,6 +60,7 @@ public class StatusReportResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatusReportRequest statusReportRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
@@ -73,6 +78,7 @@ public class StatusReportResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (statusReport.isPresent()) {

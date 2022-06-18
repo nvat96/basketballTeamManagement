@@ -11,6 +11,7 @@ import com.axonactive.basketball.services.mappers.OwnerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,11 +28,13 @@ public class OwnerResources {
     TeamServiceImpl teamService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<OwnerDTO>> findAll() {
         return ResponseEntity.ok(OwnerMapper.INSTANCE.toDTOs(ownerService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Owner> owner = ownerService.findByID(id);
         if (owner.isPresent())
@@ -40,6 +43,7 @@ public class OwnerResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody OwnerRequest ownerRequest) {
         Owner owner = new Owner(null,
                 ownerRequest.getFirstName(),
@@ -50,6 +54,7 @@ public class OwnerResources {
         return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody OwnerRequest ownerRequest) {
         Optional<Owner> owner = ownerService.findByID(id);
@@ -66,6 +71,7 @@ public class OwnerResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Owner> owner = ownerService.findByID(id);
         if (owner.isPresent()) {

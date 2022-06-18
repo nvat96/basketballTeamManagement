@@ -11,6 +11,7 @@ import com.axonactive.basketball.services.mappers.StaffMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,11 +28,13 @@ public class StaffResources {
     TeamServiceImpl teamService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<StaffDTO>> findAll() {
         return ResponseEntity.ok(StaffMapper.INSTANCE.toDTOs(staffService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Staff> staff = staffService.findByID(id);
         if (staff.isPresent())
@@ -40,6 +43,7 @@ public class StaffResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StaffRequest staffRequest) {
         if (staffRequest.getTeamName() == null) {
             Staff staff = new Staff(null,
@@ -70,6 +74,7 @@ public class StaffResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StaffRequest staffRequest) {
         Optional<Team> team = teamService.findByID(staffRequest.getTeamName());
@@ -89,6 +94,7 @@ public class StaffResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Staff> staff = staffService.findByID(id);
         if (staff.isPresent()) {

@@ -1,4 +1,16 @@
-This program is for Owner and his/her management team to control the information of all the assets his/her invested in
+The purpose of this application is for the owner to check the information of the team he/she has invested in.
+There for it must have feature like:
+- Show team achievement
+- Show which players are playing for the team at a specific time
+- Show player achievement
+- Show player information (team, average stats, years been on the team)
+- Show all the contract that about to end
+- Show player status
+- Search for players, coaches, staff
+- Calculate salary must paid (must below salary cap)
+- Sign a new contract (must be within salary cap)
+
+
 
 Feature
 - Add a new player to the list

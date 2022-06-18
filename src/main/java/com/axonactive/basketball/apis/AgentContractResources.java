@@ -12,6 +12,7 @@ import com.axonactive.basketball.apis.requests.AgentContractRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -29,10 +30,12 @@ public class AgentContractResources {
     @Autowired
     PlayerServiceImpl playerService;
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<AgentContractDTO>> findAll(){
         return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findAll()));
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (agentContract.isPresent())
@@ -40,6 +43,7 @@ public class AgentContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest){
         Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
@@ -57,6 +61,7 @@ public class AgentContractResources {
         }
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentContractRequest agentContractRequest){
         Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
@@ -76,6 +81,7 @@ public class AgentContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id){
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (agentContract.isPresent()){

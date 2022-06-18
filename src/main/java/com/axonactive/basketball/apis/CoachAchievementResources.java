@@ -11,6 +11,7 @@ import com.axonactive.basketball.services.mappers.CoachAchievementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,11 +28,13 @@ public class CoachAchievementResources {
     CoachServiceImpl coachService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<CoachAchievementDTO>> findAll() {
         return ResponseEntity.ok(CoachAchievementMapper.INSTANCE.toDTOs(coachAchievementService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (coachAchievement.isPresent())
@@ -40,6 +43,7 @@ public class CoachAchievementResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody CoachAchievementRequest coachAchievementRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         if (coach.isPresent()) {
@@ -52,6 +56,7 @@ public class CoachAchievementResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                     @RequestBody CoachAchievementRequest coachAchievementRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
@@ -67,6 +72,7 @@ public class CoachAchievementResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (coachAchievement.isPresent()) {

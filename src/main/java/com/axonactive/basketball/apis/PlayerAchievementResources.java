@@ -11,6 +11,7 @@ import com.axonactive.basketball.services.mappers.PlayerAchievementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,11 +28,13 @@ public class PlayerAchievementResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<PlayerAchievementDTO>> findAll() {
         return ResponseEntity.ok(PlayerAchievementMapper.INSTANCE.toDTOs(playerAchievementService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
         if (playerAchievement.isPresent())
@@ -40,6 +43,7 @@ public class PlayerAchievementResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -54,6 +58,7 @@ public class PlayerAchievementResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
@@ -71,6 +76,7 @@ public class PlayerAchievementResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
         if (playerAchievement.isPresent()) {
