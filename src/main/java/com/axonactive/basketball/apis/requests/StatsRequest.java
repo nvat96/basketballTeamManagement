@@ -15,7 +15,7 @@ public class StatsRequest {
     private Double steals;
     private Double blocks;
     private Double rebounds;
-    private Double threePointerMade;
+    private Double threePointerPercentage;
     private Double fieldGoalPercentage;
     private Double freeThrowPercentage;
     private Integer season;

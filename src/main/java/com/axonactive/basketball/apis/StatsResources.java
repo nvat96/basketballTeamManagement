@@ -51,7 +51,7 @@ public class StatsResources {
                     statsRequest.getSteals(),
                     statsRequest.getBlocks(),
                     statsRequest.getRebounds(),
-                    statsRequest.getThreePointerMade(),
+                    statsRequest.getThreePointerPercentage(),
                     statsRequest.getFieldGoalPercentage(),
                     statsRequest.getFreeThrowPercentage(),
                     statsRequest.getSeason(),
@@ -74,7 +74,7 @@ public class StatsResources {
             stats.get().setSteals(statsRequest.getSteals());
             stats.get().setBlocks(statsRequest.getBlocks());
             stats.get().setRebounds(statsRequest.getRebounds());
-            stats.get().setThreePointerMade(statsRequest.getThreePointerMade());
+            stats.get().setThreePointerPercentage(statsRequest.getThreePointerPercentage());
             stats.get().setFieldGoalPercentage(statsRequest.getFieldGoalPercentage());
             stats.get().setFreeThrowPercentage(statsRequest.getFreeThrowPercentage());
             stats.get().setSeason(statsRequest.getSeason());

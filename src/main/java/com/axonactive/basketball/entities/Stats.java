@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Stats {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double gamePlayed;
     private Double points;
@@ -20,7 +20,7 @@ public class Stats {
     private Double steals;
     private Double blocks;
     private Double rebounds;
-    private Double threePointerMade;
+    private Double threePointerPercentage;
     private Double fieldGoalPercentage;
     private Double freeThrowPercentage;
     private Integer season;
