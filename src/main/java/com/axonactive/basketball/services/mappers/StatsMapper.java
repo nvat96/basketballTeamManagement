@@ -17,7 +17,7 @@ public interface StatsMapper {
     StatsDTO toDTO(Stats stat);
     List<StatsDTO> toDTOs (List<Stats> stats);
     @AfterMapping
-    default void setPlayerName(Stats stats, @MappingTarget StatsDTO target){
-        target.setPlayerName(stats.getPlayer().getFirstName() + " " + stats.getPlayer().getLastName());
+    default void setPlayerName(Stats stat, @MappingTarget StatsDTO target){
+        target.setPlayerName(stat.getPlayer().getFirstName() + " " + stat.getPlayer().getLastName());
     }
 }

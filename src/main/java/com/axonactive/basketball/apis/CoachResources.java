@@ -9,6 +9,7 @@ import com.axonactive.basketball.services.mappers.CoachMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,11 +24,13 @@ public class CoachResources {
     CoachServiceImpl coachService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<CoachDTO>> findAll() {
         return ResponseEntity.ok(CoachMapper.INSTANCE.toDTOs(coachService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent())
@@ -36,6 +39,7 @@ public class CoachResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<CoachDTO> create(@RequestBody CoachRequest coachRequest) {
         Coach coach = new Coach(null,
                 coachRequest.getFirstName(),
@@ -49,6 +53,7 @@ public class CoachResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody CoachRequest coachRequest) {
         Optional<Coach> coach = coachService.findByID(id);
@@ -65,6 +70,7 @@ public class CoachResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent()) {

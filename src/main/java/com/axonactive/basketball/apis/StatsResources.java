@@ -10,6 +10,7 @@ import com.axonactive.basketball.services.mappers.StatsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -26,11 +27,13 @@ public class StatsResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<StatsDTO>> findAll() {
         return ResponseEntity.ok(StatsMapper.INSTANCE.toDTOs(statsService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Stats> stats = statsService.findByID(id);
         if (stats.isPresent())
@@ -39,6 +42,7 @@ public class StatsResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatsRequest statsRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -61,6 +65,7 @@ public class StatsResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatsRequest statsRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
@@ -84,6 +89,7 @@ public class StatsResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Stats> stats = statsService.findByID(id);
         if (stats.isPresent()) {

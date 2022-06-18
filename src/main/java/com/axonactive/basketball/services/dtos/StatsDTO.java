@@ -10,5 +10,5 @@ public class StatsDTO {
     private Integer id;
     private String playerName;
     private Double gamePlayed;
-    private Double seasons;
+    private Integer season;
 }

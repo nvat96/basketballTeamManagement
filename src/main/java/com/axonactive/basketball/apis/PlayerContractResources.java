@@ -14,6 +14,7 @@ import com.axonactive.basketball.services.mappers.PlayerContractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -32,11 +33,13 @@ public class PlayerContractResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<PlayerContractDTO>> findAll() {
         return ResponseEntity.ok(PlayerContractMapper.INSTANCE.toDTOs(playerContractService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         if (playerContract.isPresent())
@@ -45,6 +48,7 @@ public class PlayerContractResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerContractRequest playerContractRequest) {
         Optional<Team> team = teamService.findByID(playerContractRequest.getTeamName());
         Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerContractRequest.getPlayerFirstName(), playerContractRequest.getPlayerLastName());
@@ -68,6 +72,7 @@ public class PlayerContractResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody PlayerContractRequest playerContractRequest) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
@@ -92,6 +97,7 @@ public class PlayerContractResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         if (playerContract.isPresent()) {

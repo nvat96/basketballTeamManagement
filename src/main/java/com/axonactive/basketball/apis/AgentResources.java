@@ -9,6 +9,7 @@ import com.axonactive.basketball.services.mappers.AgentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -22,10 +23,12 @@ public class AgentResources {
     @Autowired
     AgentServiceImpl agentService;
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<AgentDTO>> findAll(){
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent())
@@ -40,6 +43,7 @@ public class AgentResources {
 //        else return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agents));
 //    }
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest){
         Agent agent = new Agent(null,
                 agentRequest.getFirstName(),
@@ -52,6 +56,7 @@ public class AgentResources {
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentRequest agentRequest){
         Optional<Agent> agent = agentService.findByID(id);
@@ -68,6 +73,7 @@ public class AgentResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent()){

@@ -5,6 +5,7 @@ import com.axonactive.basketball.services.impl.ArenaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,11 +20,13 @@ public class ArenaResources {
     public static final String PATH = "/api/arena";
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<Arena>> findAll() {
         return ResponseEntity.ok(arenaService.findAll());
     }
 
     @GetMapping("/{name}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent())
@@ -32,11 +35,13 @@ public class ArenaResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<Arena> create(@RequestBody Arena arena) {
         return ResponseEntity.ok(arenaService.save(arena));
     }
 
     @PutMapping("/{name}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "name") String name, @RequestBody Arena arenaDetails) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent()) {
@@ -48,6 +53,7 @@ public class ArenaResources {
     }
 
     @DeleteMapping("/{name}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent()) {

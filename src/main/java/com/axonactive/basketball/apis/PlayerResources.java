@@ -10,6 +10,7 @@ import com.axonactive.basketball.services.mappers.PlayerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -24,11 +25,13 @@ public class PlayerResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<List<PlayerDTO>> findAll() {
         return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findAll()));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent())
@@ -37,6 +40,7 @@ public class PlayerResources {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {
         Player player = new Player(null,
                 playerRequest.getFirstName(),
@@ -53,6 +57,7 @@ public class PlayerResources {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody PlayerRequest playerRequest) {
         Optional<Player> player = playerService.findByID(id);
@@ -72,6 +77,7 @@ public class PlayerResources {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent()) {
