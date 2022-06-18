@@ -3,3 +3,11 @@ select p.id, p.first_name || ' ' || p.last_name as full_name, pc.date_expired
 from player_contract pc join player p 
 on (pc.player_id = p.id)
 where extract(year from pc.date_expired) = '2022'
+
+// Show player id, name, contract and team name
+select p.id, p.first_name || ' ' || p.last_name as full_name, pc.date_created, pc.date_expired, t.name
+from player p join player_contract pc
+on p.id = pc.player_id
+join team t
+on pc.team_name = t.name
+where p.id = 26
