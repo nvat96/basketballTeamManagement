@@ -49,7 +49,7 @@ public class OwningCertificateResources {
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     private ResponseEntity<?> create(@RequestBody OwningCertificateRequest owningCertificateRequest) {
         Optional<Team> team = teamService.findByID(owningCertificateRequest.getTeamName());
-        Optional<Owner> owner = ownerService.findByFirstNameAndLastNameLike(owningCertificateRequest.getOwnerFirstName(), owningCertificateRequest.getOwnerLastName());
+        Optional<Owner> owner = ownerService.findByFirstNameAndLastName(owningCertificateRequest.getOwnerFirstName(), owningCertificateRequest.getOwnerLastName());
         if (!team.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + owningCertificateRequest.getTeamName());
         } else if (!owner.isPresent()) {
@@ -70,7 +70,7 @@ public class OwningCertificateResources {
                                      @RequestBody OwningCertificateRequest owningCertificateRequest) {
         Optional<OwningCertificate> owningCertificate = owningCertificateService.findByID(id);
         Optional<Team> team = teamService.findByID(owningCertificateRequest.getTeamName());
-        Optional<Owner> owner = ownerService.findByFirstNameAndLastNameLike(owningCertificateRequest.getOwnerFirstName(), owningCertificateRequest.getOwnerLastName());
+        Optional<Owner> owner = ownerService.findByFirstNameAndLastName(owningCertificateRequest.getOwnerFirstName(), owningCertificateRequest.getOwnerLastName());
         if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + owningCertificateRequest.getTeamName());
         else if (!owner.isPresent())

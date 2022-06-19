@@ -11,4 +11,5 @@ public interface TeamService {
     Team save(Team team);
     void deleteByID(String name);
     List<Team> findByNameLike(String name);
+    Boolean isSalaryMustPayOverSalaryCap(String teamName, Double salaryMustPay);
 }

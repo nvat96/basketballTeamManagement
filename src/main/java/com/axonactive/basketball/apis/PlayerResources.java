@@ -2,10 +2,12 @@ package com.axonactive.basketball.apis;
 
 import com.axonactive.basketball.apis.requests.PlayerRequest;
 import com.axonactive.basketball.entities.Player;
+import com.axonactive.basketball.entities.Team;
 import com.axonactive.basketball.enums.Gender;
 import com.axonactive.basketball.enums.TypeOfPlayer;
 import com.axonactive.basketball.services.dtos.PlayerDTO;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
+import com.axonactive.basketball.services.impl.TeamServiceImpl;
 import com.axonactive.basketball.services.mappers.PlayerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ public class PlayerResources {
     public static final String PATH = "/api/player";
     @Autowired
     PlayerServiceImpl playerService;
+    @Autowired
+    TeamServiceImpl teamService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
@@ -38,7 +42,22 @@ public class PlayerResources {
             return ResponseEntity.ok(player);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + id);
     }
-
+    @GetMapping("/findPlayerInTheTeam")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findPlayerInTheTeam(@RequestParam(defaultValue = "") String teamName, @RequestParam(defaultValue = "2022") Integer year){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team has name like " + teamName);
+        else return ResponseEntity.ok(playerService.findPlayerThatPlayForThatTeamAtThatYear(year,teamName));
+    }
+    @GetMapping("/findByFirstNameOrLastName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findPlayerByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+        List<Player> players = playerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+        if (players.isEmpty())
+            return ResponseEntity.ok("No player match with first name like " + firstName + " and last name like " + lastName);
+        else return ResponseEntity.ok(players);
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {

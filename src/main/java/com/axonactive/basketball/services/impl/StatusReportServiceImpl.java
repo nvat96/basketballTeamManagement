@@ -33,4 +33,9 @@ public class StatusReportServiceImpl implements StatusReportService {
     public void deleteByID(Integer id) {
         statusReportRepository.deleteById(id);
     }
+
+    @Override
+    public List<StatusReport> findByPlayerId(Integer playerID) {
+        return statusReportRepository.findByPlayerId(playerID);
+    }
 }

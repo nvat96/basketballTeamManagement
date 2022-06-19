@@ -37,6 +37,14 @@ public class CoachResources {
             return ResponseEntity.ok(coach);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach ID not found: " + id);
     }
+    @GetMapping("/findByFirstNameOrLastName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findCoachByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+        List<Coach> coaches = coachService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+        if (coaches.isEmpty())
+            return ResponseEntity.ok("No coach match with first name like " + firstName + " and last name like " + lastName);
+        else return ResponseEntity.ok(coaches);
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

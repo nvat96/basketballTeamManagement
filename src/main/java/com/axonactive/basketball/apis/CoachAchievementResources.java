@@ -41,11 +41,18 @@ public class CoachAchievementResources {
             return ResponseEntity.ok(coachAchievement);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach achievement ID not found: " + id);
     }
-
+    @GetMapping("/findByCoachID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByCoachID(@RequestParam(defaultValue = "0") Integer coachID){
+        Optional<Coach> coach = coachService.findByID(coachID);
+        if (!coach.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach ID not found: " + coachID);
+        else return ResponseEntity.ok(CoachAchievementMapper.INSTANCE.toDTOs(coachAchievementService.findByCoachId(coachID)));
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody CoachAchievementRequest coachAchievementRequest) {
-        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         if (coach.isPresent()) {
             CoachAchievement coachAchievement = new CoachAchievement(null,
                     Award.valueOf(coachAchievementRequest.getAward()),
@@ -59,7 +66,7 @@ public class CoachAchievementResources {
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                     @RequestBody CoachAchievementRequest coachAchievementRequest) {
-        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
+        Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (!coach.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachAchievementRequest.getCoachFirstName() + " " + coachAchievementRequest.getCoachLastName());

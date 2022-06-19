@@ -10,4 +10,6 @@ public interface AgentContractService {
     Optional<AgentContract> findByID(Integer id);
     AgentContract save(AgentContract agentContract);
     void deleteByID(Integer id);
+    List<AgentContract> findByPlayerId(Integer playerID);
+    List<AgentContract> findByAgentId(Integer agentID);
 }

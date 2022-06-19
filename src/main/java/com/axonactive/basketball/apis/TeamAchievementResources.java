@@ -41,6 +41,14 @@ public class TeamAchievementResources {
             return ResponseEntity.ok(teamAchievement);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team achievement ID not found: " + id);
     }
+    @GetMapping("/findByTeamName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByTeamName(@RequestParam(defaultValue = "") String teamName){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team match name " + teamName);
+        else return ResponseEntity.ok(TeamAchievementMapper.INSTANCE.toDTOs(teamAchievementService.findByTeamNameLike(teamName)));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

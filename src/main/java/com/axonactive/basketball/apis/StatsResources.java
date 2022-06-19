@@ -3,6 +3,7 @@ package com.axonactive.basketball.apis;
 import com.axonactive.basketball.apis.requests.StatsRequest;
 import com.axonactive.basketball.entities.Player;
 import com.axonactive.basketball.entities.Stats;
+import com.axonactive.basketball.services.dtos.PlayerWithStatsDTO;
 import com.axonactive.basketball.services.dtos.StatsDTO;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
 import com.axonactive.basketball.services.impl.StatsServiceImpl;
@@ -40,11 +41,28 @@ public class StatsResources {
             return ResponseEntity.ok(stats);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stats ID not found: " + id);
     }
-
+    @GetMapping("/findByPlayerID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
+        Optional<Player> player = playerService.findByID(playerID);
+        if (!player.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + playerID);
+        else return ResponseEntity.ok(StatsMapper.INSTANCE.toDTOs(statsService.findByPlayerId(playerID)));
+    }
+    @GetMapping("/findPlayerWithStats")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findPlayerWithStats(@RequestParam(defaultValue = "0") Integer playerID,
+                                                                        @RequestParam(defaultValue = "2022") Integer season){
+        PlayerWithStatsDTO player = statsService.findPlayerWithStatsInASeason(playerID,season);
+        if (player == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + playerID +
+                    "\nOr player didn't play in season " + season);
+        else return ResponseEntity.ok(player);
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatsRequest statsRequest) {
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());
         else {
@@ -68,7 +86,7 @@ public class StatsResources {
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatsRequest statsRequest) {
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         Optional<Stats> stats = statsService.findByID(id);
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statsRequest.getPlayerFirstName() + " " + statsRequest.getPlayerLastName());

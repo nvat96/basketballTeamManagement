@@ -41,11 +41,22 @@ public class StatusReportResources {
             return ResponseEntity.ok(statusReport);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Status report ID not found: " + id);
     }
+    @GetMapping("/findByPlayerID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0")Integer playerID){
+        Optional<Player> player = playerService.findByID(playerID);
+        List<StatusReport> lists = statusReportService.findByPlayerId(playerID);
+        if (!player.isPresent())
+            return ResponseEntity.ok("No player with the ID " + playerID);
+        else if (lists.isEmpty())
+            return ResponseEntity.ok("The player don't have any status report");
+        else return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(lists));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatusReportRequest statusReportRequest) {
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerFirstName() + " " +  statusReportRequest.getPlayerLastName());
         else {
@@ -63,7 +74,7 @@ public class StatusReportResources {
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatusReportRequest statusReportRequest) {
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + statusReportRequest.getPlayerFirstName() + " " + statusReportRequest.getPlayerLastName());

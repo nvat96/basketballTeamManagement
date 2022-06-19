@@ -10,4 +10,5 @@ public interface PlayerAchievementService {
     Optional<PlayerAchievement> findByID(Integer id);
     PlayerAchievement save(PlayerAchievement playerAchievement);
     void deleteByID(Integer id);
+    List<PlayerAchievement> findByPlayerId(Integer playerID);
 }

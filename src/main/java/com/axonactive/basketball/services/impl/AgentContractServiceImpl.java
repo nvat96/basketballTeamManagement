@@ -33,4 +33,14 @@ public class AgentContractServiceImpl implements AgentContractService {
     public void deleteByID(Integer id) {
         agentContractRepository.deleteById(id);
     }
+
+    @Override
+    public List<AgentContract> findByPlayerId(Integer playerID) {
+        return agentContractRepository.findByPlayerId(playerID);
+    }
+
+    @Override
+    public List<AgentContract> findByAgentId(Integer agentID) {
+        return agentContractRepository.findByAgentId(agentID);
+    }
 }

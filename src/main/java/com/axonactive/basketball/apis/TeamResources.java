@@ -40,6 +40,14 @@ public class TeamResources {
             return ResponseEntity.ok(team);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
     }
+    @GetMapping("/findByNameLike")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByNameLike(@RequestParam(defaultValue = "")String name){
+        List<Team> teams = teamService.findByNameLike(name);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team with the name " + name);
+        else return ResponseEntity.ok(teams);
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

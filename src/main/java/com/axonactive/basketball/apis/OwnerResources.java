@@ -41,6 +41,22 @@ public class OwnerResources {
             return ResponseEntity.ok(owner);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
     }
+    @GetMapping("/findByFirstNameOrLastName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findOwnerByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+        List<Owner> owners = ownerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+        if (owners.isEmpty())
+            return ResponseEntity.ok("No owner match with first name like " + firstName + " and last name like " + lastName);
+        else return ResponseEntity.ok(owners);
+    }
+    @GetMapping("/totalSalaryMustPay")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> calculateTotalSalaryMustPayForATeam(@RequestParam(defaultValue = "0")String teamName){
+        Optional<Team> team = teamService.findByID(teamName);
+        if (!team.isPresent())
+            return ResponseEntity.ok("Team name not found " + teamName);
+        else return ResponseEntity.ok("Total salary must pay for team " + teamName + " is $" +ownerService.calculateSalaryMustPay(teamName) + "m/year");
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

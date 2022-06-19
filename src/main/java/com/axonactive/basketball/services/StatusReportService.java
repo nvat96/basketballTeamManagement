@@ -10,4 +10,5 @@ public interface StatusReportService {
     Optional<StatusReport> findByID(Integer id);
     StatusReport save(StatusReport statusReport);
     void deleteByID(Integer id);
+    List<StatusReport> findByPlayerId(Integer playerID);
 }

@@ -11,5 +11,8 @@ import java.time.LocalDate;
 public class StatusReportDTO {
     private Integer id;
     private String playerName;
+    private LocalDate dateInjured;
+    private LocalDate dateRecovered;
+    private String comment;
     private String status;
 }

@@ -41,11 +41,19 @@ public class PlayerAchievementResources {
             return ResponseEntity.ok(playerAchievement);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player achievement ID not found: " + id);
     }
+    @GetMapping("/findByPlayerID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
+        Optional<Player> player = playerService.findByID(playerID);
+        if (!player.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + playerID);
+        else return ResponseEntity.ok(PlayerAchievementMapper.INSTANCE.toDTOs(playerAchievementService.findByPlayerId(playerID)));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerAchievementRequest playerAchievementRequest) {
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerFirstName() + " " + playerAchievementRequest.getPlayerLastName());
         else {
@@ -62,7 +70,7 @@ public class PlayerAchievementResources {
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player name not found: " + playerAchievementRequest.getPlayerFirstName() + " " + playerAchievementRequest.getPlayerLastName());
         else if (!playerAchievement.isPresent())

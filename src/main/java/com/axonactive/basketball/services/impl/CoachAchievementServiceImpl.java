@@ -33,4 +33,9 @@ public class CoachAchievementServiceImpl implements CoachAchievementService {
     public void deleteByID(Integer id) {
         coachAchievementRepository.deleteById(id);
     }
+
+    @Override
+    public List<CoachAchievement> findByCoachId(Integer id) {
+        return coachAchievementRepository.findByCoachId(id);
+    }
 }

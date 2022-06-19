@@ -35,13 +35,14 @@ public class AgentResources {
             return ResponseEntity.ok(agent);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
-//    @GetMapping("/findByName/{name}")
-//    public ResponseEntity<?> findByName(@PathVariable(value = "name") String name){
-//        List<Agent> agents = agentService.findByNameLike(name);
-//        if (agents.size() == 0)
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
-//        else return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agents));
-//    }
+    @GetMapping("/findByFirstNameOrLastName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findAgentByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+        List<Agent> agents = agentService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+        if (agents.isEmpty())
+            return ResponseEntity.ok("No agent match with first name like " + firstName + " and last name like " + lastName);
+        else return ResponseEntity.ok(agents);
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest){

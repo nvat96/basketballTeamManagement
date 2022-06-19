@@ -33,4 +33,9 @@ public class TeamAchievementServiceImpl implements TeamAchievementService {
     public void deleteByID(Integer id) {
         teamAchievementRepository.deleteById(id);
     }
+
+    @Override
+    public List<TeamAchievement> findByTeamNameLike(String teamName) {
+        return teamAchievementRepository.findByTeamNameLike(teamName);
+    }
 }

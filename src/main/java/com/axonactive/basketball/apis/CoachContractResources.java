@@ -8,6 +8,7 @@ import com.axonactive.basketball.enums.TypeOfContract;
 import com.axonactive.basketball.services.dtos.CoachContractDTO;
 import com.axonactive.basketball.services.impl.CoachContractServiceImpl;
 import com.axonactive.basketball.services.impl.CoachServiceImpl;
+import com.axonactive.basketball.services.impl.OwnerServiceImpl;
 import com.axonactive.basketball.services.impl.TeamServiceImpl;
 import com.axonactive.basketball.services.mappers.CoachContractMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,65 +31,94 @@ public class CoachContractResources {
     CoachServiceImpl coachService;
     @Autowired
     TeamServiceImpl teamService;
+    @Autowired
+    OwnerServiceImpl ownerService;
+
     @GetMapping
     @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
-    public ResponseEntity<List<CoachContractDTO>> findAll(){
+    public ResponseEntity<List<CoachContractDTO>> findAll() {
         return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findAll()));
     }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
-    public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
+    public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent())
             return ResponseEntity.ok(coachContract);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
+
+    @GetMapping("/findContractActive")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findContractActive(@RequestParam(defaultValue = "") String teamName) {
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team name match with " + teamName);
+        else return ResponseEntity.ok(coachContractService.findCoachContractThatAreActiveOfATeam(teamName));
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
-    public ResponseEntity<?> create(@RequestBody CoachContractRequest coachContractRequest){
-        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
+    public ResponseEntity<?> create(@RequestBody CoachContractRequest coachContractRequest) {
+        Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachContractRequest.getCoachFirstName(), coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
         if (!coach.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachFirstName() + " " + coachContractRequest.getCoachLastName());
-        else  if (!team.isPresent())
+        else if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + coachContractRequest.getTeamName());
         else {
-            CoachContract coachContract = new CoachContract(null,
-                    coachContractRequest.getDateCreated(),
-                    coachContractRequest.getDateExpired(),
-                    coachContractRequest.getTitle(),
-                    coachContractRequest.getSalary(),
-                    TypeOfContract.valueOf(coachContractRequest.getTypeOfContract()),
-                    coachContractRequest.getBody(),
-                    coach.get(),
-                    team.get());
-            return ResponseEntity.created(URI.create(PATH + "/" + coachContract.getId())).body(CoachContractMapper.INSTANCE.toDTO(coachContractService.save(coachContract)));
+            Double salaryMustPay = ownerService.calculateSalaryMustPay(coachContractRequest.getTeamName()) + coachContractRequest.getSalary();
+            if (teamService.isSalaryMustPayOverSalaryCap(coachContractRequest.getTeamName(), salaryMustPay))
+                return ResponseEntity.ok("The salary of the contract you about to create is above the salary cap of the team " + coachContractRequest.getTeamName() +
+                        "\nTeam " + coachContractRequest.getTeamName() + " salary must pay: $" + salaryMustPay + "m/year" +
+                        "\nTeam " + coachContractRequest.getTeamName() + "'s salary cap: $" + team.get().getSalaryCap() + "m/year");
+            else {
+                CoachContract coachContract = new CoachContract(null,
+                        coachContractRequest.getDateCreated(),
+                        coachContractRequest.getDateExpired(),
+                        coachContractRequest.getTitle(),
+                        coachContractRequest.getSalary(),
+                        TypeOfContract.valueOf(coachContractRequest.getTypeOfContract()),
+                        coachContractRequest.getBody(),
+                        coach.get(),
+                        team.get());
+                return ResponseEntity.created(URI.create(PATH + "/" + coachContract.getId())).body(CoachContractMapper.INSTANCE.toDTO(coachContractService.save(coachContract)));
+            }
         }
     }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
-                                                        @RequestBody CoachContractRequest coachContractRequest){
-        Optional<Coach> coach = coachService.findByFirstNameAndLastNameLike(coachContractRequest.getCoachFirstName(),coachContractRequest.getCoachLastName());
+                                    @RequestBody CoachContractRequest coachContractRequest) {
+        Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachContractRequest.getCoachFirstName(), coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (!coach.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach name not found: " + coachContractRequest.getCoachFirstName() + " " + coachContractRequest.getCoachLastName());
-        else  if (!team.isPresent())
+        else if (!team.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + coachContractRequest.getTeamName());
-        else if (coachContract.isPresent()){
-            coachContract.get().setDateCreated(coachContractRequest.getDateCreated());
-            coachContract.get().setDateExpired(coachContractRequest.getDateExpired());
-            coachContract.get().setTitle(coachContractRequest.getTitle());
-            coachContract.get().setSalary(coachContractRequest.getSalary());
-            coachContract.get().setTypeOfContract(TypeOfContract.valueOf(coachContractRequest.getTypeOfContract()));
-            coachContract.get().setBody(coachContractRequest.getBody());
-            coachContract.get().setCoach(coach.get());
-            coachContract.get().setTeam(team.get());
-            return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTO(coachContractService.save(coachContract.get())));
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
+        else if (coachContract.isPresent()) {
+            Double salaryMustPay = ownerService.calculateSalaryMustPay(coachContractRequest.getTeamName()) + coachContractRequest.getSalary() - coachContract.get().getSalary();
+            if (teamService.isSalaryMustPayOverSalaryCap(coachContractRequest.getTeamName(), salaryMustPay))
+                return ResponseEntity.ok("The salary of the contract you about to update is above the salary cap of the team " + coachContractRequest.getTeamName() +
+                        "\nTeam " + coachContractRequest.getTeamName() + " salary must pay: $" + salaryMustPay + "m/year" +
+                        "\nTeam " + coachContractRequest.getTeamName() + "'s salary cap: $" + team.get().getSalaryCap() + "m/year");
+            else {
+                coachContract.get().setDateCreated(coachContractRequest.getDateCreated());
+                coachContract.get().setDateExpired(coachContractRequest.getDateExpired());
+                coachContract.get().setTitle(coachContractRequest.getTitle());
+                coachContract.get().setSalary(coachContractRequest.getSalary());
+                coachContract.get().setTypeOfContract(TypeOfContract.valueOf(coachContractRequest.getTypeOfContract()));
+                coachContract.get().setBody(coachContractRequest.getBody());
+                coachContract.get().setCoach(coach.get());
+                coachContract.get().setTeam(team.get());
+                return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTO(coachContractService.save(coachContract.get())));
+            }
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
@@ -96,7 +126,6 @@ public class CoachContractResources {
         if (coachContract.isPresent()) {
             coachContractService.deleteByID(id);
             return ResponseEntity.ok("Successfully deleted");
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
+        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach contract ID not found: " + id);
     }
 }

@@ -41,6 +41,14 @@ public class StaffResources {
             return ResponseEntity.ok(staff);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Staff ID not found: " + id);
     }
+    @GetMapping("/findByFirstNameOrLastName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findStaffByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+        List<Staff> staffs = staffService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+        if (staffs.isEmpty())
+            return ResponseEntity.ok("No staff match with first name like " + firstName + " and last name like " + lastName);
+        else return ResponseEntity.ok(staffs);
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
