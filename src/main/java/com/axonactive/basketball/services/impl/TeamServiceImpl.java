@@ -38,4 +38,12 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findByNameLike(name);
     }
 
+    @Override
+    public Boolean isSalaryMustPayOverSalaryCap(String teamName, Double salaryMustPay) {
+        Double salaryCap = teamRepository.findById(teamName).get().getSalaryCap();
+        if (salaryCap >= salaryMustPay)
+            return false;
+        else return true;
+    }
+
 }

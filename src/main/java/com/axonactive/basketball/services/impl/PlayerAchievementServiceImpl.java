@@ -12,25 +12,30 @@ import java.util.Optional;
 @Service
 public class PlayerAchievementServiceImpl implements PlayerAchievementService {
     @Autowired
-    PlayerAchievementRepository agentRepository;
+    PlayerAchievementRepository playerAchievement;
 
     @Override
     public List<PlayerAchievement> findAll() {
-        return agentRepository.findAll();
+        return playerAchievement.findAll();
     }
 
     @Override
     public Optional<PlayerAchievement> findByID(Integer id) {
-        return agentRepository.findById(id);
+        return playerAchievement.findById(id);
     }
 
     @Override
     public PlayerAchievement save(PlayerAchievement agent) {
-        return agentRepository.save(agent);
+        return playerAchievement.save(agent);
     }
 
     @Override
     public void deleteByID(Integer id) {
-        agentRepository.deleteById(id);
+        playerAchievement.deleteById(id);
+    }
+
+    @Override
+    public List<PlayerAchievement> findByPlayerId(Integer playerID) {
+        return playerAchievement.findByPlayerId(playerID);
     }
 }

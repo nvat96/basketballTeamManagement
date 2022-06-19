@@ -34,8 +34,13 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public Optional<Coach> findByFirstNameAndLastNameLike(String firstName, String lastName) {
-        return coachRepository.findByFirstNameAndLastNameLike(firstName, lastName);
+    public List<Coach> findByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return coachRepository.findByFirstNameLikeAndLastNameLike(firstName, lastName);
+    }
+
+    @Override
+    public Optional<Coach> findByFirstNameAndLastName(String firstName, String lastName) {
+        return coachRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override

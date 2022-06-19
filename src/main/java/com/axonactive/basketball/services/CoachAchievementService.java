@@ -10,4 +10,5 @@ public interface CoachAchievementService {
     Optional<CoachAchievement> findByID(Integer id);
     CoachAchievement save(CoachAchievement coachAchievement);
     void deleteByID(Integer id);
+    List<CoachAchievement> findByCoachId(Integer id);
 }

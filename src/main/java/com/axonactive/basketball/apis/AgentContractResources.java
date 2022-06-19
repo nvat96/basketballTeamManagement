@@ -42,11 +42,27 @@ public class AgentContractResources {
             return ResponseEntity.ok(agentContract);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
+    @GetMapping("/findByPlayerID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
+        Optional<Player> player = playerService.findByID(playerID);
+        if (!player.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + playerID);
+        return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findByPlayerId(playerID)));
+    }
+    @GetMapping("/findByAgentID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByAgentID(@RequestParam(defaultValue = "0") Integer agentID){
+        Optional<Agent> agent = agentService.findByID(agentID);
+        if (!agent.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent ID not found: " + agentID);
+        return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findByAgentId(agentID)));
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest){
-        Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
+        Optional<Agent> agent = agentService.findByFirstNameAndLastName(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
         if (!agent.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentFirstName() + " " + agentContractRequest.getAgentLastName());
         else if (!player.isPresent())
@@ -64,8 +80,8 @@ public class AgentContractResources {
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentContractRequest agentContractRequest){
-        Optional<Agent> agent = agentService.findByFirstNameAndLastNameLike(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
-        Optional<Player> player = playerService.findByFirstNameAndLastNameLike(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
+        Optional<Agent> agent = agentService.findByFirstNameAndLastName(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
+        Optional<Player> player = playerService.findByFirstNameAndLastName(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (!agent.isPresent())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent name not found: " + agentContractRequest.getAgentFirstName() + " " + agentContractRequest.getAgentLastName());

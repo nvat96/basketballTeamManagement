@@ -35,12 +35,17 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Optional<Staff> findByFirstNameAndLastNameLike(String firstName, String lastName) {
-        return staffRepository.findByFirstNameAndLastNameLike(firstName, lastName);
+    public Optional<Staff> findByFirstNameAndLastName(String firstName, String lastName) {
+        return staffRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
     @Override
     public List<Staff> findByFirstNameLike(String firstName) {
         return staffRepository.findByFirstNameLike(firstName);
+    }
+
+    @Override
+    public List<Staff> findByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
+        return staffRepository.findByFirstNameLikeAndLastNameLike(firstName, lastName);
     }
 }

@@ -3,6 +3,7 @@ package com.axonactive.basketball.services.impl;
 import com.axonactive.basketball.entities.CoachContract;
 import com.axonactive.basketball.repositories.CoachContractRepository;
 import com.axonactive.basketball.services.CoachContractService;
+import com.axonactive.basketball.services.dtos.CoachWithContractDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,10 @@ public class CoachContractServiceImpl implements CoachContractService {
     @Override
     public void deleteByID(Integer id) {
         coachContractRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CoachWithContractDTO> findCoachContractThatAreActiveOfATeam(String teamName) {
+        return coachContractRepository.findCoachContractThatAreActiveOfATeam(teamName);
     }
 }

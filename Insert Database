@@ -7,9 +7,9 @@ INSERT INTO public.arena(
 INSERT INTO public.team(
     name, date_found, league, location, salary_cap, arena_name)
     VALUES 
-    ('Los Angeles Lakers', '2009-08-18','NBA', 'Los Angeles', 600, 'Staples Center'),
-    ('Los Angeles Sparks', '2011-10-23', 'WNBA', 'Los Angeles', 200, 'Staples Center'),
-    ('South Bay Lakers', '2017-06-29', 'G_LEAGUE', 'El Segundo', 150, 'UCLA Center');
+    ('Los Angeles Lakers', '2009-08-18','NBA', 'Los Angeles', 300, 'Staples Center'),
+    ('Los Angeles Sparks', '2011-10-23', 'WNBA', 'Los Angeles', 110, 'Staples Center'),
+    ('South Bay Lakers', '2017-06-29', 'G_LEAGUE', 'El Segundo', 110, 'UCLA Center');
             
 INSERT INTO public.agent(
     date_of_birth, email, first_name, gender, last_name, nationality, phone_number)
@@ -593,12 +593,3 @@ INSERT INTO public.user_role_assignment(
 	('ROLE_USER',5),
 	('ROLE_USER',6),
 	('ROLE_HIGH_MANAGEMENT',7);
-
-
-
-
-
-
-
-
-
