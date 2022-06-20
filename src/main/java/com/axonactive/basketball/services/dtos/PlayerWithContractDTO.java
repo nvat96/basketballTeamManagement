@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class PlayerWithContractDTO {
     private Integer contractId;
     private Integer playerId;
-    private String fullName;
+    private String playerName;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private Double salary;

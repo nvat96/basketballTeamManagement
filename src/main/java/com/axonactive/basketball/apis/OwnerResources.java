@@ -46,7 +46,7 @@ public class OwnerResources {
     public ResponseEntity<?> findOwnerByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Owner> owners = ownerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (owners.isEmpty())
-            return ResponseEntity.ok("No owner match with first name like " + firstName + " and last name like " + lastName);
+            return ResponseEntity.ok("No owner match with first name " + firstName + " and last name " + lastName);
         else return ResponseEntity.ok(owners);
     }
     @GetMapping("/totalSalaryMustPay")

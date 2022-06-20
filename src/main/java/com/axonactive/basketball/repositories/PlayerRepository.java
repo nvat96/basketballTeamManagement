@@ -1,6 +1,7 @@
 package com.axonactive.basketball.repositories;
 
 import com.axonactive.basketball.entities.Player;
+import com.axonactive.basketball.enums.Position;
 import com.axonactive.basketball.services.dtos.PlayerDTO;
 import com.axonactive.basketball.services.dtos.PlayerWithTeamDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +28,11 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
             "WHERE p.firstName LIKE CONCAT ('%', :firstName, '%') " +
             "AND p.lastName LIKE CONCAT ('%', :lastName, '%')")
     List<Player> findByFirstNameLikeAndLastNameLike(@Param("firstName") String firstName,@Param("lastName") String lastName);
+    @Query("SELECT DISTINCT p " +
+            "FROM Player p JOIN PlayerContract pc " +
+            "ON p.id = pc.player.id " +
+            "JOIN Team t ON pc.team.name = t.name " +
+            "WHERE pc.position = :position " +
+            "AND t.name LIKE CONCAT('%', :teamName,'%')")
+    List<Player> findByPositionAndTeamName(@Param("position") Position position, @Param("teamName") String teamName);
 }

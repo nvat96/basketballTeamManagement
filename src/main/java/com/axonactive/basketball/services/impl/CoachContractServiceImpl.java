@@ -39,4 +39,14 @@ public class CoachContractServiceImpl implements CoachContractService {
     public List<CoachWithContractDTO> findCoachContractThatAreActiveOfATeam(String teamName) {
         return coachContractRepository.findCoachContractThatAreActiveOfATeam(teamName);
     }
+
+    @Override
+    public List<CoachContract> findByCoachId(Integer coachID) {
+        return coachContractRepository.findByCoachId(coachID);
+    }
+
+    @Override
+    public List<CoachContract> findByTeamNameLike(String teamName) {
+        return coachContractRepository.findByTeamNameLike(teamName);
+    }
 }

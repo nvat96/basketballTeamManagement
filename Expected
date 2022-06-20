@@ -1,34 +1,24 @@
 The purpose of this application is for the owner to check the information of the team he/she has invested in.
-There for it must have feature like:
-- Show team achievement
-- Show which players are playing for the team at a specific time
-- Show player achievement
-- Show player information (team, average stats)
-- Show all the contract that about to end
-- Show player status
-- Search for players, coaches, staff
-- Calculate salary must paid (must below salary cap)
-- Sign a new contract (must be within salary cap)
-
-
 
 Feature
-- Add a new player to the list
-- View player basic information
-- View player stats
-- View player injuries status
-- Check which player has the most achievement
-- View player's agent contact information
-- Sign contract with a player
-- Check which player has the highest salary
-- Check coach information
-- Sign contract with a coach
-- Check team salary cap
-- Add a player to wanted list
-- Check which coach has the highest salary
-- Check which coach has the most achievement
-- Create player
-- Check team information
-- Check agent information
-- Sign contract with a agent
-- Check which team has the most achievement
+- Find Agent, Coach, Player, Staff, Owner by first name or last name
+- Find Team by name
+- Find agent contract by agent ID or player ID
+- Find coach contract by coach ID or team name
+- Find player contract by player ID or team name
+- Find team achievement by team name
+- Find player achievement by player ID
+- Find coach achievement by coach ID
+- Find coach contract by coach ID or team name
+- Find coach contract that are active
+- Find player contract by player ID or team name
+- Find player contracts that are created or expired in a specific year
+- Find contract that are active of a team
+- Find all stats of a specific player
+- Find players by position and team name
+- Find a player stats in a specific season or average stats in whole career
+- Find all status reports of a specific player
+- Find status report of a team at a specific year
+- Calculate total salary the owner must pay for a team
+- Create new player and coach contract
+

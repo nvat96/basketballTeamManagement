@@ -57,6 +57,22 @@ public class CoachContractResources {
             return ResponseEntity.ok("No team name match with " + teamName);
         else return ResponseEntity.ok(coachContractService.findCoachContractThatAreActiveOfATeam(teamName));
     }
+    @GetMapping("/findByCoachID")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByCoachID(@RequestParam(defaultValue = "0") Integer coachID){
+        Optional<Coach> coach = coachService.findByID(coachID);
+        if (!coach.isPresent())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach ID not found: " + coachID);
+        else return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findByCoachId(coachID)));
+    }
+    @GetMapping("/findByTeamName")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByTeamName(@RequestParam(defaultValue = "") String teamName){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No team name match with " + teamName);
+        else return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findByTeamNameLike(teamName)));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

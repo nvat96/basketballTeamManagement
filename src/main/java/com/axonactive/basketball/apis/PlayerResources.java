@@ -4,6 +4,7 @@ import com.axonactive.basketball.apis.requests.PlayerRequest;
 import com.axonactive.basketball.entities.Player;
 import com.axonactive.basketball.entities.Team;
 import com.axonactive.basketball.enums.Gender;
+import com.axonactive.basketball.enums.Position;
 import com.axonactive.basketball.enums.TypeOfPlayer;
 import com.axonactive.basketball.services.dtos.PlayerDTO;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
@@ -52,11 +53,22 @@ public class PlayerResources {
     }
     @GetMapping("/findByFirstNameOrLastName")
     @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
-    public ResponseEntity<?> findPlayerByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
+    public ResponseEntity<?> findByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Player> players = playerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (players.isEmpty())
-            return ResponseEntity.ok("No player match with first name like " + firstName + " and last name like " + lastName);
+            return ResponseEntity.ok("No player match with first name " + firstName + " and last name " + lastName);
         else return ResponseEntity.ok(players);
+    }
+    @GetMapping("/findByPositionAndTeam")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByPositionAndTeam(@RequestParam(defaultValue = "")String position,
+                                                   @RequestParam(defaultValue = "")String teamName){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (!position.equals("C") && !position.equals("PG") && !position.equals("SG")&& !position.equals("SF")&& !position.equals("PF"))
+            return ResponseEntity.ok("There are no position like " + position);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team has name like " + teamName);
+        else return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findByPositionAndTeamName(Position.valueOf(position),teamName)));
     }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")

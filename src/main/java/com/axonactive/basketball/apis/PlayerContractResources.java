@@ -97,7 +97,6 @@ public class PlayerContractResources {
             return ResponseEntity.ok("No team name match with " + teamName);
         else return ResponseEntity.ok(playerContractService.findPlayerContractThatAreActiveOfATeam(teamName));
     }
-
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerContractRequest playerContractRequest) {

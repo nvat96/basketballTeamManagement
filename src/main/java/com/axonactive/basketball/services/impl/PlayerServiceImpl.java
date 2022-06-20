@@ -1,9 +1,9 @@
 package com.axonactive.basketball.services.impl;
 
 import com.axonactive.basketball.entities.Player;
+import com.axonactive.basketball.enums.Position;
 import com.axonactive.basketball.repositories.PlayerRepository;
 import com.axonactive.basketball.services.PlayerService;
-import com.axonactive.basketball.services.dtos.PlayerDTO;
 import com.axonactive.basketball.services.dtos.PlayerWithTeamDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +54,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<Player> findByFirstNameLikeAndLastNameLike(String firstName, String lastName) {
         return playerRepository.findByFirstNameLikeAndLastNameLike(firstName,lastName);
+    }
+
+    @Override
+    public List<Player> findByPositionAndTeamName(Position position, String teamName) {
+        return playerRepository.findByPositionAndTeamName(position, teamName);
     }
 }

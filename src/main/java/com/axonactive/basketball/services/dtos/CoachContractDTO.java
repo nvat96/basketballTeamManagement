@@ -12,6 +12,8 @@ public class CoachContractDTO {
     private Integer id;
     private String typeOfContract;
     private String title;
+    private LocalDate dateCreated;
+    private LocalDate dateExpired;
     private String coachName;
     private String teamName;
 }

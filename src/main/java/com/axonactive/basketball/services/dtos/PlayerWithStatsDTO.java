@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlayerWithStatsDTO {
-    private String fullName;
+    private String playerName;
     private Double gamePlayed;
     private Double points;
     private Double assists;

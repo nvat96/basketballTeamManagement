@@ -46,7 +46,7 @@ public class TeamAchievementResources {
     public ResponseEntity<?> findByTeamName(@RequestParam(defaultValue = "") String teamName){
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
-            return ResponseEntity.ok("No team match name " + teamName);
+            return ResponseEntity.ok("No team with the name " + teamName);
         else return ResponseEntity.ok(TeamAchievementMapper.INSTANCE.toDTOs(teamAchievementService.findByTeamNameLike(teamName)));
     }
 

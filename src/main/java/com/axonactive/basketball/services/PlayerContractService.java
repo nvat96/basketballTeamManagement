@@ -1,6 +1,7 @@
 package com.axonactive.basketball.services;
 
 import com.axonactive.basketball.entities.PlayerContract;
+import com.axonactive.basketball.enums.Position;
 import com.axonactive.basketball.services.dtos.PlayerWithContractDTO;
 import org.springframework.data.repository.query.Param;
 

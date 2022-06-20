@@ -13,6 +13,7 @@ public class CoachWithContractDTO {
     private Integer contractId;
     private Integer coachId;
     private String coachName;
+    private String title;
     private LocalDate dateCreated;
     private LocalDate dateExpired;
     private Double salary;
