@@ -11,8 +11,12 @@ import java.util.List;
 
 @Repository
 public interface CoachContractRepository extends JpaRepository<CoachContract,Integer> {
+    List<CoachContract> findByCoachId(Integer coachID);
+    @Query("FROM CoachContract " +
+            "WHERE team.name LIKE CONCAT('%', :teamName, '%')")
+    List<CoachContract> findByTeamNameLike(@Param("teamName") String teamName);
     @Query("SELECT new com.axonactive.basketball.services.dtos.CoachWithContractDTO(cc.id,c.id," +
-            "(c.firstName || ' ' || c.lastName),cc.dateCreated,cc.dateExpired,cc.salary,t.name) " +
+            "(c.firstName || ' ' || c.lastName),cc.title,cc.dateCreated,cc.dateExpired,cc.salary,t.name) " +
             "FROM CoachContract cc JOIN Coach c " +
             "ON cc.coach.id = c.id " +
             "JOIN Team t " +

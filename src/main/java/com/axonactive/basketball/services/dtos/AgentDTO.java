@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class AgentDTO {
     private Integer id;
-    private String firstName;
-    private String lastName;
+    private String agentName;
     private String email;
 }

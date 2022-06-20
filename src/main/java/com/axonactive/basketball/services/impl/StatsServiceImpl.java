@@ -51,7 +51,7 @@ public class StatsServiceImpl implements StatsService {
         else if (2010 > season || season > 2022) {
                 List<Stats> stats = statsRepository.findByPlayerId(playerID);
                 PlayerWithStatsDTO playerWithStatsDTO = new PlayerWithStatsDTO();
-                playerWithStatsDTO.setFullName(player.get().getFirstName() + " " + player.get().getLastName());
+                playerWithStatsDTO.setPlayerName(player.get().getFirstName() + " " + player.get().getLastName());
                 Double totalGamePlayed = 0.0;
                 Double totalPoints = 0.0;
                 Double totalAssists = 0.0;

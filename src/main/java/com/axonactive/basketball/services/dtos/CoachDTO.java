@@ -9,6 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 public class CoachDTO {
     private Integer id;
-    private String firstName;
-    private String lastName;
+    private String coachName;
 }

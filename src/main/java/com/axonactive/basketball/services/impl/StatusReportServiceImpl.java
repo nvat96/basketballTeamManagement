@@ -6,8 +6,10 @@ import com.axonactive.basketball.services.StatusReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StatusReportServiceImpl implements StatusReportService {
@@ -37,5 +39,10 @@ public class StatusReportServiceImpl implements StatusReportService {
     @Override
     public List<StatusReport> findByPlayerId(Integer playerID) {
         return statusReportRepository.findByPlayerId(playerID);
+    }
+
+    @Override
+    public List<StatusReport> findByTeamNameAndYear(String teamName, Integer year) {
+        return statusReportRepository.findByTeamNameAndYear(teamName,year);
     }
 }

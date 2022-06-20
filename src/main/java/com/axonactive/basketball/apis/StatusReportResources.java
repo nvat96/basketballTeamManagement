@@ -3,10 +3,12 @@ package com.axonactive.basketball.apis;
 import com.axonactive.basketball.apis.requests.StatusReportRequest;
 import com.axonactive.basketball.entities.Player;
 import com.axonactive.basketball.entities.StatusReport;
+import com.axonactive.basketball.entities.Team;
 import com.axonactive.basketball.enums.Status;
 import com.axonactive.basketball.services.dtos.StatusReportDTO;
 import com.axonactive.basketball.services.impl.PlayerServiceImpl;
 import com.axonactive.basketball.services.impl.StatusReportServiceImpl;
+import com.axonactive.basketball.services.impl.TeamServiceImpl;
 import com.axonactive.basketball.services.mappers.StatusReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ public class StatusReportResources {
     StatusReportServiceImpl statusReportService;
     @Autowired
     PlayerServiceImpl playerService;
+    @Autowired
+    TeamServiceImpl teamService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
@@ -51,6 +55,15 @@ public class StatusReportResources {
         else if (lists.isEmpty())
             return ResponseEntity.ok("The player don't have any status report");
         else return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(lists));
+    }
+    @GetMapping("/findByTeamNameAndYear")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findByTeamNameAndYear(@RequestParam(defaultValue = "")String teamName,
+                                                   @RequestParam(defaultValue = "2022")Integer year){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team match with name " + teamName);
+        else return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(statusReportService.findByTeamNameAndYear(teamName, year)));
     }
 
     @PostMapping

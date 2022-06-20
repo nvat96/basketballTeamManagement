@@ -14,11 +14,11 @@ import java.util.List;
 @Mapper
 public interface PlayerMapper {
     PlayerMapper INSTANCE = Mappers.getMapper(PlayerMapper.class);
-    @Mapping(target = "fullName",expression = "java(player.getFirstName() +\"\" +player.getLastName())")
+    @Mapping(target = "playerName",expression = "java(player.getFirstName() +\"\" +player.getLastName())")
     PlayerDTO toDTO (Player player);
     List<PlayerDTO> toDTOs(List<Player> players);
     @AfterMapping
     default void setPlayerName(Player player, @MappingTarget PlayerDTO target){
-        target.setFullName(player.getFirstName() + " " + player.getLastName());
+        target.setPlayerName(player.getFirstName() + " " + player.getLastName());
     }
 }

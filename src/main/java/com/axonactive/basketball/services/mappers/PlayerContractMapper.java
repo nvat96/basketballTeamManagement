@@ -1,6 +1,5 @@
 package com.axonactive.basketball.services.mappers;
 
-import com.axonactive.basketball.entities.Player;
 import com.axonactive.basketball.entities.PlayerContract;
 import com.axonactive.basketball.services.dtos.PlayerContractDTO;
 import com.axonactive.basketball.services.dtos.PlayerWithContractDTO;
@@ -22,17 +21,16 @@ public interface PlayerContractMapper {
     @Mapping(target = "playerName",expression = "java(playerContract.getPlayer().getFirstName() +\"\" +playerContract.getPlayer().getLastName())")
     PlayerContractDTO toDTO(PlayerContract playerContract);
     List<PlayerContractDTO> toDTOs (List<PlayerContract> playerContracts);
-    @Mapping(target = "fullName",expression = "java(playerContract.getPlayer().getFirstName() +\"\" +playerContract.getPlayer().getLastName())")
+    @Mapping(target = "playerName",expression = "java(playerContract.getPlayer().getFirstName() +\"\" +playerContract.getPlayer().getLastName())")
     @Mapping(target = "teamName",source = "team.name")
     PlayerWithTeamDTO toPlayerWithTeamDTO (PlayerContract playerContract);
     List<PlayerWithTeamDTO> toPlayerWithTeamDTOs(List<PlayerContract> playerContracts);
-    @Mapping(target = "fullName",expression = "java(playerContract.getPlayer().getFirstName() +\"\" +playerContract.getPlayer().getLastName())")
+    @Mapping(target = "playerName",expression = "java(playerContract.getPlayer().getFirstName() +\"\" +playerContract.getPlayer().getLastName())")
     @Mapping(target = "teamName",source = "team.name")
     @Mapping(target = "contractId",source = "id")
     @Mapping(target = "playerId",source = "player.id")
     PlayerWithContractDTO toPlayerWithContractDTO(PlayerContract playerContract);
     List<PlayerWithContractDTO> toPlayerWithContractDTOs(List<PlayerContract> playerContracts);
-
     @AfterMapping
     default void setPlayerName(PlayerContract playerContract, @MappingTarget PlayerContractDTO target){
         target.setPlayerName(playerContract.getPlayer().getFirstName() + " " + playerContract.getPlayer().getLastName());

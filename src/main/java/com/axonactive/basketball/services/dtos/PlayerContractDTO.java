@@ -13,6 +13,8 @@ public class PlayerContractDTO {
     private Integer id;
     private String typeOfContract;
     private String position;
+    private LocalDate dateCreated;
+    private LocalDate dateExpired;
     private String teamName;
     private String playerName;
 }

@@ -40,7 +40,7 @@ public class AgentResources {
     public ResponseEntity<?> findAgentByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Agent> agents = agentService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (agents.isEmpty())
-            return ResponseEntity.ok("No agent match with first name like " + firstName + " and last name like " + lastName);
+            return ResponseEntity.ok("No agent match with first name " + firstName + " and last name " + lastName);
         else return ResponseEntity.ok(agents);
     }
     @PostMapping

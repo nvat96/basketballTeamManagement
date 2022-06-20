@@ -13,4 +13,6 @@ public interface CoachContractService {
     CoachContract save(CoachContract coachContract);
     void deleteByID(Integer id);
     List<CoachWithContractDTO> findCoachContractThatAreActiveOfATeam(String teamName);
+    List<CoachContract> findByCoachId(Integer coachID);
+    List<CoachContract> findByTeamNameLike(String teamName);
 }

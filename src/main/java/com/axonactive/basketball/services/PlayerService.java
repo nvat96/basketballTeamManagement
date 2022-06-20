@@ -1,9 +1,8 @@
 package com.axonactive.basketball.services;
 
 import com.axonactive.basketball.entities.Player;
-import com.axonactive.basketball.services.dtos.PlayerDTO;
+import com.axonactive.basketball.enums.Position;
 import com.axonactive.basketball.services.dtos.PlayerWithTeamDTO;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +16,5 @@ public interface PlayerService {
     List<Player> findByFirstNameLike(String firstName);
     List<PlayerWithTeamDTO> findPlayerThatPlayForThatTeamAtThatYear(Integer inputYear, String teamName );
     List<Player> findByFirstNameLikeAndLastNameLike(String firstName,String lastName);
+    List<Player> findByPositionAndTeamName(Position position,String teamName);
 }

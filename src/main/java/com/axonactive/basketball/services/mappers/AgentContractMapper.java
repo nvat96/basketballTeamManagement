@@ -13,8 +13,8 @@ import java.util.List;
 @Mapper
 public interface AgentContractMapper {
     AgentContractMapper INSTANCE = Mappers.getMapper(AgentContractMapper.class);
-    @Mapping(target = "playerName",expression = "java(agentContract.getPlayer().getFirstName() + \"\" + agentContract.getPlayer().getFirstName())")
-    @Mapping(target = "agentName",expression = "java(agentContract.getAgent().getFirstName() + \"\" + agentContract.getAgent().getFirstName())")
+    @Mapping(target = "playerName",expression = "java(agentContract.getPlayer().getFirstName() + \"\" + agentContract.getPlayer().getLastName())")
+    @Mapping(target = "agentName",expression = "java(agentContract.getAgent().getFirstName() + \"\" + agentContract.getAgent().getLastName())")
     AgentContractDTO toDTO (AgentContract agentContract);
     List<AgentContractDTO> toDTOs (List<AgentContract> agentContracts);
     @AfterMapping

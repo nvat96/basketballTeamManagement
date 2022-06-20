@@ -42,7 +42,7 @@ public class CoachResources {
     public ResponseEntity<?> findCoachByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Coach> coaches = coachService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (coaches.isEmpty())
-            return ResponseEntity.ok("No coach match with first name like " + firstName + " and last name like " + lastName);
+            return ResponseEntity.ok("No coach match with first name " + firstName + " and last name " + lastName);
         else return ResponseEntity.ok(coaches);
     }
 
