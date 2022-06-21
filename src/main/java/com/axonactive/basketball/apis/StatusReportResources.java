@@ -32,13 +32,13 @@ public class StatusReportResources {
     TeamServiceImpl teamService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<StatusReportDTO>> findAll() {
         return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(statusReportService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (statusReport.isPresent())
@@ -46,7 +46,7 @@ public class StatusReportResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Status report ID not found: " + id);
     }
     @GetMapping("/findByPlayerID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0")Integer playerID){
         Optional<Player> player = playerService.findByID(playerID);
         List<StatusReport> lists = statusReportService.findByPlayerId(playerID);
@@ -57,7 +57,7 @@ public class StatusReportResources {
         else return ResponseEntity.ok(StatusReportMapper.INSTANCE.toDTOs(lists));
     }
     @GetMapping("/findByTeamNameAndYear")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByTeamNameAndYear(@RequestParam(defaultValue = "")String teamName,
                                                    @RequestParam(defaultValue = "2022")Integer year){
         List<Team> teams = teamService.findByNameLike(teamName);
@@ -67,7 +67,7 @@ public class StatusReportResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatusReportRequest statusReportRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastName(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -84,7 +84,7 @@ public class StatusReportResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatusReportRequest statusReportRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastName(statusReportRequest.getPlayerFirstName(), statusReportRequest.getPlayerLastName());
@@ -102,7 +102,7 @@ public class StatusReportResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<StatusReport> statusReport = statusReportService.findByID(id);
         if (statusReport.isPresent()) {

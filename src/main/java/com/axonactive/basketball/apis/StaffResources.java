@@ -28,13 +28,13 @@ public class StaffResources {
     TeamServiceImpl teamService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<StaffDTO>> findAll() {
         return ResponseEntity.ok(StaffMapper.INSTANCE.toDTOs(staffService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Staff> staff = staffService.findByID(id);
         if (staff.isPresent())
@@ -42,7 +42,7 @@ public class StaffResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Staff ID not found: " + id);
     }
     @GetMapping("/findByFirstNameOrLastName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findStaffByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Staff> staffs = staffService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (staffs.isEmpty())
@@ -51,7 +51,7 @@ public class StaffResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StaffRequest staffRequest) {
         if (staffRequest.getTeamName() == null) {
             Staff staff = new Staff(null,
@@ -82,7 +82,7 @@ public class StaffResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StaffRequest staffRequest) {
         Optional<Team> team = teamService.findByID(staffRequest.getTeamName());
@@ -102,7 +102,7 @@ public class StaffResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Staff> staff = staffService.findByID(id);
         if (staff.isPresent()) {

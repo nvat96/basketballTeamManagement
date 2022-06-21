@@ -30,13 +30,13 @@ public class PlayerResources {
     TeamServiceImpl teamService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<PlayerDTO>> findAll() {
         return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent())
@@ -44,7 +44,7 @@ public class PlayerResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player ID not found: " + id);
     }
     @GetMapping("/findPlayerInTheTeam")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findPlayerInTheTeam(@RequestParam(defaultValue = "") String teamName, @RequestParam(defaultValue = "2022") Integer year){
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
@@ -52,7 +52,7 @@ public class PlayerResources {
         else return ResponseEntity.ok(playerService.findPlayerThatPlayForThatTeamAtThatYear(year,teamName));
     }
     @GetMapping("/findByFirstNameOrLastName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Player> players = playerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (players.isEmpty())
@@ -60,7 +60,7 @@ public class PlayerResources {
         else return ResponseEntity.ok(players);
     }
     @GetMapping("/findByPositionAndTeam")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPositionAndTeam(@RequestParam(defaultValue = "")String position,
                                                    @RequestParam(defaultValue = "")String teamName){
         List<Team> teams = teamService.findByNameLike(teamName);
@@ -71,7 +71,7 @@ public class PlayerResources {
         else return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findByPositionAndTeamName(Position.valueOf(position),teamName)));
     }
     @GetMapping("/findTallestPlayer")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findTallestPlayer(@RequestParam(defaultValue = "") String teamName,
                                                @RequestParam(defaultValue = "2022") Integer year){
         List<Team> teams = teamService.findByNameLike(teamName);
@@ -80,7 +80,7 @@ public class PlayerResources {
         else return ResponseEntity.ok(playerService.findTallestPlayerInATeam(teamName,year));
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {
         Player player = new Player(null,
                 playerRequest.getFirstName(),
@@ -97,7 +97,7 @@ public class PlayerResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody PlayerRequest playerRequest) {
         Optional<Player> player = playerService.findByID(id);
@@ -117,7 +117,7 @@ public class PlayerResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent()) {

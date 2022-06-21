@@ -37,13 +37,13 @@ public class PlayerContractResources {
     OwnerServiceImpl ownerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<PlayerContractDTO>> findAll() {
         return ResponseEntity.ok(PlayerContractMapper.INSTANCE.toDTOs(playerContractService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         if (playerContract.isPresent())
@@ -52,7 +52,7 @@ public class PlayerContractResources {
     }
 
     @GetMapping("/findByPlayerID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID) {
         Optional<Player> player = playerService.findByID(playerID);
         if (!player.isPresent())
@@ -62,7 +62,7 @@ public class PlayerContractResources {
     }
 
     @GetMapping("/findByTeamName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByTeamName(@RequestParam(defaultValue = "") String teamName) {
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
@@ -72,7 +72,7 @@ public class PlayerContractResources {
     }
 
     @GetMapping("/findContractExpired")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findContractExpired(@RequestParam(defaultValue = "2022") Integer year) {
         List<PlayerWithContractDTO> list = playerContractService.findPlayerWithContractThatExpiredInThatYear(year);
         if (list.isEmpty())
@@ -81,7 +81,7 @@ public class PlayerContractResources {
     }
 
     @GetMapping("/findContractCreated")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findContractCreated(@RequestParam(defaultValue = "2022") Integer year) {
         List<PlayerWithContractDTO> list = playerContractService.findPlayerWithContractThatCreatedInThatYear(year);
         if (list.isEmpty())
@@ -90,7 +90,7 @@ public class PlayerContractResources {
     }
 
     @GetMapping("/findContractActive")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findContractActive(@RequestParam(defaultValue = "") String teamName) {
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
@@ -98,7 +98,7 @@ public class PlayerContractResources {
         else return ResponseEntity.ok(playerContractService.findPlayerContractThatAreActiveOfATeam(teamName));
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerContractRequest playerContractRequest) {
         Optional<Team> team = teamService.findByID(playerContractRequest.getTeamName());
         Optional<Player> player = playerService.findByFirstNameAndLastName(playerContractRequest.getPlayerFirstName(), playerContractRequest.getPlayerLastName());
@@ -129,7 +129,7 @@ public class PlayerContractResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody PlayerContractRequest playerContractRequest) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
@@ -161,7 +161,7 @@ public class PlayerContractResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerContract> playerContract = playerContractService.findByID(id);
         if (playerContract.isPresent()) {

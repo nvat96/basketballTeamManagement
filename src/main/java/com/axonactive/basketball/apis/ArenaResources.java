@@ -20,13 +20,13 @@ public class ArenaResources {
     public static final String PATH = "/api/arena";
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<Arena>> findAll() {
         return ResponseEntity.ok(arenaService.findAll());
     }
 
     @GetMapping("/{name}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent())
@@ -35,13 +35,13 @@ public class ArenaResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<Arena> create(@RequestBody Arena arena) {
         return ResponseEntity.ok(arenaService.save(arena));
     }
 
     @PutMapping("/{name}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "name") String name, @RequestBody Arena arenaDetails) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent()) {
@@ -53,7 +53,7 @@ public class ArenaResources {
     }
 
     @DeleteMapping("/{name}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
         Optional<Arena> arena = arenaService.findByID(name);
         if (arena.isPresent()) {

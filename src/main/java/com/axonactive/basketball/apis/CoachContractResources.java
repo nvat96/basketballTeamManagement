@@ -35,13 +35,13 @@ public class CoachContractResources {
     OwnerServiceImpl ownerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<CoachContractDTO>> findAll() {
         return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent())
@@ -50,7 +50,7 @@ public class CoachContractResources {
     }
 
     @GetMapping("/findContractActive")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findContractActive(@RequestParam(defaultValue = "") String teamName) {
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
@@ -58,7 +58,7 @@ public class CoachContractResources {
         else return ResponseEntity.ok(coachContractService.findCoachContractThatAreActiveOfATeam(teamName));
     }
     @GetMapping("/findByCoachID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByCoachID(@RequestParam(defaultValue = "0") Integer coachID){
         Optional<Coach> coach = coachService.findByID(coachID);
         if (!coach.isPresent())
@@ -66,7 +66,7 @@ public class CoachContractResources {
         else return ResponseEntity.ok(CoachContractMapper.INSTANCE.toDTOs(coachContractService.findByCoachId(coachID)));
     }
     @GetMapping("/findByTeamName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByTeamName(@RequestParam(defaultValue = "") String teamName){
         List<Team> teams = teamService.findByNameLike(teamName);
         if (teams.isEmpty())
@@ -75,7 +75,7 @@ public class CoachContractResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody CoachContractRequest coachContractRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachContractRequest.getCoachFirstName(), coachContractRequest.getCoachLastName());
         Optional<Team> team = teamService.findByID(coachContractRequest.getTeamName());
@@ -105,7 +105,7 @@ public class CoachContractResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody CoachContractRequest coachContractRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachContractRequest.getCoachFirstName(), coachContractRequest.getCoachLastName());
@@ -136,7 +136,7 @@ public class CoachContractResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachContract> coachContract = coachContractService.findByID(id);
         if (coachContract.isPresent()) {

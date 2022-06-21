@@ -30,12 +30,12 @@ public class AgentContractResources {
     @Autowired
     PlayerServiceImpl playerService;
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<AgentContractDTO>> findAll(){
         return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findAll()));
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (agentContract.isPresent())
@@ -43,7 +43,7 @@ public class AgentContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @GetMapping("/findByPlayerID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
         Optional<Player> player = playerService.findByID(playerID);
         if (!player.isPresent())
@@ -51,7 +51,7 @@ public class AgentContractResources {
         return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findByPlayerId(playerID)));
     }
     @GetMapping("/findByAgentID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByAgentID(@RequestParam(defaultValue = "0") Integer agentID){
         Optional<Agent> agent = agentService.findByID(agentID);
         if (!agent.isPresent())
@@ -59,7 +59,7 @@ public class AgentContractResources {
         return ResponseEntity.ok(AgentContractMapper.INSTANCE.toDTOs(agentContractService.findByAgentId(agentID)));
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody AgentContractRequest agentContractRequest){
         Optional<Agent> agent = agentService.findByFirstNameAndLastName(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
         Optional<Player> player = playerService.findByFirstNameAndLastName(agentContractRequest.getPlayerFirstName(), agentContractRequest.getPlayerLastName());
@@ -77,7 +77,7 @@ public class AgentContractResources {
         }
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentContractRequest agentContractRequest){
         Optional<Agent> agent = agentService.findByFirstNameAndLastName(agentContractRequest.getAgentFirstName(), agentContractRequest.getAgentLastName());
@@ -97,7 +97,7 @@ public class AgentContractResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Agent contract ID not found: " + id);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id){
         Optional<AgentContract> agentContract = agentContractService.findByID(id);
         if (agentContract.isPresent()){

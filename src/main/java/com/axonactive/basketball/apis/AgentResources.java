@@ -23,12 +23,12 @@ public class AgentResources {
     @Autowired
     AgentServiceImpl agentService;
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<AgentDTO>> findAll(){
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent())
@@ -36,7 +36,7 @@ public class AgentResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
     @GetMapping("/findByFirstNameOrLastName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findAgentByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Agent> agents = agentService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (agents.isEmpty())
@@ -44,7 +44,7 @@ public class AgentResources {
         else return ResponseEntity.ok(agents);
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest){
         Agent agent = new Agent(null,
                 agentRequest.getFirstName(),
@@ -57,7 +57,7 @@ public class AgentResources {
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody AgentRequest agentRequest){
         Optional<Agent> agent = agentService.findByID(id);
@@ -74,7 +74,7 @@ public class AgentResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID not found: " + id);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id){
         Optional<Agent> agent = agentService.findByID(id);
         if (agent.isPresent()){

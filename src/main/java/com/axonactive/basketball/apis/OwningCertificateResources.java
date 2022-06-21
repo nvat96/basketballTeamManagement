@@ -31,13 +31,13 @@ public class OwningCertificateResources {
     OwnerServiceImpl ownerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     private ResponseEntity<List<OwningCertificateDTO>> findAll() {
         return ResponseEntity.ok(OwningCertificateMapper.INSTANCE.toDTOs(owningCertificateService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     private ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<OwningCertificate> owningCertificate = owningCertificateService.findByID(id);
         if (owningCertificate.isPresent()) {
@@ -46,7 +46,7 @@ public class OwningCertificateResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     private ResponseEntity<?> create(@RequestBody OwningCertificateRequest owningCertificateRequest) {
         Optional<Team> team = teamService.findByID(owningCertificateRequest.getTeamName());
         Optional<Owner> owner = ownerService.findByFirstNameAndLastName(owningCertificateRequest.getOwnerFirstName(), owningCertificateRequest.getOwnerLastName());
@@ -65,7 +65,7 @@ public class OwningCertificateResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     private ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                      @RequestBody OwningCertificateRequest owningCertificateRequest) {
         Optional<OwningCertificate> owningCertificate = owningCertificateService.findByID(id);
@@ -87,7 +87,7 @@ public class OwningCertificateResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     private ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<OwningCertificate> owningCertificate = owningCertificateService.findByID(id);
         if (owningCertificate.isPresent()) {

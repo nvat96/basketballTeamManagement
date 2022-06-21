@@ -28,13 +28,13 @@ public class CoachAchievementResources {
     CoachServiceImpl coachService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<CoachAchievementDTO>> findAll() {
         return ResponseEntity.ok(CoachAchievementMapper.INSTANCE.toDTOs(coachAchievementService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (coachAchievement.isPresent())
@@ -42,7 +42,7 @@ public class CoachAchievementResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach achievement ID not found: " + id);
     }
     @GetMapping("/findByCoachID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByCoachID(@RequestParam(defaultValue = "0") Integer coachID){
         Optional<Coach> coach = coachService.findByID(coachID);
         if (!coach.isPresent())
@@ -50,7 +50,7 @@ public class CoachAchievementResources {
         else return ResponseEntity.ok(CoachAchievementMapper.INSTANCE.toDTOs(coachAchievementService.findByCoachId(coachID)));
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody CoachAchievementRequest coachAchievementRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
         if (coach.isPresent()) {
@@ -63,7 +63,7 @@ public class CoachAchievementResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                     @RequestBody CoachAchievementRequest coachAchievementRequest) {
         Optional<Coach> coach = coachService.findByFirstNameAndLastName(coachAchievementRequest.getCoachFirstName(), coachAchievementRequest.getCoachLastName());
@@ -79,7 +79,7 @@ public class CoachAchievementResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<CoachAchievement> coachAchievement = coachAchievementService.findByID(id);
         if (coachAchievement.isPresent()) {

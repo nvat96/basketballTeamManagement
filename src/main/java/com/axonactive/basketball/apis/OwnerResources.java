@@ -28,13 +28,13 @@ public class OwnerResources {
     TeamServiceImpl teamService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<OwnerDTO>> findAll() {
         return ResponseEntity.ok(OwnerMapper.INSTANCE.toDTOs(ownerService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Owner> owner = ownerService.findByID(id);
         if (owner.isPresent())
@@ -42,7 +42,7 @@ public class OwnerResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Owner ID not found: " + id);
     }
     @GetMapping("/findByFirstNameOrLastName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findOwnerByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Owner> owners = ownerService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (owners.isEmpty())
@@ -50,7 +50,7 @@ public class OwnerResources {
         else return ResponseEntity.ok(owners);
     }
     @GetMapping("/totalSalaryMustPay")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> calculateTotalSalaryMustPayForATeam(@RequestParam(defaultValue = "0")String teamName){
         Optional<Team> team = teamService.findByID(teamName);
         if (!team.isPresent())
@@ -59,7 +59,7 @@ public class OwnerResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody OwnerRequest ownerRequest) {
         Owner owner = new Owner(null,
                 ownerRequest.getFirstName(),
@@ -70,7 +70,7 @@ public class OwnerResources {
         return ResponseEntity.created(URI.create(PATH + "/" + owner.getId())).body(OwnerMapper.INSTANCE.toDTO(ownerService.save(owner)));
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody OwnerRequest ownerRequest) {
         Optional<Owner> owner = ownerService.findByID(id);
@@ -87,7 +87,7 @@ public class OwnerResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Owner> owner = ownerService.findByID(id);
         if (owner.isPresent()) {

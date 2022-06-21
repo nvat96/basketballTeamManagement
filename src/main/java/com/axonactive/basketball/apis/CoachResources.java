@@ -24,13 +24,13 @@ public class CoachResources {
     CoachServiceImpl coachService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<CoachDTO>> findAll() {
         return ResponseEntity.ok(CoachMapper.INSTANCE.toDTOs(coachService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent())
@@ -38,7 +38,7 @@ public class CoachResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Coach ID not found: " + id);
     }
     @GetMapping("/findByFirstNameOrLastName")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findCoachByFirstNameOrLastName(@RequestParam(required = false, defaultValue = "") String firstName, @RequestParam(required = false, defaultValue = "") String lastName){
         List<Coach> coaches = coachService.findByFirstNameLikeAndLastNameLike(firstName, lastName);
         if (coaches.isEmpty())
@@ -47,7 +47,7 @@ public class CoachResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<CoachDTO> create(@RequestBody CoachRequest coachRequest) {
         Coach coach = new Coach(null,
                 coachRequest.getFirstName(),
@@ -61,7 +61,7 @@ public class CoachResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody CoachRequest coachRequest) {
         Optional<Coach> coach = coachService.findByID(id);
@@ -78,7 +78,7 @@ public class CoachResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Coach> coach = coachService.findByID(id);
         if (coach.isPresent()) {

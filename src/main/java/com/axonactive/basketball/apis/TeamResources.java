@@ -27,13 +27,13 @@ public class TeamResources {
     ArenaServiceImpl arenaService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<TeamDTO>> findAll() {
         return ResponseEntity.ok(TeamMapper.INSTANCE.toDTOs(teamService.findAll()));
     }
 
     @GetMapping("/{name}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent())
@@ -41,7 +41,7 @@ public class TeamResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Team name not found: " + name);
     }
     @GetMapping("/findByNameLike")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByNameLike(@RequestParam(defaultValue = "")String name){
         List<Team> teams = teamService.findByNameLike(name);
         if (teams.isEmpty())
@@ -50,7 +50,7 @@ public class TeamResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody TeamRequest teamRequest) {
         if (teamRequest.getArenaName() == null) {
             Team team = new Team(teamRequest.getName(),
@@ -78,7 +78,7 @@ public class TeamResources {
     }
 
     @PutMapping("/{name}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "name") String name,
                                     @RequestBody TeamRequest teamRequest) {
         Optional<Team> team = teamService.findByID(name);
@@ -96,7 +96,7 @@ public class TeamResources {
     }
 
     @DeleteMapping("/{name}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
         Optional<Team> team = teamService.findByID(name);
         if (team.isPresent()) {

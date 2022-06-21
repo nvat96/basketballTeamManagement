@@ -67,7 +67,7 @@ INSERT INTO public.player(
     ('1996-10-15', 'Nikola', 'MALE', 193.5, 'Jokic', 'Serbian',32, '2014-01-01', 'STANDARD', 90.3),
     ('1995-10-21', 'Alex', 'MALE', 185.4, 'Caruso', 'American', 11, '2013-01-01', 'TWO_WAY', 84.6),
     ('1999-10-21', 'Devin', 'MALE', 184.3, 'Booker', 'American', null, '2019-01-01', null, 82.5),
-    ('1992-01-25', 'Stephen', 'MALE', 187.4, 'Curry', 'American', 37, '2010-01-01', 'VETERAN', 85.4),
+    ('1992-01-25', 'Stephen', 'MALE', 187.4, 'Curry', 'American', 50, '2010-01-01', 'VETERAN', 85.4),
     ('1991-11-15', 'JaVale', 'MALE', 230.5, 'McGee', 'American', 12, '2010-01-01', 'TWO_WAY', 92.5),
     ('1994-11-15', 'Anthony', 'MALE', 224.5, 'Davis', 'American', null, '2010-01-01', null, 99.5),
     ('1987-09-18', 'Lebron', 'MALE', 214.5, 'James', 'American', 50, '2010-01-01', 'VETERAN', 90.6),
@@ -206,7 +206,7 @@ INSERT INTO public.player_contract(
     ('link', '2020-01-01', '2022-11-30', 37, 'PG', 35, 'VETERAN', 6, 'Los Angeles Lakers'),
     ('link', '2010-01-01', '2013-11-30', 10, 'C', 5, 'TRIAL', 7, 'Los Angeles Lakers'),
     ('link', '2014-01-01', '2018-11-30', 10, 'C', 10, 'PART_TIME', 7, 'Los Angeles Lakers'),
-    ('link', '2019-01-01', '2022-11-30', 10, 'C', 9, 'TWO_WAY', 7, 'Los Angeles Lakers'),
+    ('link', '2019-01-01', '2023-11-30', 10, 'C', 9, 'TWO_WAY', 7, 'Los Angeles Lakers'),
     ('link', '2010-01-01', '2015-11-30', 27, 'PF', 23, 'STANDARD', 8, 'Los Angeles Lakers'),
     ('link', '2010-01-01', '2015-11-30', 36, 'PF', 27, 'STANDARD', 9, 'Los Angeles Lakers'),
     ('link', '2016-01-01', '2020-11-30', 36, 'PF', 40, 'VETERAN', 9, 'Los Angeles Lakers'),
@@ -575,21 +575,21 @@ INSERT INTO public.stats(
 INSERT INTO public.users(
 	password, username, owner_id)
 	VALUES
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner1', 1),
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner2', 2),
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner3', 3),
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner4', 4),
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner5', 5),
-    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner6', 6),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'owner', 1),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'investor1', 2),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'investor2', 3),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'investor3', 4),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'investor4', 5),
+    ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'investor5', 6),
     ('$2a$10$oteqzgv0h8XBV.Oum2oZYeDyhIjx6YUoGENMjZwTtRiBzsp1SbLnS', 'management', 1);
 
 INSERT INTO public.user_role_assignment(
 	role, users_id)
 	VALUES
-	('ROLE_HIGH_MANAGEMENT', 1),
-	('ROLE_USER',2),
-	('ROLE_USER',3),
-	('ROLE_USER',4),
-	('ROLE_USER',5),
-	('ROLE_USER',6),
-	('ROLE_HIGH_MANAGEMENT',7);
+	('ROLE_MANAGEMENT', 1),
+	('ROLE_INVESTOR',2),
+	('ROLE_INVESTOR',3),
+	('ROLE_INVESTOR',4),
+	('ROLE_INVESTOR',5),
+	('ROLE_INVESTOR',6),
+	('ROLE_MANAGEMENT',7);

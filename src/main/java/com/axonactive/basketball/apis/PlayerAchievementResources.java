@@ -28,13 +28,13 @@ public class PlayerAchievementResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<PlayerAchievementDTO>> findAll() {
         return ResponseEntity.ok(PlayerAchievementMapper.INSTANCE.toDTOs(playerAchievementService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
         if (playerAchievement.isPresent())
@@ -42,7 +42,7 @@ public class PlayerAchievementResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Player achievement ID not found: " + id);
     }
     @GetMapping("/findByPlayerID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
         Optional<Player> player = playerService.findByID(playerID);
         if (!player.isPresent())
@@ -51,7 +51,7 @@ public class PlayerAchievementResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastName(playerAchievementRequest.getPlayerFirstName(), playerAchievementRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -66,7 +66,7 @@ public class PlayerAchievementResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                                         @RequestBody PlayerAchievementRequest playerAchievementRequest) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
@@ -84,7 +84,7 @@ public class PlayerAchievementResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<PlayerAchievement> playerAchievement = playerAchievementService.findByID(id);
         if (playerAchievement.isPresent()) {

@@ -28,13 +28,13 @@ public class StatsResources {
     PlayerServiceImpl playerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<StatsDTO>> findAll() {
         return ResponseEntity.ok(StatsMapper.INSTANCE.toDTOs(statsService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Stats> stats = statsService.findByID(id);
         if (stats.isPresent())
@@ -42,7 +42,7 @@ public class StatsResources {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stats ID not found: " + id);
     }
     @GetMapping("/findByPlayerID")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByPlayerID(@RequestParam(defaultValue = "0") Integer playerID){
         Optional<Player> player = playerService.findByID(playerID);
         if (!player.isPresent())
@@ -50,7 +50,7 @@ public class StatsResources {
         else return ResponseEntity.ok(StatsMapper.INSTANCE.toDTOs(statsService.findByPlayerId(playerID)));
     }
     @GetMapping("/findPlayerWithStats")
-    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findPlayerWithStats(@RequestParam(defaultValue = "0") Integer playerID,
                                                                         @RequestParam(defaultValue = "2022") Integer season){
         PlayerWithStatsDTO player = statsService.findPlayerWithStatsInASeason(playerID,season);
@@ -60,7 +60,7 @@ public class StatsResources {
         else return ResponseEntity.ok(player);
     }
     @PostMapping
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> create(@RequestBody StatsRequest statsRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastName(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
         if (!player.isPresent())
@@ -83,7 +83,7 @@ public class StatsResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody StatsRequest statsRequest) {
         Optional<Player> player = playerService.findByFirstNameAndLastName(statsRequest.getPlayerFirstName(), statsRequest.getPlayerLastName());
@@ -107,7 +107,7 @@ public class StatsResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
+    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Stats> stats = statsService.findByID(id);
         if (stats.isPresent()) {
