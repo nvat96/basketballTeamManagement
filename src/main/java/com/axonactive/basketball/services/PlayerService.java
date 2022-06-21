@@ -17,4 +17,5 @@ public interface PlayerService {
     List<PlayerWithTeamDTO> findPlayerThatPlayForThatTeamAtThatYear(Integer inputYear, String teamName );
     List<Player> findByFirstNameLikeAndLastNameLike(String firstName,String lastName);
     List<Player> findByPositionAndTeamName(Position position,String teamName);
+    Player findTallestPlayerInATeam(String teamName, Integer year);
 }

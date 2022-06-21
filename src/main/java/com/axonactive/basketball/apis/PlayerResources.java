@@ -70,6 +70,15 @@ public class PlayerResources {
             return ResponseEntity.ok("No team has name like " + teamName);
         else return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findByPositionAndTeamName(Position.valueOf(position),teamName)));
     }
+    @GetMapping("/findTallestPlayer")
+    @PreAuthorize("hasAnyRole('HIGH_MANAGEMENT', 'USER')")
+    public ResponseEntity<?> findTallestPlayer(@RequestParam(defaultValue = "") String teamName,
+                                               @RequestParam(defaultValue = "2022") Integer year){
+        List<Team> teams = teamService.findByNameLike(teamName);
+        if (teams.isEmpty())
+            return ResponseEntity.ok("No team has name like " + teamName);
+        else return ResponseEntity.ok(playerService.findTallestPlayerInATeam(teamName,year));
+    }
     @PostMapping
     @PreAuthorize("hasRole('HIGH_MANAGEMENT')")
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {

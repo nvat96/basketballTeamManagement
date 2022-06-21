@@ -15,6 +15,7 @@ Feature
 - Find player contracts that are created or expired in a specific year
 - Find contract that are active of a team
 - Find all stats of a specific player
+- Find tallest player in a team at specific time
 - Find players by position and team name
 - Find a player stats in a specific season or average stats in whole career
 - Find all status reports of a specific player
