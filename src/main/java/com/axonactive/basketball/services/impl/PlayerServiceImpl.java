@@ -8,8 +8,8 @@ import com.axonactive.basketball.services.dtos.PlayerWithTeamDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -59,5 +59,19 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<Player> findByPositionAndTeamName(Position position, String teamName) {
         return playerRepository.findByPositionAndTeamName(position, teamName);
+    }
+
+    @Override
+    public Player findTallestPlayerInATeam(String teamName, Integer year) {
+        List<PlayerWithTeamDTO> playerWithTeamDTOs = playerRepository.findPlayerThatPlayForThatTeamAtThatYear(year,teamName);
+        List<Player> players = new ArrayList<>();
+        for (PlayerWithTeamDTO player: playerWithTeamDTOs) {
+            String[] name = player.getPlayerName().split(" ");
+            players.add(playerRepository.findByFirstNameLikeAndLastNameLike(name[0],name[1]).get(0));
+        }
+        players = players.stream()
+                .sorted(Comparator.comparingDouble(Player::getHeight).reversed())
+                .collect(Collectors.toList());
+        return players.get(0);
     }
 }
