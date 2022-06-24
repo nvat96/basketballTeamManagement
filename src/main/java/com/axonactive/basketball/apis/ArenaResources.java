@@ -1,18 +1,23 @@
 package com.axonactive.basketball.apis;
 
+import com.axonactive.basketball.apis.requests.ArenaRequest;
 import com.axonactive.basketball.entities.Arena;
+import com.axonactive.basketball.exceptions.ExceptionList;
 import com.axonactive.basketball.services.impl.ArenaServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Slf4j
 @RequestMapping(ArenaResources.PATH)
 public class ArenaResources {
     @Autowired
@@ -27,39 +32,30 @@ public class ArenaResources {
 
     @GetMapping("/{name}")
     @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
-    public ResponseEntity<?> findByID(@PathVariable(value = "name") String name) {
-        Optional<Arena> arena = arenaService.findByID(name);
-        if (arena.isPresent())
-            return ResponseEntity.ok(arena);
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
+    public ResponseEntity<Arena> findByID(@RequestParam String name) {
+        log.error("Find arena by name {} ", name);
+        return ResponseEntity.ok(arenaService.findByID(name));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('MANAGEMENT')")
-    public ResponseEntity<Arena> create(@RequestBody Arena arena) {
-        return ResponseEntity.ok(arenaService.save(arena));
+    public ResponseEntity<Arena> create(@RequestBody @Valid Arena arena) {
+        return ResponseEntity.ok(arenaService.create(arena));
     }
 
-    @PutMapping("/{name}")
+    @PutMapping
     @PreAuthorize("hasRole('MANAGEMENT')")
-    public ResponseEntity<?> update(@PathVariable(value = "name") String name, @RequestBody Arena arenaDetails) {
-        Optional<Arena> arena = arenaService.findByID(name);
-        if (arena.isPresent()) {
-            arena.get().setCapacity(arenaDetails.getCapacity());
-            arena.get().setLocation(arenaDetails.getLocation());
-            arena.get().setDateBuilt(arenaDetails.getDateBuilt());
-            return ResponseEntity.ok(arenaService.save(arena.get()));
-        } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
+    public ResponseEntity<Arena> update(@RequestParam String name, @RequestBody ArenaRequest arenaRequest) {
+        return ResponseEntity.ok(arenaService.update(name, arenaRequest));
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping
     @PreAuthorize("hasRole('MANAGEMENT')")
-    public ResponseEntity<?> deleteByID(@PathVariable(value = "name") String name) {
-        Optional<Arena> arena = arenaService.findByID(name);
-        if (arena.isPresent()) {
+    public ResponseEntity<String> deleteByID(@RequestParam String name) {
+        Arena arena = arenaService.findByID(name);
+        if (arena != null) {
             arenaService.deleteByID(name);
             return ResponseEntity.ok("Successfully deleted");
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Name not found: " + name);
+        } else throw ExceptionList.arenaNotFound();
     }
 }
