@@ -1,6 +1,8 @@
 package com.axonactive.basketball.services.impl;
 
+import com.axonactive.basketball.apis.requests.ArenaRequest;
 import com.axonactive.basketball.entities.Arena;
+import com.axonactive.basketball.exceptions.ExceptionList;
 import com.axonactive.basketball.repositories.ArenaRepository;
 import com.axonactive.basketball.services.ArenaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,11 @@ public class ArenaServiceImpl implements ArenaService {
     }
 
     @Override
-    public Optional<Arena> findByID(String name) {
-        return arenaRepository.findById(name);
+    public Arena findByID(String name) {
+        Optional<Arena> arena =  arenaRepository.findById(name);
+        if (!arena.isPresent())
+            throw ExceptionList.arenaNotFound();
+        return arena.get();
     }
 
     @Override
@@ -31,6 +36,26 @@ public class ArenaServiceImpl implements ArenaService {
     @Override
     public void deleteByID(String name) {
         arenaRepository.deleteById(name);
+    }
+
+    @Override
+    public Arena create(Arena arena) {
+        for (Arena a: arenaRepository.findAll()) {
+            if (arena.getName().equals(a.getName())) {
+                throw ExceptionList.badRequest("Arena name already exist", "Can't create new arena");
+
+            }
+        }
+        return arenaRepository.save(arena);
+    }
+
+    @Override
+    public Arena update(String name, ArenaRequest arenaRequest) {
+        Arena arena = arenaRepository.findById(name).orElseThrow(ExceptionList::arenaNotFound);
+        arena.setCapacity(arenaRequest.getCapacity());
+        arena.setLocation(arenaRequest.getLocation());
+        arena.setDateBuilt(arenaRequest.getDateBuilt());
+        return arenaRepository.save(arena);
     }
 
 }

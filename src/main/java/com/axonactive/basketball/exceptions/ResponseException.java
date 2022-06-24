@@ -1,0 +1,22 @@
+package com.axonactive.basketball.exceptions;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+
+@NoArgsConstructor
+public class ResponseException extends RuntimeException{
+    @Getter
+    private ResponseBody responseBody;
+    public ResponseException(String messageKey, String message, HttpStatus httpStatus){
+        this.responseBody = new ResponseBody(messageKey, message, httpStatus);
+    }
+    @Getter
+    @AllArgsConstructor
+    public static class ResponseBody{
+        private String messageKey;
+        private String message;
+        private HttpStatus httpStatus;
+    }
+}
