@@ -2,7 +2,7 @@ package com.axonactive.basketball.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class ExceptionList {
+public class ExceptionList extends Exception{
     private static final String ARENA_NOT_FOUND_MSG_KEY = "ArenaNotExisted";
     private static final String ARENA_NOT_FOUND_MSG = "Arena not found";
     private static final String AGENT_NOT_FOUND_MSG_KEY = "AgentNotExisted";

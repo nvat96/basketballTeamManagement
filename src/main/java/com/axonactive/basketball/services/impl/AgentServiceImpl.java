@@ -1,6 +1,9 @@
 package com.axonactive.basketball.services.impl;
 
+import com.axonactive.basketball.apis.requests.AgentRequest;
 import com.axonactive.basketball.entities.Agent;
+import com.axonactive.basketball.enums.Gender;
+import com.axonactive.basketball.exceptions.ExceptionList;
 import com.axonactive.basketball.repositories.AgentRepository;
 import com.axonactive.basketball.services.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,10 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public Optional<Agent> findByID(Integer id) {
-        return agentRepository.findById(id);
+        Optional<Agent> agent = agentRepository.findById(id);
+        if (!agent.isPresent())
+            throw ExceptionList.agentNotFound();
+        return agent;
     }
 
     @Override
@@ -30,7 +36,36 @@ public class AgentServiceImpl implements AgentService {
     }
 
     @Override
+    public Agent update(Integer agentID, AgentRequest agentRequest) {
+        Agent agent = agentRepository.findById(agentID).orElseThrow(ExceptionList::agentNotFound);
+        agent.setFirstName(agentRequest.getFirstName());
+        agent.setLastName(agentRequest.getLastName());
+        agent.setNationality(agentRequest.getNationality());
+        agent.setGender(Gender.valueOf(agentRequest.getGender()));
+        agent.setDateOfBirth(agentRequest.getDateOfBirth());
+        agent.setPhoneNumber(agentRequest.getPhoneNumber());
+        agent.setEmail(agentRequest.getEmail());
+        return agentRepository.save(agent);
+    }
+
+    @Override
+    public Agent create(AgentRequest agentRequest) {
+        Agent agent = new Agent();
+        agent.setFirstName(agentRequest.getFirstName());
+        agent.setLastName(agentRequest.getLastName());
+        agent.setNationality(agentRequest.getNationality());
+        agent.setGender(Gender.valueOf(agentRequest.getGender()));
+        agent.setDateOfBirth(agentRequest.getDateOfBirth());
+        agent.setPhoneNumber(agentRequest.getPhoneNumber());
+        agent.setEmail(agentRequest.getEmail());
+        return agentRepository.save(agent);
+    }
+
+    @Override
     public void deleteByID(Integer id) {
+        Optional<Agent> agent = agentRepository.findById(id);
+        if (!agent.isPresent())
+            throw ExceptionList.agentNotFound();
         agentRepository.deleteById(id);
     }
 
