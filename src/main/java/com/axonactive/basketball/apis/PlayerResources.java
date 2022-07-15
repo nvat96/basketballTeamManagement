@@ -30,7 +30,7 @@ public class PlayerResources {
     TeamServiceImpl teamService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
+//    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<PlayerDTO>> findAll() {
         return ResponseEntity.ok(PlayerMapper.INSTANCE.toDTOs(playerService.findAll()));
     }

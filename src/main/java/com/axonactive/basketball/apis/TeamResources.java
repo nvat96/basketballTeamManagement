@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+
 @RequestMapping(TeamResources.PATH)
 public class TeamResources {
     public static final String PATH = "/api/team";
