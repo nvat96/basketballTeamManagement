@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(PlayerResources.PATH)
 public class PlayerResources {
     public static final String PATH = "/api/player";
@@ -36,7 +37,7 @@ public class PlayerResources {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
+//    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<?> findByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent())
@@ -80,7 +81,7 @@ public class PlayerResources {
         else return ResponseEntity.ok(playerService.findTallestPlayerInATeam(teamName,year));
     }
     @PostMapping
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<PlayerDTO> create(@RequestBody PlayerRequest playerRequest) {
         Player player = new Player(null,
                 playerRequest.getFirstName(),
@@ -97,7 +98,7 @@ public class PlayerResources {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> update(@PathVariable(value = "id") Integer id,
                                     @RequestBody PlayerRequest playerRequest) {
         Optional<Player> player = playerService.findByID(id);
@@ -117,7 +118,7 @@ public class PlayerResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<?> deleteByID(@PathVariable(value = "id") Integer id) {
         Optional<Player> player = playerService.findByID(id);
         if (player.isPresent()) {

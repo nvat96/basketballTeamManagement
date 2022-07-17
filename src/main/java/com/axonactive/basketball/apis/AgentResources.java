@@ -18,22 +18,23 @@ import java.util.List;
 @RestController
 @RequestMapping(AgentResources.PATH)
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
 public class AgentResources {
     public static final String PATH = "/api/agent";
     @Autowired
     AgentServiceImpl agentService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
+//    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<AgentDTO>> findAll() {
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
-    public ResponseEntity<AgentDTO> findByID(@PathVariable(value = "id") Integer id) {
+//    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
+    public ResponseEntity<Agent> findByID(@PathVariable(value = "id") Integer id) {
         try {
-            return ResponseEntity.ok(AgentMapper.INSTANCE.toDTO(agentService.findByID(id).get()));
+            return ResponseEntity.ok(agentService.findByID(id).get());
         } catch (Exception e) {
             log.error("Find agent by ID {}", id);
             throw ExceptionList.agentNotFound();
@@ -50,14 +51,14 @@ public class AgentResources {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<AgentDTO> create(@RequestBody AgentRequest agentRequest) {
         Agent agent = agentService.create(agentRequest);
         return ResponseEntity.created(URI.create(PATH + "/" + agent.getId())).body(AgentMapper.INSTANCE.toDTO(agentService.save(agent)));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<AgentDTO> update(@PathVariable(value = "id") Integer id, @RequestBody AgentRequest agentRequest) {
         try {
             Agent agent = agentService.update(id,agentRequest);
@@ -69,7 +70,7 @@ public class AgentResources {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGEMENT')")
+//    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<String> deleteByID(@PathVariable(value = "id") Integer id) {
         try {
             agentService.deleteByID(id);
