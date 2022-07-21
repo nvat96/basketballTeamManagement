@@ -27,6 +27,7 @@ public class AgentResources {
     @GetMapping
 //    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<AgentDTO>> findAll() {
+        log.error("Test log");
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
 

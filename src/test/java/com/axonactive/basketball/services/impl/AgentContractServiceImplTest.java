@@ -10,8 +10,8 @@ class AgentContractServiceImplTest {
     @Autowired
     AgentContractServiceImpl agentContractService;
 
-    @Test
-    void findByPlayerID() {
-        assertEquals(2,agentContractService.findByPlayerId(3).size());
-    }
+//    @Test
+//    void findByPlayerID() {
+//        assertEquals(2,agentContractService.findByPlayerId(3).size());
+//    }
 }
