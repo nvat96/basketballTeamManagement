@@ -30,8 +30,9 @@ public class AgentResources {
         log.error("Error message");
         log.warn("Warn message");
         log.info("Info message");
-        log.trace("Trace message");
         log.debug("Debug message");
+        log.trace("Trace message");
+
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
 
