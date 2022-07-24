@@ -27,7 +27,11 @@ public class AgentResources {
     @GetMapping
 //    @PreAuthorize("hasAnyRole('MANAGEMENT', 'INVESTOR')")
     public ResponseEntity<List<AgentDTO>> findAll() {
-        log.error("Test log");
+        log.error("Error message");
+        log.warn("Warn message");
+        log.info("Info message");
+        log.trace("Trace message");
+        log.debug("Debug message");
         return ResponseEntity.ok(AgentMapper.INSTANCE.toDTOs(agentService.findAll()));
     }
 
@@ -74,6 +78,11 @@ public class AgentResources {
 //    @PreAuthorize("hasRole('MANAGEMENT')")
     public ResponseEntity<String> deleteByID(@PathVariable(value = "id") Integer id) {
         try {
+            log.error("Error message");
+            log.warn("Warn message");
+            log.info("Info message");
+            log.trace("Trace message");
+            log.debug("Debug message");
             agentService.deleteByID(id);
             return ResponseEntity.ok("Successfully deleted");
         }catch (Exception e){
