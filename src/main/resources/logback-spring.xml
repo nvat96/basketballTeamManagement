@@ -12,34 +12,47 @@
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
-<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-<!--            <fileNamePattern>${APP_LOG_ROOT}/${DATE}.log</fileNamePattern>-->
-<!--        </rollingPolicy>-->
-<!--        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
-<!--            <maxFileSize>100MB</maxFileSize>-->
-<!--        </triggeringPolicy>-->
-
-<!--        rollover each day, file number start at 0-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${APP_LOG_ROOT}/${DATE}.%i.log</fileNamePattern>
+            <fileNamePattern>${APP_LOG_ROOT}/${DATE}/info-log.%i.log</fileNamePattern>
             <maxHistory>0</maxHistory>
             <totalSizeCap>0</totalSizeCap>
-            <maxFileSize>100MB</maxFileSize>
+            <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
     </appender>
 
-    <logger name="org.springframework" level="error">
-        <appender-ref ref="applicationLog" />
-        <appender-ref ref="console" />
-    </logger>
-
-    <logger name="org.hibernate" level="error">
-        <appender-ref ref="applicationLog" />
-        <appender-ref ref="console" />
-    </logger>
-    <root level="error">
+    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${APP_LOG_ROOT}/${DATE}/error-log.%i.log</fileNamePattern>
+            <maxHistory>0</maxHistory>
+            <totalSizeCap>0</totalSizeCap>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="errorLog"/>
         <appender-ref ref="applicationLog"/>
         <appender-ref ref="console" />
     </root>
 
+<!--    <logger name="org.springframework" level="INFO">-->
+<!--        <appender-ref ref="applicationLog" />-->
+<!--        <appender-ref ref="console" />-->
+<!--    </logger>-->
+
+<!--    <logger name="org.hibernate" level="INFO">-->
+<!--        <appender-ref ref="errorLog"/>-->
+<!--        <appender-ref ref="applicationLog" />-->
+<!--        <appender-ref ref="console" />-->
+<!--    </logger>-->
+<!--    <logger name="com.axonactive.basketball" level="TRACE" additivity="false">-->
+<!--        <appender-ref ref="applicationLog"/>-->
+<!--        <appender-ref ref="errorLog"/>-->
+<!--        <appender-ref ref="console"/>-->
+<!--    </logger>-->
 </configuration>
