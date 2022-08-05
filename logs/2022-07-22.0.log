@@ -1,5 +1,0 @@
-[2022-07-22 09:17:50] [http-nio-8080-exec-1] [ERROR] c.a.basketball.security.jwt.JwtUtils - JWT token is expired: JWT expired at 2022-07-14T21:16:16Z. Current time: 2022-07-22T09:17:50Z, a difference of 648094648 milliseconds.  Allowed clock skew: 0 milliseconds.
-[2022-07-22 09:17:50] [http-nio-8080-exec-1] [ERROR] c.a.b.s.config.AuthEntryPointJwt - Unauthorized error: Full authentication is required to access this resource
-[2022-07-22 09:17:54] [http-nio-8080-exec-3] [ERROR] c.a.basketball.security.jwt.JwtUtils - JWT token is expired: JWT expired at 2022-07-14T21:16:16Z. Current time: 2022-07-22T09:17:54Z, a difference of 648098460 milliseconds.  Allowed clock skew: 0 milliseconds.
-[2022-07-22 09:17:54] [http-nio-8080-exec-3] [ERROR] c.a.basketball.apis.AgentResources - Test log
-[2022-07-22 09:18:08] [http-nio-8080-exec-4] [ERROR] c.a.basketball.security.jwt.JwtUtils - JWT token is expired: JWT expired at 2022-07-14T21:16:16Z. Current time: 2022-07-22T09:18:08Z, a difference of 648112203 milliseconds.  Allowed clock skew: 0 milliseconds.
